@@ -50,22 +50,32 @@
         }
 
         #jailbreak-btn {
-            background-color: rgba(0, 92, 248, 0.15); 
-            color: #005cf8;
+            background-color: rgba(128, 128, 128, 0.15); 
+            color: #888888;
             width: 55px; 
             height: 55px;
-            border: 2px solid #005cf8; 
+            border: 2px solid #888888; 
             border-radius: 50%; 
             font-size: 16px;   
             font-weight: bold;
-            cursor: pointer;
+            cursor: not-allowed;
             z-index: 10;
-            box-shadow: 0 0 15px rgba(0, 92, 248, 0.5);
+            box-shadow: none;
             margin-bottom: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             outline: none;
+            opacity: 0.5;
+        }
+
+        #jailbreak-btn.active {
+            background-color: rgba(0, 92, 248, 0.15); 
+            color: #005cf8;
+            border: 2px solid #005cf8; 
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 92, 248, 0.5);
+            opacity: 1;
         }
 
         .phoenix-container {
@@ -163,17 +173,29 @@
     <img src="wri.png" class="writing-layer">
 
     <div id="console-box">
-        <div id="messages">System Ready...</div>
+        <div id="messages">Checking system cache...</div>
     </div>
 
     <script>
+        var isReadyToExploit = false;
+
         function printMsg(text) {
             var msgDiv = document.getElementById("messages");
             msgDiv.innerHTML += "<div class='log-entry'>> " + text + "</div>";
             var box = document.getElementById("console-box");
             box.scrollTop = box.scrollHeight;
         }
+
+        function enableButton() {
+            isReadyToExploit = true;
+            var btn = document.getElementById("jailbreak-btn");
+            btn.className = "active";
+        }
+
         function startExploit() {
+            if (!isReadyToExploit) {
+                return;
+            }
             document.getElementById("messages").innerHTML = ""; 
             printMsg("Initializing..."); 
             try {
@@ -183,6 +205,48 @@
             } catch(e) { 
                 printMsg("Error!"); 
             }
+        }
+
+        if (window.applicationCache) {
+            var cache = window.applicationCache;
+
+            cache.addEventListener('checking', function() {
+                document.getElementById("messages").innerHTML = "";
+                printMsg("Checking for cache manifest...");
+            });
+
+            cache.addEventListener('downloading', function() {
+                printMsg("Downloading file updates...");
+            });
+
+            cache.addEventListener('progress', function(e) {
+                if (e.lengthComputable) {
+                    var percent = Math.round((e.loaded / e.total) * 100);
+                    document.getElementById("messages").innerHTML = "";
+                    printMsg("Downloading: " + percent + "%");
+                }
+            });
+
+            cache.addEventListener('cached', function() {
+                printMsg("Cache completely saved offline!");
+                printMsg("System Ready. Click PS button.");
+                enableButton();
+            });
+
+            cache.addEventListener('noupdate', function() {
+                printMsg("Cache is up to date.");
+                printMsg("System Ready. Click PS button.");
+                enableButton();
+            });
+
+            cache.addEventListener('error', function() {
+                printMsg("Cache offline setup skipped or not supported.");
+                printMsg("Forcing system to ready status...");
+                enableButton();
+            });
+        } else {
+            printMsg("AppCache not supported on this browser.");
+            enableButton();
         }
     </script>
 </body>
