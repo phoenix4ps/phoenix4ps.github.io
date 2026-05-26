@@ -168,17 +168,21 @@
 
     <script>
         function printMsg(text) {
-            const msgDiv = document.getElementById("messages");
+            var msgDiv = document.getElementById("messages");
             msgDiv.innerHTML += "<div class='log-entry'>> " + text + "</div>";
-            const box = document.getElementById("console-box");
+            var box = document.getElementById("console-box");
             box.scrollTop = box.scrollHeight;
         }
         function startExploit() {
             document.getElementById("messages").innerHTML = ""; 
             printMsg("Initializing..."); 
             try {
-                setTimeout(function() { run_psfree(); }, 500);
-            } catch(e) { printMsg("Error!"); }
+                setTimeout(function() { 
+                    Init_PSFreeGlobals(); 
+                }, 500);
+            } catch(e) { 
+                printMsg("Error!"); 
+            }
         }
     </script>
 </body>
