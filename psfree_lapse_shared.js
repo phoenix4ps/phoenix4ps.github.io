@@ -149,7 +149,6 @@ function hex(number) {
   return '0x' + number.toString(16);
 }
 
-// no "0x" prefix
 function hex_np(number) {
   return number.toString(16);
 }
@@ -217,7 +216,7 @@ function hexdump(view) {
     var off = (pos * 16).toString(16);
     while (off.length < 8) off = "0" + off;
     var row = bytes[pos];
-    log(off + " | " + row[0] + " |" + row[1] + "|");
+    log(off + " | " + row + " |" + row + "|");
   }
 }
 
