@@ -4,6 +4,8 @@ const loaderBar = document.getElementById("loader-bar");
 
 const loaderText = document.getElementById("loader-text");
 
+const payloadMenu = document.getElementById("payload-menu");
+
 const messages = [
 
 "> Initializing Phoenix Core Execution...",
@@ -24,7 +26,7 @@ const messages = [
 
 "> GoldHEN Loaded Successfully!",
 
-"> Welcome To Phoenix Host"
+"> Phoenix Host Ready"
 
 ];
 
@@ -114,7 +116,23 @@ function updateLoader(){
 
         loaderText.innerHTML = "Phoenix Host Ready!";
 
+        payloadMenu.style.display = "flex";
+
     }
+
+}
+
+function loadPayload(name){
+
+    statusText.innerHTML =
+    "> Loading " + name + " Payload...";
+
+    setTimeout(() => {
+
+        statusText.innerHTML =
+        "> " + name + " Loaded Successfully!";
+
+    }, 2500);
 
 }
 
