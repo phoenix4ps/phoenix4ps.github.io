@@ -1,119 +1,97 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<title>PHOENIX HOST</title>
 
-<title>Phoenix Host</title>
+<style>
 
-<link rel="stylesheet" href="style.css">
+body{
+    margin:0;
+    padding:0;
+    background:black;
+    color:white;
+    font-family:Arial;
+    text-align:center;
+}
 
+.logo{
+    margin-top:80px;
+    font-size:55px;
+    font-weight:bold;
+    color:white;
+    text-shadow:0 0 20px orange;
+}
+
+.version{
+    font-size:28px;
+    color:gray;
+    margin-top:10px;
+}
+
+.loading{
+    margin-top:60px;
+    font-size:24px;
+    color:#00aaff;
+}
+
+</style>
 </head>
 
 <body>
 
-<div class="overlay"></div>
-
-<div class="container">
-
-<h1 class="title">
-PHOENIX HOST
-</h1>
+<div class="logo">PHOENIX HOST</div>
 
 <div class="version">
-7.00 - 9.60
+AUTO DETECT SYSTEM
 </div>
 
-<div class="ps-button" id="psButton">
-PS
+<div class="loading">
+Detecting Firmware...
 </div>
 
-<div class="symbols">
+<script>
 
-<img src="assets/tri.png"
-class="symbol tri">
+function detectFirmware() {
 
-<img src="assets/squ.png"
-class="symbol squ">
+let ua = navigator.userAgent;
 
-<img src="assets/cir.png"
-class="symbol cir">
+if (ua.includes("PlayStation 4")) {
 
-<img src="assets/cro.png"
-class="symbol cro">
+if (ua.includes("9.00")) {
+window.location.href = "G900/index.html";
+}
 
-</div>
+else if (ua.includes("7.55")) {
+window.location.href = "G755/index.html";
+}
 
-<div class="loader-box">
+else if (ua.includes("6.72")) {
+window.location.href = "G672/index.html";
+}
 
-<div class="loader-bar">
+else if (ua.includes("5.05")) {
+window.location.href = "G505/index.html";
+}
 
-<div class="loader-progress"
-id="loaderProgress"></div>
+else {
+document.querySelector(".loading").innerHTML =
+"Firmware Not Supported";
+}
 
-</div>
+}
+else{
+document.querySelector(".loading").innerHTML =
+"Open From PS4 Browser";
+}
 
-<div class="loader-text"
-id="loaderText">
+}
 
-Initializing Phoenix Core...
+setTimeout(detectFirmware, 2000);
 
-</div>
-
-</div>
-
-<div class="payload-menu"
-id="payloadMenu">
-
-<button class="payload-btn"
-onclick="loadGoldHEN()">
-
-GoldHEN
-
-</button>
-
-<button class="payload-btn">
-
-Bin Loader
-
-</button>
-
-<button class="payload-btn">
-
-FTP
-
-</button>
-
-<button class="payload-btn">
-
-App2USB
-
-</button>
-
-</div>
-
-<div class="status"
-id="statusText">
-
-> Waiting For Initialization...
-
-</div>
-
-</div>
-
-<script src="900/int64.js"></script>
-
-<script src="900/rop.js"></script>
-
-<script src="900/kexploit.js"></script>
-
-<script src="900/exploit.js"></script>
-
-<script src="bundle.js"></script>
+</script>
 
 </body>
 </html>
