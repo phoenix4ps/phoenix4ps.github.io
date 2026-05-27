@@ -1,1 +1,15 @@
-
+{
+  "name": "PHOENIX HOST",
+  "short_name": "PHOENIX",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#ff6600",
+  "icons": [
+    {
+      "src": "icon0.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
