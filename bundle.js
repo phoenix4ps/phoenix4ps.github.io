@@ -1,43 +1,49 @@
-function setStatus(text){
+const statusText = document.getElementById("status");
 
-    document.querySelector(".footer").innerHTML = text;
+const messages = [
+
+"> Initializing Phoenix Core Execution...",
+
+"> Loading WebKit Exploit...",
+
+"> WebKit Loaded Successfully",
+
+"> Escalating Kernel Privileges...",
+
+"> Kernel Exploit Activated",
+
+"> Loading GoldHEN Payload...",
+
+"> Injecting Payload Into Memory...",
+
+"> Waiting For Console Response...",
+
+"> GoldHEN Loaded Successfully!",
+
+"> Welcome To Phoenix Host"
+
+];
+
+let current = 0;
+
+function updateStatus(){
+
+    statusText.innerHTML = messages[current];
+
+    current++;
+
+    if(current < messages.length){
+
+        setTimeout(updateStatus, 2200);
+
+    }
 
 }
 
-function runExploit(){
-
-    setStatus("Loading Exploit...");
-
-    setTimeout(() => {
-
-        setStatus("Running WebKit...");
-
-    }, 2000);
-
-    setTimeout(() => {
-
-        setStatus("Escalating Kernel...");
-
-    }, 4000);
-
-    setTimeout(() => {
-
-        setStatus("Loading GoldHEN...");
-
-    }, 6000);
-
-    setTimeout(() => {
-
-        setStatus("GoldHEN Loaded Successfully");
-
-    }, 9000);
-
-}
-
-/* auto start */
+/* auto exploit */
 
 window.onload = function(){
 
-    runExploit();
+    setTimeout(updateStatus, 1500);
 
-}
+};
