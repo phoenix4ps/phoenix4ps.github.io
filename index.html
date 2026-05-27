@@ -198,22 +198,29 @@
             }
             document.getElementById("messages").innerHTML = ""; 
             printMsg("Initializing PSFree..."); 
+            
             try {
-                setTimeout(function() { 
+                setTimeout(function() {
                     Init_PSFreeGlobals(); 
-                    printMsg("Loading payload configuration...");
-                    if (typeof loadPayload === "function") {
-                        loadPayload();
-                    } else if (typeof runPayload === "function") {
-                        runPayload();
-                    } else if (typeof poc === "function") {
-                        poc();
-                    } else {
-                        printMsg("Exploit primed. Triggering memory injection...");
-                    }
+                    printMsg("Triggering Exploit...");
+                    
+                    setTimeout(function() {
+                        if (typeof pfree !== 'undefined') {
+                            pfree(); 
+                        } else if (typeof run_psfree === 'function') {
+                            run_psfree();
+                        } else if (typeof loadPayload === 'function') {
+                            loadPayload();
+                        } else if (typeof runPayload === 'function') {
+                            runPayload();
+                        } else {
+                            window.postMessage('js_run', '*');
+                        }
+                    }, 300);
+                    
                 }, 500);
             } catch(e) { 
-                printMsg("Error: Operation failed or interrupted."); 
+                printMsg("Exploit failed, please reload page."); 
             }
         }
 
