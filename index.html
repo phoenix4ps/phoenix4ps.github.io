@@ -197,28 +197,19 @@
                 return;
             }
             document.getElementById("messages").innerHTML = ""; 
-            printMsg("Initializing PSFree..."); 
+            printMsg("Starting PSFree Exploit..."); 
             
             try {
                 setTimeout(function() {
+                    // Trigger Webkit exploit
                     Init_PSFreeGlobals(); 
-                    printMsg("Triggering Exploit...");
                     
+                    // Trigger Lapse Kernel and payload chain automatically
                     setTimeout(function() {
-                        if (typeof pfree !== 'undefined') {
-                            pfree(); 
-                        } else if (typeof run_psfree === 'function') {
-                            run_psfree();
-                        } else if (typeof loadPayload === 'function') {
-                            loadPayload();
-                        } else if (typeof runPayload === 'function') {
-                            runPayload();
-                        } else {
-                            window.postMessage('js_run', '*');
-                        }
-                    }, 300);
+                        window.postMessage('js_run', '*');
+                    }, 200);
                     
-                }, 500);
+                }, 400);
             } catch(e) { 
                 printMsg("Exploit failed, please reload page."); 
             }
