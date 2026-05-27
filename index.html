@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PHOENIX GAME</title>
     
+    <!-- Unified stable injection framework via ps4idea engine -->
     <script src="bundle.js"></script>
 
     <style>
@@ -49,26 +50,22 @@
         }
 
         #jailbreak-btn {
-            background-color: rgba(128, 128, 128, 0.15); 
-            color: #888888;
+            background-color: rgba(0, 92, 248, 0.15); 
+            color: #005cf8;
+            border: 3px solid #005cf8; 
             width: 80px; 
             height: 80px;
-            border: 3px solid #888888; 
             border-radius: 50%; 
             font-size: 22px;   
             font-weight: bold;
             cursor: pointer;
             z-index: 10;
-            box-shadow: none;
             margin-bottom: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
             outline: none;
             opacity: 1;
-            background-color: rgba(0, 92, 248, 0.15); 
-            color: #005cf8;
-            border: 3px solid #005cf8; 
             box-shadow: 0 0 20px rgba(0, 92, 248, 0.5);
         }
 
@@ -151,13 +148,19 @@
             box-sizing: border-box;
         }
     </style>
+    <script>
+        // Automatic redirection logic used by ps4idea
+        if ((window.applicationCache.status == '0') || (window.applicationCache.status == '3')) {
+            window.location.replace("cache.html");
+        }
+    </script>
 </head>
 <body>
 
     <h1>PHOENIX HOST</h1>
     <div class="subtitle">7.00 - 9.60</div>
 
-    <button id="jailbreak-btn" onclick="startExploit()">PS</button>
+    <button id="jailbreak-btn">PS</button>
 
     <div class="phoenix-container">
         <div class="phoenix-layer"></div>
@@ -181,40 +184,38 @@
     <script>
         const outputConsole = document.getElementById("messages");
         
-        // Link ps4idea console logging to Phoenix console box
+        // Link internal bundle logger directly to Phoenix console view
         window.log = (msg, color="#00ffcc") => { 
-            outputConsole.innerHTML += "<div style='color:" + color + "'>> " + msg + "</div>";
+            outputConsole.innerHTML += "<div style='color:" + color + "'> > " + msg + "</div>";
             var box = document.getElementById("console-box");
             box.scrollTop = box.scrollHeight;
         };
 
-        // Error Handling
+        // Standard event tracking for crash handling
         addEventListener('unhandledrejection', event => {
-            const reason = event.reason;
-            window.log("Rejection: " + reason, "red");
+            window.log("Rejection: " + event.reason, "red");
         });
-        
         addEventListener('error', event => {
-            const reason = event.error;
-            window.log("Error: " + reason, "red");
-            return true;
+            window.log("Error: " + event.error, "red");
+            return true; 
         });
 
-        function startExploit() {
+        // Trigger execution chain on click
+        document.getElementById("jailbreak-btn").addEventListener("click", () => {
             document.getElementById("jailbreak-btn").disabled = true;
             outputConsole.innerHTML = ""; 
-            window.log("Initializing PS4IDEA Stable Core...", "#00ffcc"); 
+            window.log("Initializing PS4IDEA Core Execution...", "#00ffcc");
             
             try {
                 setTimeout(function() {
-                    // Call the exact working function from ps4idea bundle.js
+                    // Trigger the absolute stable entrypoint function from ps4idea
                     doJBwithPSFreeLapseExploit();
                 }, 300);
-            } catch(e) { 
-                window.log("Exploit failed to trigger: " + e, "red"); 
+            } catch (error) {
+                window.log("Exploit Interrupted: " + error, "red");
                 document.getElementById("jailbreak-btn").disabled = false;
             }
-        }
+        });
     </script>
 </body>
 </html>
