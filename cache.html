@@ -13,6 +13,8 @@ user-scalable=no">
 
 <title>PHOENIX HOST - CACHE</title>
 
+<meta name="theme-color" content="#ff6600">
+
 <style>
 
 *{
@@ -21,144 +23,223 @@ user-scalable=no">
     box-sizing:border-box;
 }
 
-html,body{
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    background:#000;
-    font-family:Arial,sans-serif;
-}
-
 body{
 
-    background-image:url('bg.jpg');
+    background:
+    url('bg.jpg')
+    no-repeat center center fixed;
+
     background-size:cover;
-    background-position:center;
-    background-repeat:no-repeat;
 
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
+    overflow:hidden;
 
+    font-family:Arial,sans-serif;
+
+    color:white;
 }
+
+/* Overlay */
 
 .overlay{
 
-    position:absolute;
+    position:fixed;
+
     width:100%;
     height:100%;
-    background:rgba(0,0,0,0.55);
 
+    background:
+    rgba(0,0,0,0.72);
+
+    z-index:1;
 }
+
+/* Main */
 
 .container{
 
     position:relative;
-    z-index:5;
+
+    z-index:2;
+
+    width:100%;
+
+    height:100vh;
 
     display:flex;
+
     flex-direction:column;
+
     align-items:center;
 
+    justify-content:flex-start;
+
+    padding-top:40px;
 }
 
-.logo{
-
-    width:280px;
-    margin-bottom:20px;
-
-    animation:glow 2s infinite alternate;
-
-}
-
-@keyframes glow{
-
-    from{
-        filter:
-        drop-shadow(0 0 10px orange)
-        drop-shadow(0 0 20px red);
-    }
-
-    to{
-        filter:
-        drop-shadow(0 0 25px orange)
-        drop-shadow(0 0 50px red);
-    }
-
-}
+/* Title */
 
 .title{
 
-    color:white;
-    font-size:52px;
+    font-size:64px;
+
     font-weight:bold;
 
     text-shadow:
     0 0 10px orange,
-    0 0 25px red;
-
-    margin-bottom:10px;
+    0 0 20px orange,
+    0 0 40px red;
 
 }
+
+/* Subtitle */
 
 .subtitle{
 
+    margin-top:12px;
+
     color:#999;
-    font-size:18px;
-    letter-spacing:3px;
 
-    margin-bottom:40px;
-
-}
-
-.status{
-
-    color:#00aaff;
     font-size:24px;
-    margin-top:20px;
 
-    animation:blink 1s infinite;
+    letter-spacing:3px;
+}
+
+/* Phoenix */
+
+.phoenix{
+
+    width:320px;
+
+    margin-top:40px;
+
+    animation:
+    glow 2.5s infinite ease-in-out;
+
+    filter:
+    drop-shadow(0 0 25px orange);
 
 }
 
-@keyframes blink{
+/* Glow */
 
-    0%{opacity:1;}
-    50%{opacity:0.4;}
-    100%{opacity:1;}
+@keyframes glow{
+
+    0%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.05);
+    }
+
+    100%{
+        transform:scale(1);
+    }
 
 }
 
-.cache-box{
+/* Cache Button */
 
-    width:120px;
-    height:120px;
+.cache-btn{
 
-    border-radius:50%;
+    margin-top:35px;
 
-    border:3px solid #00aaff;
+    padding:
+    18px 45px;
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
+    border:none;
+
+    border-radius:18px;
+
+    background:
+    linear-gradient(
+    90deg,
+    #ff6600,
+    #ffaa00
+    );
 
     color:white;
-    font-size:22px;
+
+    font-size:26px;
+
     font-weight:bold;
 
+    cursor:pointer;
+
     box-shadow:
-    0 0 20px #00aaff;
+    0 0 20px orange;
+
+    transition:0.3s;
 
 }
+
+.cache-btn:hover{
+
+    transform:scale(1.05);
+
+}
+
+/* Status */
+
+#status{
+
+    margin-top:35px;
+
+    font-size:24px;
+
+    color:#00ff99;
+
+    text-shadow:
+    0 0 12px #00ff99;
+
+}
+
+/* Footer */
 
 .footer{
 
     position:absolute;
-    bottom:15px;
 
-    color:#555;
+    bottom:18px;
+
+    width:100%;
+
+    text-align:center;
+
+    color:#666;
+
     font-size:14px;
+
+    z-index:3;
+}
+
+/* Mobile */
+
+@media(max-width:900px){
+
+    .title{
+        font-size:42px;
+    }
+
+    .subtitle{
+        font-size:18px;
+    }
+
+    .phoenix{
+        width:230px;
+    }
+
+    .cache-btn{
+
+        font-size:20px;
+
+        padding:
+        14px 28px;
+    }
+
+    #status{
+        font-size:18px;
+    }
 
 }
 
@@ -172,52 +253,82 @@ body{
 
 <div class="container">
 
-<img src="icon0.png" class="logo">
+    <div class="title">
+        PHOENIX HOST
+    </div>
 
-<div class="title">
-PHOENIX HOST
-</div>
+    <div class="subtitle">
+        CACHE INSTALLER
+    </div>
 
-<div class="subtitle">
-CACHE INSTALLER
-</div>
+    <img src="icon0.png"
+    class="phoenix">
 
-<div class="cache-box">
-CACHE
-</div>
+    <button class="cache-btn"
+    onclick="installCache()">
 
-<div class="status" id="status">
-Installing Cache...
-</div>
+    INSTALL CACHE
+
+    </button>
+
+    <div id="status">
+
+    Waiting For Installation...
+
+    </div>
 
 </div>
 
 <div class="footer">
-Phoenix Auto Cache System
+
+Phoenix Offline Cache System
+
 </div>
 
 <script>
 
-window.applicationCache.oncached = function(){
+function installCache(){
 
-    document.getElementById("status").innerHTML =
-    "Cache Installed Successfully";
+    document.getElementById(
+    "status"
+    ).innerHTML =
 
-}
-
-window.applicationCache.onprogress = function(e){
-
-    document.getElementById("status").innerHTML =
-    "Caching Files...";
+    "Installing Cache...";
 
 }
 
-window.applicationCache.onerror = function(){
+window.applicationCache.oncached =
+function(){
 
-    document.getElementById("status").innerHTML =
-    "Cache Error";
+document.getElementById(
+"status"
+).innerHTML =
 
-}
+"Cache Installed Successfully";
+
+};
+
+window.applicationCache.onprogress =
+function(e){
+
+document.getElementById(
+"status"
+).innerHTML =
+
+"Caching Files...";
+
+};
+
+window.applicationCache.onerror =
+function(){
+
+document.getElementById(
+"status"
+).innerHTML =
+
+"Cache Already Installed";
+
+};
 
 </script>
 
