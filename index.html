@@ -1,85 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+content="width=device-width,
+initial-scale=1.0,
+maximum-scale=1.0,
+user-scalable=no">
 
 <title>PHOENIX HOST</title>
 
-<style>
+<link rel="manifest" href="manifest.json">
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+<link rel="stylesheet" href="style.css">
 
-body{
-    background:#000;
-    color:#fff;
-    font-family:Arial, sans-serif;
-    text-align:center;
-    overflow:hidden;
-}
-
-.container{
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-    padding:20px;
-}
-
-.logo{
-    font-size:58px;
-    font-weight:bold;
-    color:white;
-    text-shadow:
-    0 0 10px orange,
-    0 0 20px orange,
-    0 0 40px red;
-    margin-bottom:20px;
-}
-
-.version{
-    font-size:28px;
-    color:#999;
-    margin-bottom:50px;
-    letter-spacing:2px;
-}
-
-.loading{
-    font-size:24px;
-    color:#00aaff;
-    animation:blink 1s infinite;
-}
-
-@keyframes blink{
-    0%{opacity:1;}
-    50%{opacity:0.4;}
-    100%{opacity:1;}
-}
-
-.footer{
-    position:absolute;
-    bottom:20px;
-    width:100%;
-    text-align:center;
-    color:#444;
-    font-size:14px;
-}
-
-</style>
+<meta name="theme-color" content="#ff6600">
 
 </head>
 
 <body>
 
+<div class="overlay"></div>
+
 <div class="container">
 
-    <div class="logo">
+    <div class="title">
         PHOENIX HOST
     </div>
 
@@ -87,72 +35,75 @@ body{
         AUTO DETECT SYSTEM
     </div>
 
-    <div class="loading" id="status">
-        Detecting Firmware...
+    <div class="ps-button">
+        PS
+    </div>
+
+    <div class="symbols">
+
+        <img src="cir.png" class="symbol">
+
+        <img src="cro.png" class="symbol">
+
+        <img src="Squ.png" class="symbol">
+
+        <img src="tri.png" class="symbol">
+
+    </div>
+
+    <div class="loader-box">
+
+        <div class="loader-bar">
+
+            <div class="loader-progress"
+            id="loaderProgress"></div>
+
+        </div>
+
+        <div class="loader-text"
+        id="loaderText">
+
+        Loading Phoenix Host...
+
+        </div>
+
+    </div>
+
+    <div class="payload-menu"
+    id="payloadMenu">
+
+    </div>
+
+    <div class="status"
+    id="statusText">
+
+    > Initializing Exploit...
+
     </div>
 
 </div>
 
 <div class="footer">
-    Phoenix Auto Loader
+
+    Phoenix Auto Exploit Loader
+
 </div>
+
+<script src="bundle.js"></script>
 
 <script>
 
-function detectFirmware() {
+if ('serviceWorker' in navigator) {
 
-    let ua = navigator.userAgent;
-    let status = document.getElementById("status");
+navigator.serviceWorker.register('sw.js')
 
-    if (ua.includes("PlayStation 4")) {
+.then(() => {
 
-        if (ua.includes("9.00")) {
+console.log("Service Worker Registered");
 
-            status.innerHTML = "Firmware 9.00 Detected";
-
-            setTimeout(() => {
-                window.location.href = "900/index.html";
-            }, 1500);
-
-        }
-
-        else if (ua.includes("7.55")) {
-
-            status.innerHTML = "Firmware 7.55 Detected";
-
-            setTimeout(() => {
-                window.location.href = "755/index.html";
-            }, 1500);
-
-        }
-
-        else if (ua.includes("7.02")) {
-
-            status.innerHTML = "Firmware 7.02 Detected";
-
-            setTimeout(() => {
-                window.location.href = "702/index.html";
-            }, 1500);
-
-        }
-
-        else {
-
-            status.innerHTML = "Firmware Not Supported";
-
-        }
-
-    }
-
-    else {
-
-        status.innerHTML = "Open From PS4 Browser";
-
-    }
+});
 
 }
-
-setTimeout(detectFirmware, 2000);
 
 </script>
 
