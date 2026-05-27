@@ -44,60 +44,14 @@
     </div>
 
     <div class="bottom-title">
-        Phoenix Game
+        Phoenix Host
     </div>
 
     <div class="status" id="status">
-        > Initializing PS4IDEA Core Execution...
+        > Initializing Phoenix Core Execution...
     </div>
 
 </div>
-
-<script>
-
-const statusText = document.getElementById("status");
-
-const messages = [
-
-"> Initializing PS4IDEA Core Execution...",
-
-"> Loading Exploit Engine...",
-
-"> Detecting Firmware...",
-
-"> Firmware Supported!",
-
-"> Loading GoldHEN Payload...",
-
-"> Injecting Payload...",
-
-"> Waiting For Console Response...",
-
-"> GoldHEN Loaded Successfully!",
-
-"> Welcome To Phoenix Host"
-
-];
-
-let i = 0;
-
-function nextMessage() {
-
-    statusText.innerHTML = messages[i];
-
-    i++;
-
-    if(i < messages.length){
-
-        setTimeout(nextMessage, 2200);
-
-    }
-
-}
-
-setTimeout(nextMessage, 2000);
-
-</script>
 
 <script src="psfree.js"></script>
 
