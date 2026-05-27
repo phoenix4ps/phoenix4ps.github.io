@@ -201,15 +201,14 @@
             
             try {
                 setTimeout(function() {
-                    // Trigger Webkit exploit
                     Init_PSFreeGlobals(); 
+                    printMsg("Triggering Lapse Kernel chain...");
                     
-                    // Trigger Lapse Kernel and payload chain automatically
                     setTimeout(function() {
                         window.postMessage('js_run', '*');
-                    }, 200);
+                    }, 400);
                     
-                }, 400);
+                }, 600);
             } catch(e) { 
                 printMsg("Exploit failed, please reload page."); 
             }
