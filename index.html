@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PHOENIX GAME</title>
     
-    <script src="psfree_lapse_shared.js"></script>
-    <script src="psfree.js"></script>
     <script src="bundle.js"></script>
 
     <style>
@@ -59,7 +57,7 @@
             border-radius: 50%; 
             font-size: 22px;   
             font-weight: bold;
-            cursor: not-allowed;
+            cursor: pointer;
             z-index: 10;
             box-shadow: none;
             margin-bottom: 15px;
@@ -67,16 +65,20 @@
             align-items: center;
             justify-content: center;
             outline: none;
-            opacity: 0.5;
-        }
-
-        #jailbreak-btn.active {
+            opacity: 1;
             background-color: rgba(0, 92, 248, 0.15); 
             color: #005cf8;
             border: 3px solid #005cf8; 
-            cursor: pointer;
             box-shadow: 0 0 20px rgba(0, 92, 248, 0.5);
-            opacity: 1;
+        }
+
+        #jailbreak-btn:disabled {
+            background-color: rgba(128, 128, 128, 0.15); 
+            color: #888888;
+            border: 3px solid #888888;
+            cursor: not-allowed;
+            opacity: 0.5;
+            box-shadow: none;
         }
 
         .phoenix-container {
@@ -173,87 +175,45 @@
     <img src="wri.png" class="writing-layer">
 
     <div id="console-box">
-        <div id="messages">Checking system cache...</div>
+        <div id="messages">System Ready. Click PS button.</div>
     </div>
 
     <script>
-        var isReadyToExploit = false;
-
-        function printMsg(text) {
-            var msgDiv = document.getElementById("messages");
-            msgDiv.innerHTML += "<div class='log-entry'>> " + text + "</div>";
+        const outputConsole = document.getElementById("messages");
+        
+        // Link ps4idea console logging to Phoenix console box
+        window.log = (msg, color="#00ffcc") => { 
+            outputConsole.innerHTML += "<div style='color:" + color + "'>> " + msg + "</div>";
             var box = document.getElementById("console-box");
             box.scrollTop = box.scrollHeight;
-        }
+        };
 
-        function enableButton() {
-            isReadyToExploit = true;
-            var btn = document.getElementById("jailbreak-btn");
-            btn.className = "active";
-        }
+        // Error Handling
+        addEventListener('unhandledrejection', event => {
+            const reason = event.reason;
+            window.log("Rejection: " + reason, "red");
+        });
+        
+        addEventListener('error', event => {
+            const reason = event.error;
+            window.log("Error: " + reason, "red");
+            return true;
+        });
 
         function startExploit() {
-            if (!isReadyToExploit) {
-                return;
-            }
-            document.getElementById("messages").innerHTML = ""; 
-            printMsg("Starting PSFree Exploit..."); 
+            document.getElementById("jailbreak-btn").disabled = true;
+            outputConsole.innerHTML = ""; 
+            window.log("Initializing PS4IDEA Stable Core...", "#00ffcc"); 
             
             try {
                 setTimeout(function() {
-                    Init_PSFreeGlobals(); 
-                    printMsg("Triggering Lapse Kernel chain...");
-                    
-                    setTimeout(function() {
-                        window.postMessage('js_run', '*');
-                    }, 400);
-                    
-                }, 600);
+                    // Call the exact working function from ps4idea bundle.js
+                    doJBwithPSFreeLapseExploit();
+                }, 300);
             } catch(e) { 
-                printMsg("Exploit failed, please reload page."); 
+                window.log("Exploit failed to trigger: " + e, "red"); 
+                document.getElementById("jailbreak-btn").disabled = false;
             }
-        }
-
-        if (window.applicationCache) {
-            var cache = window.applicationCache;
-
-            cache.addEventListener('checking', function() {
-                document.getElementById("messages").innerHTML = "";
-                printMsg("Checking for cache manifest...");
-            });
-
-            cache.addEventListener('downloading', function() {
-                printMsg("Downloading file updates...");
-            });
-
-            cache.addEventListener('progress', function(e) {
-                if (e.lengthComputable) {
-                    var percent = Math.round((e.loaded / e.total) * 100);
-                    document.getElementById("messages").innerHTML = "";
-                    printMsg("Downloading: " + percent + "%");
-                }
-            });
-
-            cache.addEventListener('cached', function() {
-                printMsg("Cache completely saved offline!");
-                printMsg("System Ready. Click PS button.");
-                enableButton();
-            });
-
-            cache.addEventListener('noupdate', function() {
-                printMsg("Cache is up to date.");
-                printMsg("System Ready. Click PS button.");
-                enableButton();
-            });
-
-            cache.addEventListener('error', function() {
-                printMsg("Cache offline setup ready.");
-                printMsg("System Ready. Click PS button.");
-                enableButton();
-            });
-        } else {
-            printMsg("AppCache not supported on this browser.");
-            enableButton();
         }
     </script>
 </body>
