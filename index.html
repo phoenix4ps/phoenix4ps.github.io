@@ -5,9 +5,10 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-<title>PHOENIX HOST</title>
+<title>Phoenix Host</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -15,86 +16,104 @@
 
 <body>
 
-<div class="background"></div>
-
 <div class="overlay"></div>
 
 <div class="container">
 
-    <h1 class="title">PHOENIX HOST</h1>
+<h1 class="title">
+PHOENIX HOST
+</h1>
 
-    <div class="version">7.00 - 9.60</div>
+<div class="version">
+7.00 - 9.60
+</div>
 
-    <div class="ps-logo">
-        PS
-    </div>
+<div class="ps-button" id="psButton">
+PS
+</div>
 
-    <img src="wri.png" class="phoenix">
+<div class="symbols">
 
-    <div class="ps-buttons">
+<img src="assets/tri.png"
+class="symbol tri">
 
-        <img src="tri.png" class="btn tri">
+<img src="assets/squ.png"
+class="symbol squ">
 
-        <img src="Squ.png" class="btn squ">
+<img src="assets/cir.png"
+class="symbol cir">
 
-        <img src="cir.png" class="btn cir">
-
-        <img src="cro.png" class="btn cro">
-
-    </div>
-
-    <div class="bottom-title">
-        Phoenix Host
-    </div>
-
-    <div class="loader-container">
-
-        <div class="loader-bar-bg">
-
-            <div class="loader-bar" id="loader-bar"></div>
-
-        </div>
-
-        <div class="loader-text" id="loader-text">
-
-            Initializing Phoenix Core...
-
-        </div>
-
-    </div>
-
-    <div class="status" id="status">
-
-        > Initializing Phoenix Core Execution...
-
-    </div>
-
-    <div class="payload-menu" id="payload-menu">
-
-        <button onclick="loadPayload('GoldHEN')">
-            GoldHEN
-        </button>
-
-        <button onclick="loadPayload('Bin Loader')">
-            Bin Loader
-        </button>
-
-        <button onclick="loadPayload('FTP')">
-            FTP
-        </button>
-
-        <button onclick="loadPayload('App2USB')">
-            App2USB
-        </button>
-
-    </div>
+<img src="assets/cro.png"
+class="symbol cro">
 
 </div>
 
-<script src="psfree.js"></script>
+<div class="loader-box">
+
+<div class="loader-bar">
+
+<div class="loader-progress"
+id="loaderProgress"></div>
+
+</div>
+
+<div class="loader-text"
+id="loaderText">
+
+Initializing Phoenix Core...
+
+</div>
+
+</div>
+
+<div class="payload-menu"
+id="payloadMenu">
+
+<button class="payload-btn"
+onclick="loadGoldHEN()">
+
+GoldHEN
+
+</button>
+
+<button class="payload-btn">
+
+Bin Loader
+
+</button>
+
+<button class="payload-btn">
+
+FTP
+
+</button>
+
+<button class="payload-btn">
+
+App2USB
+
+</button>
+
+</div>
+
+<div class="status"
+id="statusText">
+
+> Waiting For Initialization...
+
+</div>
+
+</div>
+
+<script src="900/int64.js"></script>
+
+<script src="900/rop.js"></script>
+
+<script src="900/kexploit.js"></script>
+
+<script src="900/exploit.js"></script>
 
 <script src="bundle.js"></script>
 
 </body>
-
 </html>
