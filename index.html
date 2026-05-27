@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PHOENIX HOST - PHONE PREVIEW</title>
+    <title>PHOENIX HOST - OPEN CONSOLE TEST</title>
     
     <style>
         html, body {
@@ -59,20 +59,24 @@
             background-color: rgba(0, 92, 248, 0.4);
         }
 
-        /* Gradient Mask Window */
+        /* Open Console Wrapper - No Top Border */
         #console-container {
             position: relative;
             width: 90%;
             max-width: 400px;
             height: 150px;
             margin-top: 40px;
-            border-radius: 12px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            background-color: rgba(0, 0, 0, 0.9);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+            border-left: 2px solid rgba(255, 255, 255, 0.15);
+            border-right: 2px solid rgba(255, 255, 255, 0.15);
+            border-top: none; /* No border on top */
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 40%, rgba(0, 0, 0, 0) 100%);
             overflow: hidden;
         }
 
-        /* Scroller pushing logs from bottom to top */
+        /* Scroller forcing text to stay down and fade out at the 50% mark */
         #console-box {
             width: 100%;
             height: 100%;
@@ -84,12 +88,10 @@
             flex-direction: column;
             justify-content: flex-end;
             
-            /* High compatibility fade out at the top */
             mask-image: linear-gradient(to top, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
             -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
         }
 
-        /* Text pop up animation */
         .log-entry {
             opacity: 0;
             animation: lineFadeIn 0.3s ease-out forwards;
@@ -105,15 +107,14 @@
 <body>
 
     <h1>PHOENIX PREVIEW</h1>
-    <div class="subtitle">Mobile Testing Concept</div>
+    <div class="subtitle">Open Console Concept</div>
 
-    <!-- Click to trigger simulated text streams -->
     <button id="demo-btn" onclick="startMobileDemo()">TEST</button>
 
     <div id="console-container">
         <div id="console-box">
             <div id="messages">
-                <div class="log-entry" style="color: #888;">> Press TEST to simulate logs...</div>
+                <div class="log-entry" style="color: #888;">> Press TEST to simulate open console...</div>
             </div>
         </div>
     </div>
@@ -123,7 +124,6 @@
         let step = 0;
         let interval = null;
 
-        // Simulated steps to mimic PS4 exploit logging behavior
         const dummyLogs = [
             { text: "Initializing Webkit Core...", color: "#00ffcc" },
             { text: "Searching for vulnerable JSObjects...", color: "#00ffcc" },
@@ -153,7 +153,7 @@
                     clearInterval(interval);
                     document.getElementById("demo-btn").disabled = false;
                 }
-            }, 1000); // Injects a line every 1 second
+            }, 1000); 
         }
     </script>
 </body>
