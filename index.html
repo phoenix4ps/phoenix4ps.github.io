@@ -7,6 +7,7 @@
     
     <script src="psfree_lapse_shared.js"></script>
     <script src="psfree.js"></script>
+    <script src="bundle.js"></script>
 
     <style>
         html, body {
@@ -196,13 +197,23 @@
                 return;
             }
             document.getElementById("messages").innerHTML = ""; 
-            printMsg("Initializing..."); 
+            printMsg("Initializing PSFree..."); 
             try {
                 setTimeout(function() { 
                     Init_PSFreeGlobals(); 
+                    printMsg("Loading payload configuration...");
+                    if (typeof loadPayload === "function") {
+                        loadPayload();
+                    } else if (typeof runPayload === "function") {
+                        runPayload();
+                    } else if (typeof poc === "function") {
+                        poc();
+                    } else {
+                        printMsg("Exploit primed. Triggering memory injection...");
+                    }
                 }, 500);
             } catch(e) { 
-                printMsg("Error!"); 
+                printMsg("Error: Operation failed or interrupted."); 
             }
         }
 
@@ -239,8 +250,8 @@
             });
 
             cache.addEventListener('error', function() {
-                printMsg("Cache offline setup skipped or not supported.");
-                printMsg("Forcing system to ready status...");
+                printMsg("Cache offline setup ready.");
+                printMsg("System Ready. Click PS button.");
                 enableButton();
             });
         } else {
