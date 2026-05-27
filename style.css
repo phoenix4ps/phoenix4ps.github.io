@@ -135,8 +135,39 @@ body{
     0 0 25px gold;
 }
 
+.loader-container{
+    width:80%;
+    max-width:600px;
+    margin-top:40px;
+}
+
+.loader-bar-bg{
+    width:100%;
+    height:20px;
+    background:#222;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.loader-bar{
+    width:0%;
+    height:100%;
+    background:#00ffaa;
+    box-shadow:
+    0 0 10px #00ffaa,
+    0 0 20px #00ffaa;
+    transition:0.3s;
+}
+
+.loader-text{
+    margin-top:15px;
+    color:#00ffaa;
+    font-family:monospace;
+    font-size:18px;
+}
+
 .status{
-    margin-top:50px;
+    margin-top:40px;
     font-size:24px;
     color:#00ffaa;
     font-family:monospace;
@@ -194,6 +225,10 @@ body{
     .status{
         font-size:16px;
         padding:0 20px;
+    }
+
+    .loader-text{
+        font-size:14px;
     }
 
 }
