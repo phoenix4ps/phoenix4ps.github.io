@@ -1,145 +1,76 @@
-const statusText = document.getElementById("status");
+const loaderProgress =
+document.getElementById(
+"loaderProgress"
+);
 
-const loaderBar = document.getElementById("loader-bar");
+const loaderText =
+document.getElementById(
+"loaderText"
+);
 
-const loaderText = document.getElementById("loader-text");
+const payloadMenu =
+document.getElementById(
+"payloadMenu"
+);
 
-const payloadMenu = document.getElementById("payload-menu");
-
-const messages = [
-
-"> Initializing Phoenix Core Execution...",
-
-"> Loading WebKit Exploit...",
-
-"> WebKit Loaded Successfully",
-
-"> Escalating Kernel Privileges...",
-
-"> Kernel Exploit Activated",
-
-"> Loading GoldHEN Payload...",
-
-"> Injecting Payload Into Memory...",
-
-"> Waiting For Console Response...",
-
-"> GoldHEN Loaded Successfully!",
-
-"> Phoenix Host Ready"
-
-];
-
-const loaderMessages = [
-
-"Initializing Phoenix Core...",
-
-"Loading WebKit Exploit...",
-
-"Escalating Kernel Privileges...",
-
-"Loading GoldHEN Payload...",
-
-"Injecting Payload...",
-
-"Finishing Execution..."
-
-];
-
-let current = 0;
+const statusText =
+document.getElementById(
+"statusText"
+);
 
 let progress = 0;
 
-function updateStatus(){
-
-    statusText.innerHTML = messages[current];
-
-    current++;
-
-    if(current < messages.length){
-
-        setTimeout(updateStatus, 2200);
-
-    }
-
-}
-
-function updateLoader(){
+const interval = setInterval(() => {
 
     progress += 2;
 
-    loaderBar.style.width = progress + "%";
+    loaderProgress.style.width =
+    progress + "%";
 
-    if(progress <= 15){
+    loaderText.innerHTML =
+    "Loading Phoenix Exploit... "
+    + progress + "%";
 
-        loaderText.innerHTML = loaderMessages[0];
+    if(progress >= 100){
 
-    }
+        clearInterval(interval);
 
-    else if(progress <= 35){
+        loaderText.innerHTML =
+        "Phoenix Host Ready";
 
-        loaderText.innerHTML = loaderMessages[1];
-
-    }
-
-    else if(progress <= 55){
-
-        loaderText.innerHTML = loaderMessages[2];
-
-    }
-
-    else if(progress <= 75){
-
-        loaderText.innerHTML = loaderMessages[3];
-
-    }
-
-    else if(progress <= 90){
-
-        loaderText.innerHTML = loaderMessages[4];
-
-    }
-
-    else{
-
-        loaderText.innerHTML = loaderMessages[5];
-
-    }
-
-    if(progress < 100){
-
-        setTimeout(updateLoader, 120);
-
-    }
-
-    else{
-
-        loaderText.innerHTML = "Phoenix Host Ready!";
-
-        payloadMenu.style.display = "flex";
-
-    }
-
-}
-
-function loadPayload(name){
-
-    statusText.innerHTML =
-    "> Loading " + name + " Payload...";
-
-    setTimeout(() => {
+        payloadMenu.style.display =
+        "flex";
 
         statusText.innerHTML =
-        "> " + name + " Loaded Successfully!";
+        "> Exploit Loaded Successfully";
 
-    }, 2500);
+        loadGoldHEN();
+    }
+
+}, 120);
+
+function loadGoldHEN(){
+
+    statusText.innerHTML =
+    "> Loading GoldHEN...";
+
+    fetch("900/goldhen.bin")
+
+    .then(response =>
+    response.arrayBuffer())
+
+    .then(data => {
+
+        statusText.innerHTML =
+        "> GoldHEN Loaded Successfully";
+
+    })
+
+    .catch(() => {
+
+        statusText.innerHTML =
+        "> Failed To Load GoldHEN";
+
+    });
 
 }
-
-window.onload = function(){
-
-    setTimeout(updateStatus, 1000);
-
-    setTimeout(updateLoader, 500);
-
-};
