@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -8,84 +9,146 @@
 
 <style>
 
-body{
+*{
     margin:0;
     padding:0;
-    background:black;
-    color:white;
-    font-family:Arial;
+    box-sizing:border-box;
+}
+
+body{
+    background:#000;
+    color:#fff;
+    font-family:Arial, sans-serif;
     text-align:center;
+    overflow:hidden;
+}
+
+.container{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    padding:20px;
 }
 
 .logo{
-    margin-top:80px;
-    font-size:55px;
+    font-size:58px;
     font-weight:bold;
     color:white;
-    text-shadow:0 0 20px orange;
+    text-shadow:
+    0 0 10px orange,
+    0 0 20px orange,
+    0 0 40px red;
+    margin-bottom:20px;
 }
 
 .version{
     font-size:28px;
-    color:gray;
-    margin-top:10px;
+    color:#999;
+    margin-bottom:50px;
+    letter-spacing:2px;
 }
 
 .loading{
-    margin-top:60px;
     font-size:24px;
     color:#00aaff;
+    animation:blink 1s infinite;
+}
+
+@keyframes blink{
+    0%{opacity:1;}
+    50%{opacity:0.4;}
+    100%{opacity:1;}
+}
+
+.footer{
+    position:absolute;
+    bottom:20px;
+    width:100%;
+    text-align:center;
+    color:#444;
+    font-size:14px;
 }
 
 </style>
+
 </head>
 
 <body>
 
-<div class="logo">PHOENIX HOST</div>
+<div class="container">
 
-<div class="version">
-AUTO DETECT SYSTEM
+    <div class="logo">
+        PHOENIX HOST
+    </div>
+
+    <div class="version">
+        AUTO DETECT SYSTEM
+    </div>
+
+    <div class="loading" id="status">
+        Detecting Firmware...
+    </div>
+
 </div>
 
-<div class="loading">
-Detecting Firmware...
+<div class="footer">
+    Phoenix Auto Loader
 </div>
 
 <script>
 
 function detectFirmware() {
 
-let ua = navigator.userAgent;
+    let ua = navigator.userAgent;
+    let status = document.getElementById("status");
 
-if (ua.includes("PlayStation 4")) {
+    if (ua.includes("PlayStation 4")) {
 
-if (ua.includes("9.00")) {
-window.location.href = "G900/index.html";
-}
+        if (ua.includes("9.00")) {
 
-else if (ua.includes("7.55")) {
-window.location.href = "G755/index.html";
-}
+            status.innerHTML = "Firmware 9.00 Detected";
 
-else if (ua.includes("6.72")) {
-window.location.href = "G672/index.html";
-}
+            setTimeout(() => {
+                window.location.href = "900/index.html";
+            }, 1500);
 
-else if (ua.includes("5.05")) {
-window.location.href = "G505/index.html";
-}
+        }
 
-else {
-document.querySelector(".loading").innerHTML =
-"Firmware Not Supported";
-}
+        else if (ua.includes("7.55")) {
 
-}
-else{
-document.querySelector(".loading").innerHTML =
-"Open From PS4 Browser";
-}
+            status.innerHTML = "Firmware 7.55 Detected";
+
+            setTimeout(() => {
+                window.location.href = "755/index.html";
+            }, 1500);
+
+        }
+
+        else if (ua.includes("7.02")) {
+
+            status.innerHTML = "Firmware 7.02 Detected";
+
+            setTimeout(() => {
+                window.location.href = "702/index.html";
+            }, 1500);
+
+        }
+
+        else {
+
+            status.innerHTML = "Firmware Not Supported";
+
+        }
+
+    }
+
+    else {
+
+        status.innerHTML = "Open From PS4 Browser";
+
+    }
 
 }
 
