@@ -1,22 +1,14 @@
 const loaderProgress =
-document.getElementById(
-"loaderProgress"
-);
+document.getElementById("loaderProgress");
 
 const loaderText =
-document.getElementById(
-"loaderText"
-);
+document.getElementById("loaderText");
 
 const payloadMenu =
-document.getElementById(
-"payloadMenu"
-);
+document.getElementById("payloadMenu");
 
 const statusText =
-document.getElementById(
-"statusText"
-);
+document.getElementById("statusText");
 
 let progress = 0;
 
@@ -42,19 +34,63 @@ const interval = setInterval(() => {
         "flex";
 
         statusText.innerHTML =
-        "> Exploit Loaded Successfully";
+        "> Detecting Firmware...";
 
-        loadGoldHEN();
+        autoDetectFW();
     }
 
 }, 120);
 
-function loadGoldHEN(){
+function autoDetectFW(){
+
+    let ua = navigator.userAgent;
+
+    if (ua.includes("9.00")) {
+
+        statusText.innerHTML =
+        "> Firmware 9.00 Detected";
+
+        loadGoldHEN("900/goldhen.bin");
+
+    }
+
+    else if (ua.includes("7.55")) {
+
+        statusText.innerHTML =
+        "> Firmware 7.55 Detected";
+
+        loadGoldHEN(
+        "755/goldhen2b755.bin.bz2"
+        );
+
+    }
+
+    else if (ua.includes("7.02")) {
+
+        statusText.innerHTML =
+        "> Firmware 7.02 Detected";
+
+        loadGoldHEN(
+        "702/goldhen_2.3_702.bin"
+        );
+
+    }
+
+    else {
+
+        statusText.innerHTML =
+        "> Firmware Not Supported";
+
+    }
+
+}
+
+function loadGoldHEN(payloadPath){
 
     statusText.innerHTML =
     "> Loading GoldHEN...";
 
-    fetch("900/goldhen.bin")
+    fetch(payloadPath)
 
     .then(response =>
     response.arrayBuffer())
