@@ -1,60 +1,119 @@
 <!DOCTYPE html>
-<html lang="en" manifest="psfree_lapse.cache">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PHOENIX GAME</title>
-    <script src="bundle.js"></script>
+    <title>PHOENIX GAME - TEST</title>
 
     <style>
-        html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #000; }
+        html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #0a0a0f; }
         body {
-            background-image: url('bg.jpg'); background-size: cover; background-position: center;
-            background-repeat: no-repeat; background-attachment: fixed; display: flex;
-            flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 30px; font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 30px;
+            font-family: Arial, sans-serif;
         }
         h1 { color: #fff; font-size: 32px; margin: 0; text-transform: uppercase; text-shadow: 0 0 15px rgba(255, 140, 0, .8); z-index: 10; }
         .subtitle { color: #aaa; font-size: 16px; margin-bottom: 15px; letter-spacing: 2px; z-index: 10; }
+        
         #jailbreakBtn {
-            background-color: rgba(0, 92, 248, .15); color: #005cf8; border: 3px solid #005cf8;
+            background-color: rgba(255, 140, 0, .15); color: #ff8c00; border: 3px solid #ff8c00;
             width: 90px; height: 90px; border-radius: 50%; font-size: 18px; font-weight: bold;
-            cursor: pointer; z-index: 10; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; outline: none; text-transform: uppercase; box-shadow: 0 0 15px rgba(0, 92, 248, 0.4); transition: all 0.3s ease;
+            cursor: pointer; z-index: 10; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; outline: none; text-transform: uppercase; box-shadow: 0 0 15px rgba(255, 140, 0, 0.4); transition: all 0.3s ease;
         }
         #jailbreakBtn:disabled { background-color: rgba(128, 128, 128, 0.15); color: #888888; border-color: #888888; cursor: not-allowed; opacity: 0.5; box-shadow: none; }
-        #jailbreakBtn:not(:disabled):hover { background-color: rgba(0, 92, 248, 0.4); box-shadow: 0 0 25px rgba(0, 92, 248, 0.8); }
-        .phoenix-container { width: 300px; height: 300px; z-index: 1; mix-blend-mode: screen; animation: pulse-glow-only 2.5s infinite ease-in-out; }
-        .phoenix-layer { width: 100%; height: 100%; background-image: url('icon0.png'); background-size: contain; background-repeat: no-repeat; background-position: center; }
-        @keyframes pulse-glow-only { 0% { filter: drop-shadow(0 0 15px rgba(255, 69, 0, 0.6)); } 50% { filter: drop-shadow(0 0 35px rgba(255, 69, 0, 0.9)); } 100% { filter: drop-shadow(0 0 15px rgba(255, 69, 0, 0.6)); } }
-        .side-wrapper { position: fixed; top: 35%; display: flex; gap: 30px; z-index: 10; }
-        .left-side { left: 5%; } .right-side { right: 5%; }
-        .ps-icon-side { width: 55px; height: 55px; }
-        .tri { filter: drop-shadow(0 0 15px #4caf50); } .squ { filter: drop-shadow(0 0 15px #e91e63); } .cir { filter: drop-shadow(0 0 15px #ff5722); } .cro { filter: drop-shadow(0 0 15px #2196f3); }
+        #jailbreakBtn:not(:disabled):hover { background-color: rgba(255, 140, 0, 0.4); box-shadow: 0 0 25px rgba(255, 140, 0, 0.8); }
         
         /* ======================================= */
-        /* MODIFIED CONSOLE: OPEN FROM THE TOP     */
+        /* RESPONSIVE PHOENIX LOGO CONTAINER       */
         /* ======================================= */
-        #console-box { 
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 70%, rgba(0, 0, 0, 0) 100%);
-            backdrop-filter: blur(4px); 
-            border: 2px solid rgba(255, 255, 255, 0.15); 
-            border-top: none; /* Open box from the top */
-            width: 90%; 
-            height: 140px; 
-            padding: 12px; 
+        .phoenix-container { 
+            width: 40vw;         
+            max-width: 260px;    
+            min-width: 160px;    
+            height: auto; 
+            aspect-ratio: 1 / 1; 
+            z-index: 1; 
+            mix-blend-mode: screen; 
+            animation: pulse-glow-only 2.5s infinite ease-in-out; 
+            margin: 2vh auto;    
+            border: 2px dashed #ff8c00; /* Placeholder border for testing */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ff8c00;
+            font-weight: bold;
+        }
+
+        .phoenix-layer { 
+            width: 100%; 
+            height: 100%; 
+            background-image: url('icon0.png'); 
+            background-size: contain; 
+            background-repeat: no-repeat; 
+            background-position: center; 
+        }
+
+        @keyframes pulse-glow-only { 0% { filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.6)); } 50% { filter: drop-shadow(0 0 35px rgba(255, 140, 0, 0.9)); } 100% { filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.6)); } }
+
+        /* ======================================= */
+        /* RESPONSIVE SIDE BUTTONS COMPONENT       */
+        /* ======================================= */
+        .side-wrapper { 
+            position: fixed; 
+            top: 50%; 
+            transform: translateY(-50%); 
+            display: flex; 
+            flex-direction: column;      
+            gap: 4vh;                    
             z-index: 10; 
-            border-bottom-left-radius: 12px; 
-            border-bottom-right-radius: 12px; 
-            margin-top: 15px; 
-            overflow: hidden; /* Hide text as it floats out of bounds */
+            color: #fff;
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        .left-side { left: 4vw; } 
+        .right-side { right: 4vw; }
+
+        .ps-icon-side { 
+            width: 6vw;                  
+            max-width: 55px; 
+            min-width: 35px; 
+            height: auto; 
+        }
+
+        .tri { filter: drop-shadow(0 0 15px #4caf50); } 
+        .squ { filter: drop-shadow(0 0 15px #e91e63); } 
+        .cir { filter: drop-shadow(0 0 15px #ff5722); } 
+        .cro { filter: drop-shadow(0 0 15px #2196f3); }
+
+        /* ======================================================= */
+        /* CONSOLE BOX: NEON ORANGE BOTTOM LINE WITH SMOOTH FADE   */
+        /* ======================================================= */
+        #console-box { 
+            background: transparent; 
+            border: none; 
+            border-bottom: 2px solid #ff8c00; 
+            width: 90%; 
+            height: 160px; 
+            z-index: 10; 
+            overflow: hidden; 
             box-sizing: border-box; 
             position: relative;
+            box-shadow: 0px 12px 20px -6px rgba(255, 140, 0, 0.5); 
+
+            -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%);
+            mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%);
         }
 
         #console {
             position: absolute;
-            bottom: 12px; /* Anchor text container to the bottom */
-            left: 12px;
-            right: 12px;
+            bottom: 10px; 
+            left: 10px;
+            right: 10px;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
@@ -65,118 +124,96 @@
             text-align: left;
         }
 
-        /* Animation for text floating up and fading away */
         .log-line {
             display: block;
-            animation: moveUpFade 4s forwards ease-out;
+            animation: moveUpLinear 4s forwards linear;
             opacity: 1;
             transform: translateY(0);
-            line-height: 1.5;
+            line-height: 1.6;
+            font-weight: bold;
         }
 
-        @keyframes moveUpFade {
-            0% {
-                opacity: 0;
-                transform: translateY(20px); /* Start slightly lower */
-            }
-            10% {
-                opacity: 1;
-                transform: translateY(0); /* Arrive at regular position */
-            }
-            60% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-80px); /* Move upwards and vanish */
-            }
+        @keyframes moveUpLinear {
+            0% { transform: translateY(30px); }
+            10% { transform: translateY(0); }
+            100% { transform: translateY(-140px); }
         }
 
         footer { margin-top: 15px; font-size: 12px; color: #666; z-index: 10; text-align: center; }
-        footer strong { color: #aaa; }
-    </style>
-    <script>
-        if (window.applicationCache && (window.applicationCache.status == '0' || window.applicationCache.status == '3')) {
-            window.location.replace("cache.html");
+
+        /* ======================================= */
+        /* SCREEN RATIO MEDIA QUERIES (BREAKPOINTS)*/
+        /* ======================================= */
+        @media (max-width: 768px) {
+            .side-wrapper {
+                flex-direction: row;     
+                top: auto;
+                bottom: 2vh;
+                transform: none;
+                gap: 15px;
+            }
+            .left-side { left: 5%; }
+            .right-side { right: 5%; }
+            .phoenix-container { margin-top: 4vh; }
         }
-    </script>
+    </style>
 </head>
 <body>
     <h1>PHOENIX GAME</h1>
-    <div class="subtitle">PS4 Exploit Host 7.00 - 9.60</div>
+    <div class="subtitle">PS4 Exploit Host 7.00 - 9.60 (TEST)</div>
 
     <button id="jailbreakBtn">START</button>
 
-    <div class="side-wrapper left-side">
-        <img src="tri.png" class="ps-icon-side tri" alt="Triangle">
-        <img src="squ.png" class="ps-icon-side squ" alt="Square">
-    </div>
-    <div class="side-wrapper right-side">
-        <img src="cir.png" class="ps-icon-side cir" alt="Circle">
-        <img src="cro.png" class="ps-icon-side cro" alt="Cross">
-    </div>
+    <div class="side-wrapper left-side"> [O] [X] </div>
+    <div class="side-wrapper right-side"> [▲] [■] </div>
 
-    <div class="phoenix-container">
-        <div class="phoenix-layer"></div>
-    </div>
+    <div class="phoenix-container"> PHOENIX LOGO </div>
 
     <div id="console-box">
         <div id="console"></div>
     </div>
 
     <footer>
-        THIS HOST FROM PHOENIX GAME &bull; SPECIAL THANKS <strong>Feyzee</strong>
+        THIS HOST FROM PHOENIX GAME &bull; SPECIAL THANKS Feyzee
     </footer>
 
     <script>
-        history.replaceState(null, null, 'index.html');
-        var histlength = history.length;
-        history.go(-histlength);
-
         const outputConsole = document.getElementById("console");
         const jbBtn = document.getElementById("jailbreakBtn");
 
-        // Advanced log utility with upward float and fade mechanics
         window.log = (msg, color="#cccccc") => { 
             const line = document.createElement("span");
             line.className = "log-line";
             line.style.color = color;
             line.innerHTML = `[PHOENIX] ${msg}`;
-            
             outputConsole.appendChild(line);
 
-            // Automatically clean up old invisible nodes after animation finishes
             setTimeout(() => {
-                if (line.parentNode) {
-                    line.parentNode.removeChild(line);
-                }
+                if (line.parentNode) { line.parentNode.removeChild(line); }
             }, 4000);
         };
 
-        addEventListener('unhandledrejection', event => {
-            const reason = event.reason;
-            alert('Unhandled rejection\n' + `${reason}\n` + `${reason.sourceURL}:${reason.line}`);
-        });
-        addEventListener('error', event => {
-            const reason = event.error;
-            alert('Unhandled error\n' + `${reason}\n` + `${reason.sourceURL}:${reason.line}`);
-            return true; 
+        document.addEventListener('DOMContentLoaded', () => {
+            window.log("Ready. Press START to test the framework...", "#ffd700");
         });
 
-        // Initialize display info
-        document.addEventListener('DOMContentLoaded', () => {
-            window.log("Ready. Press START to run Exploit...", "#ffd700");
-        });
+        function runTestSimulation() {
+            window.log("Initializing Exploit Core...", "#ff8c00");
+            setTimeout(() => { window.log("Running WebKit vulnerability layout...", "#ffd700"); }, 1200);
+            setTimeout(() => { window.log("Garbage collecting JS arrays...", "#ffffff"); }, 2400);
+            setTimeout(() => { window.log("Escalating Kernel master privileges...", "#ffd700"); }, 3600);
+            setTimeout(() => { window.log("Triggering aio_multi_delete race...", "#ff5722"); }, 4800);
+            setTimeout(() => { window.log("Loading GoldHEN binaries into memory...", "#ffd700"); }, 6000);
+            setTimeout(() => { 
+                window.log("GoldHEN Loaded Successfully! 🎉", "#00ff00");
+                jbBtn.disabled = false;
+            }, 7500);
+        }
 
         jbBtn.addEventListener("click", () => {
             jbBtn.disabled = true;
             outputConsole.innerHTML = ""; 
-            try {
-                doJBwithPSFreeLapseExploit();
-            } catch (error) {
-                window.log("An error occurred during exploit: " + error, "red");
-                jbBtn.disabled = false;
-            }
+            runTestSimulation();
         });
     </script>
 </body>
