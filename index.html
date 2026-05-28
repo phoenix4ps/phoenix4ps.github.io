@@ -95,55 +95,6 @@ h1{
     box-shadow:none;
 }
 
-/* ======================================= */
-/* STATUS INFO & UTILITY BUTTONS STYLE     */
-/* ======================================= */
-.payload-container {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 5px;
-    z-index: 10;
-    flex-wrap: wrap;
-    justify-content: center;
-    max-width: 80%;
-}
-
-.btn-payload {
-    background-color: rgba(0, 0, 0, 0.4);
-    color: #ffffff;
-    border: 2px solid #ff8c00;
-    padding: 10px 20px;
-    font-size: 13px;
-    font-weight: bold;
-    border-radius: 5px;
-    cursor: pointer;
-    text-transform: uppercase;
-    box-shadow: 0 0 10px rgba(255, 140, 0, 0.2);
-    transition: all 0.3s ease;
-}
-
-/* Special color for the active clock synchronization button */
-.btn-clock-payload {
-    border-color: #00ffcc;
-    box-shadow: 0 0 10px rgba(0, 255, 204, 0.2);
-}
-
-.btn-payload:hover {
-    background-color: #ff8c00;
-    color: #000000;
-    box-shadow: 0 0 15px rgba(255, 140, 0, 0.6);
-}
-
-.btn-clock-payload:hover {
-    background-color: #00ffcc;
-    color: #000000;
-    box-shadow: 0 0 15px rgba(0, 255, 204, 0.6);
-}
-
-.btn-payload:active {
-    transform: scale(0.97);
-}
-
 /* ===================== */
 /* PHOENIX */
 /* ===================== */
@@ -309,14 +260,6 @@ if((window.applicationCache.status == '0') || (window.applicationCache.status ==
 <!-- Single Action Button to trigger exploit -->
 <button id="jailbreak-btn">PS</button>
 
-<!-- Guide Info & Utility Buttons Component (Launch Button Removed) -->
-<div class="payload-container">
-    <button onclick="checkUpdatesStatus()" class="btn-payload">Block Updates Status</button>
-    <button onclick="checkFTPStatus()" class="btn-payload">FTP Status Port 2121</button>
-    <button onclick="checkCheatsStatus()" class="btn-payload">Cheat Menu Status</button>
-    <button onclick="syncSystemTime()" class="btn-payload btn-clock-payload">Update Time & Date</button>
-</div>
-
 <div class="phoenix-container">
     <div class="phoenix-layer"></div>
 </div>
@@ -380,31 +323,23 @@ window.loadAutoPayload = function() {
         });
 };
 
-/* SYSTEM TIME & DATE UTILITY FUNCTION */
-function syncSystemTime() {
-    window.log("Initializing Network Time Protocol (NTP) Sync...", "#ffd700");
-    
-    fetch("payloads/time_sync.bin")
-        .then(response => response.arrayBuffer())
-        .then(buffer => {
-            window.log("SUCCESS: System clock and registry calendar updated!", "#00ffcc");
-        })
-        .catch(err => {
-            window.log("Notice: Please sync via PS4 settings or upload time_sync.bin.", "#ff5722");
-        });
-}
-
-/* INFORMATIONAL STATUS CHECKS FOR PLAYERS */
-function checkUpdatesStatus() {
-    window.log("System Status: Sony update servers are auto-blocked by GoldHEN payload.", "#ffd700");
-}
-
-function checkFTPStatus() {
-    window.log("FTP Server active: Connect locally using Port 2121 via FileZilla.", "#ffd700");
-}
-
-function checkCheatsStatus() {
-    window.log("Cheat Manager loaded: Hold 'SHARE' or 'OPTIONS' inside games.", "#00ffcc");
-}
-
 /* EXECUTION */
+document.getElementById("jailbreak-btn").addEventListener("click", ()=>{
+    document.getElementById("jailbreak-btn").disabled = true;
+    outputConsole.innerHTML = "";
+
+    window.log("Initializing PHOENIX Core Execution...", "#00ffcc");
+
+    try{
+        setTimeout(()=>{
+            doJBwithPSFreeLapseExploit();
+        },300);
+    }catch(error){
+        window.log("Exploit Interrupted: " + error, "red");
+        document.getElementById("jailbreak-btn").disabled = false;
+    }
+});
+</script>
+
+</body>
+</html>
