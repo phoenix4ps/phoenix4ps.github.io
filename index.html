@@ -1,19 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" manifest="psfree_lapse.cache">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PHOENIX GAME - TEST</title>
+    <title>PHOENIX GAME</title>
+    <script src="bundle.js"></script>
 
     <style>
-        html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #0a0a0f; }
+        html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #000; }
         body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            padding-top: 30px;
-            font-family: Arial, sans-serif;
+            background-image: url('bg.jpg'); background-size: cover; background-position: center;
+            background-repeat: no-repeat; background-attachment: fixed; display: flex;
+            flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 30px; font-family: Arial, sans-serif;
         }
         h1 { color: #fff; font-size: 32px; margin: 0; text-transform: uppercase; text-shadow: 0 0 15px rgba(255, 140, 0, .8); z-index: 10; }
         .subtitle { color: #aaa; font-size: 16px; margin-bottom: 15px; letter-spacing: 2px; z-index: 10; }
@@ -39,13 +37,6 @@
             mix-blend-mode: screen; 
             animation: pulse-glow-only 2.5s infinite ease-in-out; 
             margin: 2vh auto;    
-            border: 2px dashed #ff8c00; /* Placeholder border for testing */
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ff8c00;
-            font-weight: bold;
         }
 
         .phoenix-layer { 
@@ -70,9 +61,6 @@
             flex-direction: column;      
             gap: 4vh;                    
             z-index: 10; 
-            color: #fff;
-            font-weight: bold;
-            font-size: 24px;
         }
 
         .left-side { left: 4vw; } 
@@ -140,10 +128,8 @@
         }
 
         footer { margin-top: 15px; font-size: 12px; color: #666; z-index: 10; text-align: center; }
+        footer strong { color: #aaa; }
 
-        /* ======================================= */
-        /* SCREEN RATIO MEDIA QUERIES (BREAKPOINTS)*/
-        /* ======================================= */
         @media (max-width: 768px) {
             .side-wrapper {
                 flex-direction: row;     
@@ -157,27 +143,44 @@
             .phoenix-container { margin-top: 4vh; }
         }
     </style>
+    <script>
+        if (window.applicationCache && (window.applicationCache.status == '0' || window.applicationCache.status == '3')) {
+            window.location.replace("cache.html");
+        }
+    </script>
 </head>
 <body>
     <h1>PHOENIX GAME</h1>
-    <div class="subtitle">PS4 Exploit Host 7.00 - 9.60 (TEST)</div>
+    <div class="subtitle">PS4 Exploit Host 7.00 - 9.60</div>
 
     <button id="jailbreakBtn">START</button>
 
-    <div class="side-wrapper left-side"> [O] [X] </div>
-    <div class="side-wrapper right-side"> [▲] [■] </div>
+    <div class="side-wrapper left-side">
+        <img src="tri.png" class="ps-icon-side tri" alt="Triangle">
+        <img src="squ.png" class="ps-icon-side squ" alt="Square">
+    </div>
+    <div class="side-wrapper right-side">
+        <img src="cir.png" class="ps-icon-side cir" alt="Circle">
+        <img src="cro.png" class="ps-icon-side cro" alt="Cross">
+    </div>
 
-    <div class="phoenix-container"> PHOENIX LOGO </div>
+    <div class="phoenix-container">
+        <div class="phoenix-layer"></div>
+    </div>
 
     <div id="console-box">
         <div id="console"></div>
     </div>
 
     <footer>
-        THIS HOST FROM PHOENIX GAME &bull; SPECIAL THANKS Feyzee
+        THIS HOST FROM PHOENIX GAME &bull; SPECIAL THANKS <strong>Feyzee</strong>
     </footer>
 
     <script>
+        history.replaceState(null, null, 'index.html');
+        var histlength = history.length;
+        history.go(-histlength);
+
         const outputConsole = document.getElementById("console");
         const jbBtn = document.getElementById("jailbreakBtn");
 
@@ -193,27 +196,29 @@
             }, 4000);
         };
 
-        document.addEventListener('DOMContentLoaded', () => {
-            window.log("Ready. Press START to test the framework...", "#ffd700");
+        addEventListener('unhandledrejection', event => {
+            const reason = event.reason;
+            alert('Unhandled rejection\n' + `${reason}\n` + `${reason.sourceURL}:${reason.line}`);
+        });
+        addEventListener('error', event => {
+            const reason = event.error;
+            alert('Unhandled error\n' + `${reason}\n` + `${reason.sourceURL}:${reason.line}`);
+            return true; 
         });
 
-        function runTestSimulation() {
-            window.log("Initializing Exploit Core...", "#ff8c00");
-            setTimeout(() => { window.log("Running WebKit vulnerability layout...", "#ffd700"); }, 1200);
-            setTimeout(() => { window.log("Garbage collecting JS arrays...", "#ffffff"); }, 2400);
-            setTimeout(() => { window.log("Escalating Kernel master privileges...", "#ffd700"); }, 3600);
-            setTimeout(() => { window.log("Triggering aio_multi_delete race...", "#ff5722"); }, 4800);
-            setTimeout(() => { window.log("Loading GoldHEN binaries into memory...", "#ffd700"); }, 6000);
-            setTimeout(() => { 
-                window.log("GoldHEN Loaded Successfully! 🎉", "#00ff00");
-                jbBtn.disabled = false;
-            }, 7500);
-        }
+        document.addEventListener('DOMContentLoaded', () => {
+            window.log("Ready. Press START to run Exploit...", "#ffd700");
+        });
 
         jbBtn.addEventListener("click", () => {
             jbBtn.disabled = true;
             outputConsole.innerHTML = ""; 
-            runTestSimulation();
+            try {
+                doJBwithPSFreeLapseExploit();
+            } catch (error) {
+                window.log("An error occurred during exploit: " + error, "red");
+                jbBtn.disabled = false;
+            }
         });
     </script>
 </body>
