@@ -5,6 +5,9 @@ CACHE MANIFEST
 index.html
 cache.html
 bundle.js
+psfree.js
+psfree_lapse_shared.js
+style.css
 payload.bin
 bg.jpg
 icon0.png
