@@ -1,7 +1,9 @@
 CACHE MANIFEST
-# Version 3.0.0
+# PHOENIX Framework Cache - v3.1.0
+# Clears previous memory stack and enforces new assets load
 
 index.html
+cache.html
 bundle.js
 payload.bin
 bg.jpg
