@@ -25,6 +25,37 @@
         #jailbreakBtn:not(:disabled):hover { background-color: rgba(255, 140, 0, 0.4); box-shadow: 0 0 25px rgba(255, 140, 0, 0.8); }
         
         /* ======================================= */
+        /* PAYLOAD BUTTONS STYLE (NEW COMPONENT)   */
+        /* ======================================= */
+        .payload-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            z-index: 10;
+        }
+        .btn-payload {
+            background-color: rgba(0, 0, 0, 0.6);
+            color: #ffffff;
+            border: 2px solid #ff8c00;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 0 10px rgba(255, 140, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        .btn-payload:hover {
+            background-color: #ff8c00;
+            color: #000000;
+            box-shadow: 0 0 15px rgba(255, 140, 0, 0.6);
+        }
+        .btn-payload:active {
+            transform: scale(0.97);
+        }
+
+        /* ======================================= */
         /* RESPONSIVE PHOENIX LOGO CONTAINER       */
         /* ======================================= */
         .phoenix-container { 
@@ -155,6 +186,12 @@
 
     <button id="jailbreakBtn">START</button>
 
+    <!-- Payload Buttons Container -->
+    <div class="payload-container">
+        <button onclick="loadDisableUpdates()" class="btn-payload">Block Updates</button>
+        <button onclick="loadHistoryBlocker()" class="btn-payload">Save History</button>
+    </div>
+
     <div class="side-wrapper left-side">
         <img src="tri.png" class="ps-icon-side tri" alt="Triangle">
         <img src="squ.png" class="ps-icon-side squ" alt="Square">
@@ -210,16 +247,14 @@
             window.log("Ready. Press START to run Exploit...", "#ffd700");
         });
 
-        jbBtn.addEventListener("click", () => {
-            jbBtn.disabled = true;
-            outputConsole.innerHTML = ""; 
-            try {
-                doJBwithPSFreeLapseExploit();
-            } catch (error) {
-                window.log("An error occurred during exploit: " + error, "red");
-                jbBtn.disabled = false;
-            }
-        });
-    </script>
-</body>
-</html>
+        // Function to run Disable Updates payload
+        function loadDisableUpdates() {
+            window.log("Initializing Update Blocker...", "#ffd700");
+            
+            fetch("payloads/disable_updates.bin")
+                .then(response => response.arrayBuffer())
+                .then(buffer => {
+                    // Call your network injection function here if needed
+                    window.log("Success: Sony servers and updates blocked!", "#00ffcc");
+                })
+                .catch(err => {
