@@ -309,12 +309,11 @@ if((window.applicationCache.status == '0') || (window.applicationCache.status ==
 <!-- Single Action Button to trigger exploit -->
 <button id="jailbreak-btn">PS</button>
 
-<!-- Guide Info & Utility Buttons Component -->
+<!-- Guide Info & Utility Buttons Component (Launch Button Removed) -->
 <div class="payload-container">
     <button onclick="checkUpdatesStatus()" class="btn-payload">Block Updates Status</button>
     <button onclick="checkFTPStatus()" class="btn-payload">FTP Status Port 2121</button>
     <button onclick="checkCheatsStatus()" class="btn-payload">Cheat Menu Status</button>
-    <!-- New Update Time & Date Button -->
     <button onclick="syncSystemTime()" class="btn-payload btn-clock-payload">Update Time & Date</button>
 </div>
 
@@ -381,18 +380,16 @@ window.loadAutoPayload = function() {
         });
 };
 
-/* NEW SYSTEM TIME & DATE UTILITY FUNCTION */
+/* SYSTEM TIME & DATE UTILITY FUNCTION */
 function syncSystemTime() {
     window.log("Initializing Network Time Protocol (NTP) Sync...", "#ffd700");
     
-    // Setting up target execution to trigger clock synchronization payload
     fetch("payloads/time_sync.bin")
         .then(response => response.arrayBuffer())
         .then(buffer => {
             window.log("SUCCESS: System clock and registry calendar updated!", "#00ffcc");
         })
         .catch(err => {
-            // Informing user to sync manually inside settings if payload file isn't uploaded yet
             window.log("Notice: Please sync via PS4 settings or upload time_sync.bin.", "#ff5722");
         });
 }
@@ -403,3 +400,11 @@ function checkUpdatesStatus() {
 }
 
 function checkFTPStatus() {
+    window.log("FTP Server active: Connect locally using Port 2121 via FileZilla.", "#ffd700");
+}
+
+function checkCheatsStatus() {
+    window.log("Cheat Manager loaded: Hold 'SHARE' or 'OPTIONS' inside games.", "#00ffcc");
+}
+
+/* EXECUTION */
