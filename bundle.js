@@ -1,6 +1,19 @@
 /* Copyright (C) 2025 anonymous
+
 This file is part of PHOENIX Framework.
-PHOENIX is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation... */
+
+PHOENIX is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+
+PHOENIX is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://gnu.org>.  */
 
 const off_js_cell = 0;
 const off_js_butterfly = 0x8;
@@ -35,37 +48,81 @@ function check_not_in_range(x) {
 }
 
 function lohi_from_one(low) {
-  if (low instanceof Int) { return low._u32.slice(); }
-  if (check_not_in_range(low)) { throw TypeError(`low not a 32-bit integer: ${low}`); }
+  if (low instanceof Int) {
+    return low._u32.slice();
+  }
+  if (check_not_in_range(low)) {
+    throw TypeError(`low not a 32-bit integer: ${low}`);
+  }
   return [low >>> 0, low < 0 ? -1 >>> 0 : 0];
 }
 
 class Int {
   constructor(low, high) {
-    if (high === undefined) { this._u32 = new Uint32Array(lohi_from_one(low)); return; }
-    if (check_not_in_range(low) || check_not_in_range(high)) { throw TypeError('Invalid 32-bit bound data'); }
+    if (high === undefined) {
+      this._u32 = new Uint32Array(lohi_from_one(low));
+      return;
+    }
+    if (check_not_in_range(low)) {
+      throw TypeError(`low not a 32-bit integer: ${low}`);
+    }
+    if (check_not_in_range(high)) {
+      throw TypeError(`high not a 32-bit integer: ${high}`);
+    }
     this._u32 = new Uint32Array([low, high]);
   }
-  get lo() { return this._u32; }
-  get hi() { return this._u32; }
-  get bot() { return this._u32 | 0; }
-  get top() { return this._u32 | 0; }
-  neg() {
-    const u32 = this._u32; const low = (~u32 >>> 0) + 1;
-    return new this.constructor(low >>> 0, ((~u32 >>> 0) + (low > 0xffffffff)) >>> 0);
+  get lo() {
+    return this._u32;
   }
-  eq(b) { const values = lohi_from_one(b); const u32 = this._u32; return (u32 === values && u32 === values); }
-  ne(b) { return !this.eq(b); }
+  get hi() {
+    return this._u32;
+  }
+  get bot() {
+    return this._u32 | 0;
+  }
+  get top() {
+    return this._u32 | 0;
+  }
+  neg() {
+    const u32 = this._u32;
+    const low = (~u32 >>> 0) + 1;
+    return new this.constructor(
+      low >>> 0,
+      ((~u32 >>> 0) + (low > 0xffffffff)) >>> 0
+    );
+  }
+  eq(b) {
+    const values = lohi_from_one(b);
+    const u32 = this._u32;
+    return (
+      u32 === values
+      && u32 === values
+    );
+  }
+  ne(b) {
+    return !this.eq(b);
+  }
   add(b) {
-    const values = lohi_from_one(b); const u32 = this._u32; const low = u32 + values;
-    return new this.constructor(low >>> 0, (u32 + values + (low > 0xffffffff)) >>> 0);
+    const values = lohi_from_one(b);
+    const u32 = this._u32;
+    const low = u32 + values;
+    return new this.constructor(
+        low >>> 0,
+        (u32 + values + (low > 0xffffffff)) >>> 0
+    );
   }
   sub(b) {
-    const values = lohi_from_one(b); const u32 = this._u32; const low = u32 + (~values >>> 0) + 1;
-    return new this.constructor(low >>> 0, (u32 + (~values >>> 0) + (low > 0xffffffff)) >>> 0);
+    const values = lohi_from_one(b);
+    const u32 = this._u32;
+    const low = u32 + (~values >>> 0) + 1;
+    return new this.constructor(
+      low >>> 0,
+      (u32 + (~values >>> 0) + (low > 0xffffffff)) >>> 0
+    );
   }
   toString(is_pretty=false) {
-    const low = this.lo.toString(16).padStart(8, '0'); const high = this.hi.toString(16).padStart(8, '0');
+    const low = this.lo.toString(16).padStart(8, '0');
+    const high = this.hi.toString(16).padStart(8, '0');
     return '0x' + high + low;
   }
 }
@@ -74,11 +131,16 @@ let mem = null;
 const off_vector = off_view_m_vector / 4;
 const off_vector2 = (off_view_m_vector + 4) / 4;
 
-function init_module(memory) { mem = memory; }
+function init_module(memory) {
+  mem = memory;
+}
 
 function add_and_set_addr(mem, offset, base_lo, base_hi) {
-  const values = lohi_from_one(offset); const main = mem._main; const low = base_lo + values;
-  main[off_vector] = low; main[off_vector2] = base_hi + values + (low > 0xffffffff);
+  const values = lohi_from_one(offset);
+  const main = mem._main;
+  const low = base_lo + values;
+  main[off_vector] = low;
+  main[off_vector2] = base_hi + values + (low > 0xffffffff);
 }
 
 class Addr extends Int {
