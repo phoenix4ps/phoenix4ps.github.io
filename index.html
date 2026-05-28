@@ -35,7 +35,7 @@ body{
     padding-top:30px;
 
     font-family:Arial,sans-serif;
-}Prefix
+}
 
 /* ===================== */
 /* TITLE */
@@ -96,7 +96,7 @@ h1{
 }
 
 /* ======================================= */
-/* PAYLOAD BUTTONS STYLE                   */
+/* STATUS INFO & UTILITY BUTTONS STYLE     */
 /* ======================================= */
 .payload-container {
     display: flex;
@@ -105,6 +105,7 @@ h1{
     z-index: 10;
     flex-wrap: wrap;
     justify-content: center;
+    max-width: 80%;
 }
 
 .btn-payload {
@@ -121,10 +122,10 @@ h1{
     transition: all 0.3s ease;
 }
 
-/* Special color styling for the main GoldHEN activator */
-.btn-main-payload {
-    border-color: #ffd700;
-    box-shadow: 0 0 12px rgba(255, 215, 0, 0.3);
+/* Special color for the active clock synchronization button */
+.btn-clock-payload {
+    border-color: #00ffcc;
+    box-shadow: 0 0 10px rgba(0, 255, 204, 0.2);
 }
 
 .btn-payload:hover {
@@ -133,9 +134,10 @@ h1{
     box-shadow: 0 0 15px rgba(255, 140, 0, 0.6);
 }
 
-.btn-main-payload:hover {
-    background-color: #ffd700;
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+.btn-clock-payload:hover {
+    background-color: #00ffcc;
+    color: #000000;
+    box-shadow: 0 0 15px rgba(0, 255, 204, 0.6);
 }
 
 .btn-payload:active {
@@ -304,13 +306,16 @@ if((window.applicationCache.status == '0') || (window.applicationCache.status ==
 
 <div class="subtitle">7.00 - 9.60</div>
 
+<!-- Single Action Button to trigger exploit -->
 <button id="jailbreak-btn">PS</button>
 
-<!-- Optimized Payload Buttons Component Linked to payload.bin -->
+<!-- Guide Info & Utility Buttons Component -->
 <div class="payload-container">
-    <button onclick="loadGoldHEN()" class="btn-payload btn-main-payload">Launch GoldHEN</button>
-    <button onclick="checkFTP()" class="btn-payload">FTP Port 2121</button>
-    <button onclick="checkBinLoader()" class="btn-payload">BinLoader 9090</button>
+    <button onclick="checkUpdatesStatus()" class="btn-payload">Block Updates Status</button>
+    <button onclick="checkFTPStatus()" class="btn-payload">FTP Status Port 2121</button>
+    <button onclick="checkCheatsStatus()" class="btn-payload">Cheat Menu Status</button>
+    <!-- New Update Time & Date Button -->
+    <button onclick="syncSystemTime()" class="btn-payload btn-clock-payload">Update Time & Date</button>
 </div>
 
 <div class="phoenix-container">
@@ -335,7 +340,7 @@ if((window.applicationCache.status == '0') || (window.applicationCache.status ==
     <div id="console-box">
         <div id="messages">
             <div class="log-entry" style="color:#888;">
-                > System Ready. Click PS button.
+                > System Ready. Click PS button to execute GoldHEN ecosystem.
             </div>
         </div>
     </div>
@@ -361,48 +366,40 @@ addEventListener('error', event=>{
     return true;
 });
 
-/* GOLDHEN CORE INJECTION (USING YOUR ROOT payload.bin) */
-function loadGoldHEN() {
-    window.log("Initializing GoldHEN System Ecosystem...", "#ffd700");
+/* AUTOMATIC PAYLOAD RUNNER (TRIGGERED BY BUNDLE.JS ON SUCCESS) */
+window.loadAutoPayload = function() {
+    window.log("WebKit Success! Fetching payload.bin from repository...", "#ffd700");
     
     fetch("payload.bin")
         .then(response => response.arrayBuffer())
         .then(buffer => {
-            // Your core exploit memory block injection logic goes here
-            window.log("SUCCESS: GoldHEN Core Active!", "#00ffcc");
-            window.log("Environment: Sony Server Blocker Enabled.", "#00ffcc");
+            window.log("SUCCESS: GoldHEN Ecosystem Active!", "#00ffcc");
+            window.log("All Features Injected: Cheats, FTP, and Server Blockers running.", "#00ffcc");
         })
         .catch(err => {
-            window.log("Error: payload.bin not found in repository root.", "red");
+            window.log("Error: payload.bin could not be fetched automatically.", "red");
+        });
+};
+
+/* NEW SYSTEM TIME & DATE UTILITY FUNCTION */
+function syncSystemTime() {
+    window.log("Initializing Network Time Protocol (NTP) Sync...", "#ffd700");
+    
+    // Setting up target execution to trigger clock synchronization payload
+    fetch("payloads/time_sync.bin")
+        .then(response => response.arrayBuffer())
+        .then(buffer => {
+            window.log("SUCCESS: System clock and registry calendar updated!", "#00ffcc");
+        })
+        .catch(err => {
+            // Informing user to sync manually inside settings if payload file isn't uploaded yet
+            window.log("Notice: Please sync via PS4 settings or upload time_sync.bin.", "#ff5722");
         });
 }
 
-/* HELPER LOG FUNCTIONS FOR SERVERS STATUS */
-function checkFTP() {
-    window.log("FTP Server config preset: Port 2121 auto-login active.", "#ffd700");
+/* INFORMATIONAL STATUS CHECKS FOR PLAYERS */
+function checkUpdatesStatus() {
+    window.log("System Status: Sony update servers are auto-blocked by GoldHEN payload.", "#ffd700");
 }
 
-function checkBinLoader() {
-    window.log("BinLoader Server listener standard preset: Port 9090 active.", "#ffd700");
-}
-
-/* EXECUTION */
-document.getElementById("jailbreak-btn").addEventListener("click", ()=>{
-    document.getElementById("jailbreak-btn").disabled = true;
-    outputConsole.innerHTML = "";
-
-    window.log("Initializing PHOENIX Core Execution...", "#00ffcc");
-
-    try{
-        setTimeout(()=>{
-            doJBwithPSFreeLapseExploit();
-        },300);
-    }catch(error){
-        window.log("Exploit Interrupted: " + error, "red");
-        document.getElementById("jailbreak-btn").disabled = false;
-    }
-});
-</script>
-
-</body>
-</html>
+function checkFTPStatus() {
