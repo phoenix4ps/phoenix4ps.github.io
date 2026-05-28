@@ -72,31 +72,31 @@ class Int {
     this._u32 = new Uint32Array([low, high]);
   }
   get lo() {
-    return this._u32;
+    return this._u32[0];
   }
   get hi() {
-    return this._u32;
+    return this._u32[1];
   }
   get bot() {
-    return this._u32 | 0;
+    return this._u32[0] | 0;
   }
   get top() {
-    return this._u32 | 0;
+    return this._u32[1] | 0;
   }
   neg() {
     const u32 = this._u32;
-    const low = (~u32 >>> 0) + 1;
+    const low = (~u32[0] >>> 0) + 1;
     return new this.constructor(
       low >>> 0,
-      ((~u32 >>> 0) + (low > 0xffffffff)) >>> 0
+      ((~u32[1] >>> 0) + (low > 0xffffffff)) >>> 0
     );
   }
   eq(b) {
     const values = lohi_from_one(b);
     const u32 = this._u32;
     return (
-      u32 === values
-      && u32 === values
+      u32[0] === values[0] &&
+      u32[1] === values[1]
     );
   }
   ne(b) {
@@ -105,19 +105,19 @@ class Int {
   add(b) {
     const values = lohi_from_one(b);
     const u32 = this._u32;
-    const low = u32 + values;
+    const low = u32[0] + values[0];
     return new this.constructor(
         low >>> 0,
-        (u32 + values + (low > 0xffffffff)) >>> 0
+        (u32[1] + values[1] + (low > 0xffffffff)) >>> 0
     );
   }
   sub(b) {
     const values = lohi_from_one(b);
     const u32 = this._u32;
-    const low = u32 + (~values >>> 0) + 1;
+    const low = u32[0] + (~values[0] >>> 0) + 1;
     return new this.constructor(
       low >>> 0,
-      (u32 + (~values >>> 0) + (low > 0xffffffff)) >>> 0
+      (u32[1] + (~values[1] >>> 0) + (low > 0xffffffff)) >>> 0
     );
   }
   toString(is_pretty=false) {
@@ -138,9 +138,9 @@ function init_module(memory) {
 function add_and_set_addr(mem, offset, base_lo, base_hi) {
   const values = lohi_from_one(offset);
   const main = mem._main;
-  const low = base_lo + values;
+  const low = base_lo + values[0];
   main[off_vector] = low;
-  main[off_vector2] = base_hi + values + (low > 0xffffffff);
+  main[off_vector2] = base_hi + values[1] + (low > 0xffffffff);
 }
 
 class Addr extends Int {
@@ -154,3 +154,8 @@ class Addr extends Int {
   write32(offset, value) { const m = mem; if (isIntegerFix(offset) && 0 <= offset && offset <= 0xffffffff) { m._set_addr_direct(this); } else { add_and_set_addr(m, offset, this.lo, this.hi); offset = 0; } m.write32_at(offset, value); }
   write64(offset, value) { const m = mem; if (isIntegerFix(offset) && 0 <= offset && offset <= 0xffffffff) { m._set_addr_direct(this); } else { add_and_set_addr(m, offset, this.lo, this.hi); offset = 0; } m.write64_at(offset, value); }
 }
+
+// Expose classes globally for psfree.js and index.html access
+window.Int = Int;
+window.Addr = Addr;
+window.init_module = init_module;
