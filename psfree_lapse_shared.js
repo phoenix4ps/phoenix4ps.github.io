@@ -1,4 +1,21 @@
-// PSFree & Lapse Shared Variables & Subroutines
+/* Copyright (C) 2025 anonymous
+
+This file is part of PHOENIX Framework.
+
+PHOENIX is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+
+PHOENIX is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://gnu.org>.  */
+
+// PHOENIX Framework & Lapse Shared Variables & Subroutines
 
 var off_js_butterfly = 0x8;
 var off_js_inline_prop = 0x10;
@@ -216,7 +233,11 @@ function hexdump(view) {
     var off = (pos * 16).toString(16);
     while (off.length < 8) off = "0" + off;
     var row = bytes[pos];
-    log(off + " | " + row + " |" + row + "|");
+    if (window.log) {
+        window.log(off + " | " + row[0] + " | " + row[1], "#00ffcc");
+    } else {
+        console.log(off + " | " + row[0] + " | " + row[1]);
+    }
   }
 }
 
@@ -314,3 +335,11 @@ class Addr extends Int {
     m.write32_at(offset, value);
   }
 }
+
+// Expose architecture variables and modules globally
+window.Int = Int;
+window.Addr = Addr;
+window.align = align;
+window.hex = hex;
+window.hexdump = hexdump;
+window.gc = gc;
