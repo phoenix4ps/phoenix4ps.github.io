@@ -30,6 +30,12 @@ PHOENIX HOST
 FIRMWARE 9.00
 </div>
 
+<div class="phoenix-container">
+
+<div class="phoenix-layer"></div>
+
+</div>
+
 <div class="ps-button">
 9.00
 </div>
@@ -44,7 +50,53 @@ Loading GoldHEN...
 
 </div>
 
+<div id="log"
+style="
+margin-top:20px;
+font-size:22px;
+color:#00ffaa;
+">
+Preparing Exploit...
 </div>
+
+<div id="progress"
+style="
+width:300px;
+height:12px;
+background:#222;
+border-radius:20px;
+margin-top:30px;
+overflow:hidden;
+">
+
+<div id="progress-inner"
+style="
+width:40%;
+height:100%;
+background:orange;
+">
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function debug_log(msg){
+
+let log =
+document.getElementById("log");
+
+if(log){
+
+log.innerHTML = msg;
+
+}
+
+}
+
+</script>
 
 <script src="int64.js"></script>
 
@@ -55,19 +107,6 @@ Loading GoldHEN...
 <script src="kexploit.js"></script>
 
 <script src="payload.js"></script>
-
-<script>
-
-setTimeout(() => {
-
-document.getElementById(
-"loaderText"
-).innerHTML =
-"GoldHEN Loaded";
-
-}, 5000);
-
-</script>
 
 </body>
 
