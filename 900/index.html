@@ -1,41 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
 <meta charset="UTF-8">
 
+<meta name="viewport"
+content="width=device-width,
+initial-scale=1.0">
+
 <title>PHOENIX 9.00</title>
 
-<style>
-
-body{
-
-background:black;
-
-color:white;
-
-font-family:Arial;
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-height:100vh;
-
-font-size:32px;
-
-}
-
-</style>
+<link rel="stylesheet"
+href="style.css">
 
 </head>
 
 <body>
 
-LOADING GOLDHEN 9.00...
+<div class="overlay"></div>
+
+<div class="container">
+
+<div class="title">
+PHOENIX HOST
+</div>
+
+<div class="version">
+FIRMWARE 9.00
+</div>
+
+<div class="ps-button">
+9.00
+</div>
+
+<div id="loaderText"
+style="
+margin-top:40px;
+font-size:28px;
+">
+
+Loading GoldHEN...
+
+</div>
+
+</div>
 
 <script src="int64.js"></script>
 
@@ -46,6 +55,19 @@ LOADING GOLDHEN 9.00...
 <script src="kexploit.js"></script>
 
 <script src="payload.js"></script>
+
+<script>
+
+setTimeout(() => {
+
+document.getElementById(
+"loaderText"
+).innerHTML =
+"GoldHEN Loaded";
+
+}, 5000);
+
+</script>
 
 </body>
 
