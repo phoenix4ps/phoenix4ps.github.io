@@ -6,7 +6,6 @@
 
     <title>PHOENIX GAME</title>
 
-    <!-- Stable PHOENIX Core -->
     <script src="bundle.js"></script>
 
 <style>
@@ -32,18 +31,15 @@ body{
     align-items:center;
     justify-content:flex-start;
 
-    padding-top:30px;
+    padding-top:25px;
 
     font-family:Arial,sans-serif;
+    box-sizing: border-box;
 }
-
-/* ===================== */
-/* TITLE */
-/* ===================== */
 
 h1{
     color:#fff;
-    font-size:32px;
+    font-size:36px;
     margin:0;
     text-transform:uppercase;
     text-shadow: 0 0 15px rgba(255,140,0,.8);
@@ -58,22 +54,18 @@ h1{
     z-index:10;
 }
 
-/* ===================== */
-/* BUTTON */
-/* ===================== */
-
 #jailbreak-btn{
     background-color:rgba(0,92,248,.15);
     color:#005cf8;
     border:3px solid #005cf8;
-    width:80px;
-    height:80px;
+    width:85px;
+    height:85px;
     border-radius:50%;
-    font-size:22px;
+    font-size:24px;
     font-weight:bold;
     cursor:pointer;
     z-index:10;
-    margin-bottom:15px;
+    margin-bottom:10px;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -95,17 +87,24 @@ h1{
     box-shadow:none;
 }
 
-/* ===================== */
-/* PHOENIX */
-/* ===================== */
+.main-content-layout {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    z-index: 10;
+    margin-top: 10px;
+    max-width: 800px;
+    gap: 70px;
+}
 
 .phoenix-container{
-    width:380px;
-    height:380px;
+    width: 320px;
+    height: 320px;
     z-index:1;
     mix-blend-mode:screen;
     animation:pulse-glow-only 2.5s infinite ease-in-out;
-    margin-top:15px;
 }
 
 .phoenix-layer{
@@ -123,25 +122,15 @@ h1{
     100%{ filter: drop-shadow(0 0 15px rgba(255,69,0,.6)); }
 }
 
-/* ===================== */
-/* SIDE ICONS */
-/* ===================== */
-
 .side-wrapper{
-    position:fixed;
-    top:40%;
     display:flex;
-    flex-direction:column;
-    gap:40px;
-    z-index:10;
+    flex-direction: column;
+    gap: 40px;
 }
 
-.left-side{ left:5%; }
-.right-side{ right:5%; }
-
 .ps-icon-side{
-    width:64px;
-    height:64px;
+    width: 65px;
+    height: 65px;
 }
 
 .tri{ filter:drop-shadow(0 0 15px #4caf50); }
@@ -149,84 +138,64 @@ h1{
 .cir{ filter:drop-shadow(0 0 15px #ff5722); }
 .cro{ filter:drop-shadow(0 0 15px #2196f3); }
 
-/* ===================== */
-/* WRITING IMAGE */
-/* ===================== */
-
 .writing-layer{
-    margin-top:-10px;
-    width:380px;
+    margin-top: 15px;
+    width: 360px;
     object-fit:contain;
     z-index:10;
     filter: drop-shadow(0 0 15px #ffd700) drop-shadow(0 0 25px #ff8c00);
 }
 
-/* ========================================================== */
-/* FLOATING CONSOLE - HIGH TRANSPARENCY TO SHOW WALLPAPER     */
-/* ========================================================== */
-
 #console-container{
-    position:relative;
+    position:fixed;
+    bottom:0px;
+    left:2%;
     width:96%;
-    height:145px;
-    margin-top:25px;
+    height:140px;
     border:none;
-    border-bottom-left-radius:14px;
-    border-bottom-right-radius:14px;
     
     background: linear-gradient(
         to top,
-        rgba(0,0,0,.35) 20%,
-        rgba(0,0,0,.15) 55%,
+        rgba(0,0,0,.60) 20%,
+        rgba(0,0,0,.25) 60%,
         rgba(0,0,0,0) 100%
     );
-    backdrop-filter:blur(5px);
+    backdrop-filter:blur(4px);
     overflow:hidden;
-    z-index:10;
+    z-index:100;
 
-    /* FULL FADE */
-    -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 100%);
-    mask-image: linear-gradient(to top, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 100%);
+    -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%);
+    mask-image: linear-gradient(to top, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%);
 
-    /* SOFT LOWER GLOW */
-    box-shadow: 0 20px 40px rgba(0,0,0,.35), 0 0 25px rgba(255,255,255,.03);
+    box-shadow: 0 -10px 30px rgba(0, 255, 204, 0.4), 0 -2px 12px rgba(0, 255, 204, 0.2);
 }
 
-/* SIDE FADE */
 #console-container::before{
     content:"";
     position:absolute;
     inset:0;
     pointer-events:none;
-    background: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 10%, rgba(0,0,0,0) 90%, rgba(0,0,0,1) 100%);
+    background: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 6%, rgba(0,0,0,0) 94%, rgba(0,0,0,1) 100%);
     mix-blend-mode:destination-out;
 }
-
-/* ===================== */
-/* SCANLINES */
-/* ===================== */
 
 .scanlines{
     position:absolute;
     inset:0;
     pointer-events:none;
     background: repeating-linear-gradient(to bottom, rgba(255,255,255,.02) 0px, rgba(255,255,255,.02) 1px, transparent 2px, transparent 4px);
-    opacity:.20;
+    opacity:.15;
 }
-
-/* ===================== */
-/* CONSOLE TEXT */
-/* ===================== */
 
 #console-box{
     width:100%;
     height:100%;
     overflow-y:auto;
-    padding:15px;
+    padding:18px 30px;
     box-sizing:border-box;
     font-family:monospace;
-    font-size:14px;
-    color:#00ffcc;
+    font-size:15px;
+    color:#888;
 }
 
 .log-entry{
@@ -239,6 +208,30 @@ h1{
 
 @keyframes fadeIn{
     to{ opacity:1; }
+}
+
+@media (max-width: 600px) {
+    body {
+        overflow-y: auto;
+        padding-bottom: 160px;
+    }
+    h1 { font-size: 26px; }
+    .subtitle { font-size: 13px; }
+    #jailbreak-btn { width: 70px; height: 70px; font-size: 18px; }
+    
+    .main-content-layout {
+        max-width: 100%;
+        gap: 15px;
+    }
+    .phoenix-container {
+        width: 190px;
+        height: 190px;
+    }
+    .side-wrapper { gap: 20px; }
+    .ps-icon-side { width: 42px; height: 42px; }
+    .writing-layer { width: 240px; }
+    #console-container { height: 120px; }
+    #console-box { font-size: 12px; padding: 12px 15px; }
 }
 
 </style>
@@ -257,26 +250,26 @@ if((window.applicationCache.status == '0') || (window.applicationCache.status ==
 
 <div class="subtitle">7.00 - 9.60</div>
 
-<!-- Single Action Button to trigger exploit -->
 <button id="jailbreak-btn">PS</button>
 
-<div class="phoenix-container">
-    <div class="phoenix-layer"></div>
-</div>
+<div class="main-content-layout">
+    <div class="side-wrapper">
+        <img src="tri.png" class="ps-icon-side tri">
+        <img src="squ.png" class="ps-icon-side squ">
+    </div>
 
-<div class="side-wrapper left-side">
-    <img src="tri.png" class="ps-icon-side tri">
-    <img src="squ.png" class="ps-icon-side squ">
-</div>
+    <div class="phoenix-container">
+        <div class="phoenix-layer"></div>
+    </div>
 
-<div class="side-wrapper right-side">
-    <img src="cir.png" class="ps-icon-side cir">
-    <img src="cro.png" class="ps-icon-side cro">
+    <div class="side-wrapper">
+        <img src="cir.png" class="ps-icon-side cir">
+        <img src="cro.png" class="ps-icon-side cro">
+    </div>
 </div>
 
 <img src="wri.png" class="writing-layer">
 
-<!-- FLOATING TERMINAL -->
 <div id="console-container">
     <div class="scanlines"></div>
     <div id="console-box">
@@ -291,14 +284,12 @@ if((window.applicationCache.status == '0') || (window.applicationCache.status ==
 <script>
 const outputConsole = document.getElementById("messages");
 
-/* LIVE LOGGER */
 window.log = (msg, color="#00ffcc")=>{
     outputConsole.innerHTML += "<div class='log-entry' style='color:" + color + "'> > " + msg + "</div>";
     const box = document.getElementById("console-box");
     box.scrollTop = box.scrollHeight;
 };
 
-/* ERROR HANDLING */
 addEventListener('unhandledrejection', event=>{
     window.log("Rejection: " + event.reason, "red");
 });
@@ -308,7 +299,6 @@ addEventListener('error', event=>{
     return true;
 });
 
-/* AUTOMATIC PAYLOAD RUNNER (TRIGGERED BY BUNDLE.JS ON SUCCESS) */
 window.loadAutoPayload = function() {
     window.log("WebKit Success! Fetching payload.bin from repository...", "#ffd700");
     
@@ -323,7 +313,6 @@ window.loadAutoPayload = function() {
         });
 };
 
-/* EXECUTION */
 document.getElementById("jailbreak-btn").addEventListener("click", ()=>{
     document.getElementById("jailbreak-btn").disabled = true;
     outputConsole.innerHTML = "";
