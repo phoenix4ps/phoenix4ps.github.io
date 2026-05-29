@@ -14,7 +14,7 @@ html, body{
     margin:0;
     padding:0;
     width:100%;
-    min-height:100%; /* يسمح للمحتوى بفرش الصفحة بالكامل مرونة مع جميع الشاشات */
+    min-height:100%;
     background:#000;
 }
 
@@ -31,7 +31,7 @@ body{
     justify-content:flex-start;
 
     padding-top:25px;
-    padding-bottom:30px; /* مسافة أمان سفلية لجميع المتصفحات */
+    padding-bottom:30px;
 
     font-family:Arial,sans-serif;
     box-sizing: border-box;
@@ -146,16 +146,13 @@ h1{
     filter: drop-shadow(0 0 15px #ffd700) drop-shadow(0 0 25px #ff8c00);
 }
 
-/* ========================================================== */
-/* FLOATING CONSOLE - RELATIVE RESPONSIVE FLOW                */
-/* ========================================================== */
 #console-container{
-    position: relative; /* إزالة التثبيت المطلق ليتحرك بمرونة أسفل العناصر */
+    position: relative;
     width: 92%;
-    max-width: 760px; /* تحديد عرض أقصى ليبقى متناسقاً على شاشات التلفزيون العريضة */
+    max-width: 760px;
     height: 140px;
-    margin-top: 40px; /* مسافة تفصل المربع عن الشعار المكتوب فوقه */
-    margin-bottom: 20px; /* مسافة أمان تمنع الالتصاق بأسفل أي متصفح */
+    margin-top: 40px;
+    margin-bottom: 20px;
     border: none;
     
     background: linear-gradient(
@@ -171,7 +168,6 @@ h1{
     -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%);
     mask-image: linear-gradient(to top, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%);
 
-    /* توهج النيون الفسفوري السفلي */
     box-shadow: 0 10px 30px rgba(0, 255, 204, 0.35), 0 2px 12px rgba(0, 255, 204, 0.15);
 }
 
@@ -215,9 +211,6 @@ h1{
     to{ opacity:1; }
 }
 
-/* ========================================================== */
-/* RESPONSIVE FOR PHONES                                      */
-/* ========================================================== */
 @media (max-width: 600px) {
     h1 { font-size: 26px; }
     .subtitle { font-size: 13px; }
@@ -274,7 +267,6 @@ if((window.applicationCache.status == '0') || (window.applicationCache.status ==
 
 <img src="wri.png" class="writing-layer">
 
-<!-- NEW RESPONSIVE CONSOLE BOX -->
 <div id="console-container">
     <div class="scanlines"></div>
     <div id="console-box">
