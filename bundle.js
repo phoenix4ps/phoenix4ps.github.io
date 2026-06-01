@@ -1,11 +1,11 @@
 /* Copyright (C) 2026 anonymous
 This file is part of PHOENIX Framework. */
 
-function setStatus(text) {
+function setStatus(text, color = "#00ffcc") {
     /* Safe dynamic DOM fallback targeting terminal console layout */
     var outputLog = document.getElementById("messages");
     if (outputLog) {
-        outputLog.innerHTML += "<div class='log-entry' style='color:#00ffcc'> > " + text + "</div>";
+        outputLog.innerHTML += "<div class='log-entry' style='color:" + color + "'> > " + text + "</div>";
         var box = document.getElementById("console-box");
         if (box) box.scrollTop = box.scrollHeight;
     }
@@ -17,26 +17,26 @@ function setStatus(text) {
 }
 
 function runExploit() {
-    setStatus("Loading Exploit...");
+    setStatus("Loading Exploit...", "#cccccc");
 
     setTimeout(function() {
-        setStatus("Running WebKit...");
-    }, 2000);
+        setStatus("Running WebKit...", "#00ff00");
+    }, 400);
 
     setTimeout(function() {
-        setStatus("Escalating Kernel...");
-    }, 4000);
+        setStatus("Escalating Kernel...", "#e1b12c");
+    }, 900);
 
     setTimeout(function() {
-        setStatus("Loading GoldHEN...");
+        setStatus("Loading GoldHEN...", "#007acc");
         if (typeof window.loadAutoPayload === "function") {
             window.loadAutoPayload();
         }
-    }, 6000);
+    }, 1400);
 
     setTimeout(function() {
-        setStatus("GoldHEN Loaded Successfully");
-    }, 9000);
+        setStatus("GoldHEN Loaded Successfully", "#00ff00");
+    }, 2200);
 }
 
 /* Global bridge binding to resolve index.html execution dependencies */
