@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PHOENIX GAME</title>
     
-    <script src="psfree_lapse_shared.js"></script>
-    <script src="psfree.js"></script>
+    <!-- Unified stable injection framework via ps4idea engine -->
+    <script src="bundle.js"></script>
 
     <style>
         html, body {
@@ -28,13 +28,13 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            padding-top: 15px;
+            padding-top: 30px;
             font-family: Arial, sans-serif;
         }
 
         h1 {
             color: #ffffff;
-            font-size: 18px;
+            font-size: 32px;
             margin: 0;
             text-transform: uppercase;
             text-shadow: 0 0 15px rgba(255, 140, 0, 0.8);
@@ -43,8 +43,8 @@
 
         .subtitle {
             color: #aaaaaa;
-            font-size: 10px;
-            margin-bottom: 5px;
+            font-size: 16px;
+            margin-bottom: 15px;
             letter-spacing: 2px;
             z-index: 10;
         }
@@ -52,29 +52,39 @@
         #jailbreak-btn {
             background-color: rgba(0, 92, 248, 0.15); 
             color: #005cf8;
-            width: 55px; 
-            height: 55px;
-            border: 2px solid #005cf8; 
+            border: 3px solid #005cf8; 
+            width: 80px; 
+            height: 80px;
             border-radius: 50%; 
-            font-size: 16px;   
+            font-size: 22px;   
             font-weight: bold;
             cursor: pointer;
             z-index: 10;
-            box-shadow: 0 0 15px rgba(0, 92, 248, 0.5);
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
             outline: none;
+            opacity: 1;
+            box-shadow: 0 0 20px rgba(0, 92, 248, 0.5);
+        }
+
+        #jailbreak-btn:disabled {
+            background-color: rgba(128, 128, 128, 0.15); 
+            color: #888888;
+            border: 3px solid #888888;
+            cursor: not-allowed;
+            opacity: 0.5;
+            box-shadow: none;
         }
 
         .phoenix-container {
-            width: 190px; 
-            height: 190px;
+            width: 380px; 
+            height: 380px;
             z-index: 1;
             mix-blend-mode: screen; 
             animation: pulse-glow-only 2.5s infinite ease-in-out;
-            margin-top: 10px;
+            margin-top: 15px;
         }
 
         .phoenix-layer {
@@ -87,65 +97,70 @@
         }
 
         @keyframes pulse-glow-only {
-            0% { filter: drop-shadow(0 0 10px rgba(255, 69, 0, 0.6)); }
-            50% { filter: drop-shadow(0 0 35px rgba(255, 69, 0, 0.9)); }
-            100% { filter: drop-shadow(0 0 10px rgba(255, 69, 0, 0.6)); }
+            0% { filter: drop-shadow(0 0 15px rgba(255, 69, 0, 0.6)); }
+            50% { filter: drop-shadow(0 0 45px rgba(255, 69, 0, 0.9)); }
+            100% { filter: drop-shadow(0 0 15px rgba(255, 69, 0, 0.6)); }
         }
 
         .side-wrapper {
             position: fixed;
-            top: 215px; 
+            top: 40%; 
             display: flex;
-            gap: 20px;
+            gap: 40px;
             z-index: 10;
         }
-        .left-side { left: 8%; }
-        .right-side { right: 8%; }
+        .left-side { left: 5%; }
+        .right-side { right: 5%; }
 
         .ps-icon-side {
-            width: 32px;
-            height: 32px;
+            width: 64px;
+            height: 64px;
         }
 
-        .tri { filter: drop-shadow(0 0 12px #4caf50); } 
-        .squ { filter: drop-shadow(0 0 12px #e91e63); } 
-        .cir { filter: drop-shadow(0 0 12px #ff5722); } 
-        .cro { filter: drop-shadow(0 0 12px #2196f3); } 
+        .tri { filter: drop-shadow(0 0 15px #4caf50); } 
+        .squ { filter: drop-shadow(0 0 15px #e91e63); } 
+        .cir { filter: drop-shadow(0 0 15px #ff5722); } 
+        .cro { filter: drop-shadow(0 0 15px #2196f3); } 
 
         .writing-layer {
-            margin-top: -20px; 
-            width: 240px;
+            margin-top: -10px; 
+            width: 380px;
             height: auto;
             object-fit: contain;
             z-index: 10;
-            filter: drop-shadow(0 0 10px #ffd700) drop-shadow(0 0 20px #ff8c00);
+            filter: drop-shadow(0 0 15px #ffd700) drop-shadow(0 0 25px #ff8c00);
         }
 
         #console-box {
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            width: 85%;
-            max-width: 320px;
-            height: 80px;
-            padding: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            width: 96%;
+            height: 140px;
+            padding: 15px;
             font-family: monospace;
-            font-size: 10px;
+            font-size: 14px;
             color: #00ffcc;
             z-index: 10;
-            border-radius: 10px;
-            margin-top: 10px; 
+            border-radius: 12px;
+            margin-top: 25px; 
             overflow-y: auto;
-            position: relative; 
+            box-sizing: border-box;
         }
     </style>
+    <script>
+        // Automatic redirection logic used by ps4idea
+        if ((window.applicationCache.status == '0') || (window.applicationCache.status == '3')) {
+            window.location.replace("cache.html");
+        }
+    </script>
 </head>
 <body>
 
     <h1>PHOENIX HOST</h1>
     <div class="subtitle">7.00 - 9.60</div>
 
-    <button id="jailbreak-btn" onclick="startExploit()">PS</button>
+    <button id="jailbreak-btn">PS</button>
 
     <div class="phoenix-container">
         <div class="phoenix-layer"></div>
@@ -163,27 +178,44 @@
     <img src="wri.png" class="writing-layer">
 
     <div id="console-box">
-        <div id="messages">System Ready...</div>
+        <div id="messages">System Ready. Click PS button.</div>
     </div>
 
     <script>
-        function printMsg(text) {
-            var msgDiv = document.getElementById("messages");
-            msgDiv.innerHTML += "<div class='log-entry'>> " + text + "</div>";
+        const outputConsole = document.getElementById("messages");
+        
+        // Link internal bundle logger directly to Phoenix console view
+        window.log = (msg, color="#00ffcc") => { 
+            outputConsole.innerHTML += "<div style='color:" + color + "'> > " + msg + "</div>";
             var box = document.getElementById("console-box");
             box.scrollTop = box.scrollHeight;
-        }
-        function startExploit() {
-            document.getElementById("messages").innerHTML = ""; 
-            printMsg("Initializing..."); 
+        };
+
+        // Standard event tracking for crash handling
+        addEventListener('unhandledrejection', event => {
+            window.log("Rejection: " + event.reason, "red");
+        });
+        addEventListener('error', event => {
+            window.log("Error: " + event.error, "red");
+            return true; 
+        });
+
+        // Trigger execution chain on click
+        document.getElementById("jailbreak-btn").addEventListener("click", () => {
+            document.getElementById("jailbreak-btn").disabled = true;
+            outputConsole.innerHTML = ""; 
+            window.log("Initializing PS4IDEA Core Execution...", "#00ffcc");
+            
             try {
-                setTimeout(function() { 
-                    Init_PSFreeGlobals(); 
-                }, 500);
-            } catch(e) { 
-                printMsg("Error!"); 
+                setTimeout(function() {
+                    // Trigger the absolute stable entrypoint function from ps4idea
+                    doJBwithPSFreeLapseExploit();
+                }, 300);
+            } catch (error) {
+                window.log("Exploit Interrupted: " + error, "red");
+                document.getElementById("jailbreak-btn").disabled = false;
             }
-        }
+        });
     </script>
 </body>
 </html>
