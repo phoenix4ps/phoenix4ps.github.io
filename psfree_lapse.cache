@@ -1,9 +1,14 @@
 CACHE MANIFEST
-# Version 3.3.3
+# Version 3.3.4
 
 index.html
+cache.html
 bundle.js
 payload.bin
+psfree.js
+psfree_lapse.cache
+psfree_lapse_shared.js
+style.css
 bg.jpg
 icon0.png
 wri.png
