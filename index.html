@@ -3,47 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
     <title>PHOENIX GAME</title>
-
     <script src="./bundle.js"></script>
     <link rel="stylesheet" href="./style.css">
-
-<script>
-if((window.applicationCache.status == '0') || (window.applicationCache.status == '3')){
-    window.location.replace("cache.html");
-}
-</script>
-
+    <script>
+    if((window.applicationCache.status == '0') || (window.applicationCache.status == '3')){
+        window.location.replace("cache.html");
+    }
+    </script>
 </head>
-
 <body>
 
 <h1>PHOENIX HOST</h1>
-
 <div class="subtitle">7.00 - 9.60</div>
 
-<button id="jailbreak-btn"></button>
+<button id="jailbreak-btn">Start Exploit</button>
 
 <div class="main-content-layout">
-    
     <div class="left-golden-column">
         <div id="console-container">
             <div class="scanlines"></div>
             <div id="console-box">
                 <div id="messages">
-                    <div class="log-entry">
-                        > System Initialized. Click the top Arc button to deploy GoldHEN.
-                    </div>
+                    <div class="log-entry">> System Initialized. Click the top Arc button to deploy GoldHEN.</div>
                 </div>
             </div>
         </div>
-        
         <div class="bottom-left-shortcut-zone">
             <button class="clock-fix-btn" id="clock-btn">Sync PS4 Clock (Fix 1970)</button>
         </div>
     </div>
-
     <div class="controller-neon-zone">
         <div class="phoenix-container">
             <img src="./lightning.png" class="lightning-background" alt="">
@@ -51,14 +40,12 @@ if((window.applicationCache.status == '0') || (window.applicationCache.status ==
                 <div class="inner-phoenix-logo"></div>
             </div>
         </div>
-        
         <div class="neon-game-title-container">
             <div class="neon-line-pink">Phoenix</div>
             <div class="neon-waves-divider">~~~~~~</div>
             <div class="neon-line-blue">Game</div>
         </div>
     </div>
-
 </div>
 
 <script>
@@ -90,7 +77,6 @@ function handleRuntimeError(err) {
 
 window.loadAutoPayload = function() {
     window.log("WebKit Exploit Injected! Loading GoldHEN ecosystem...", "#ffd700");
-    
     fetch("./payload.bin")
         .then(response => response.arrayBuffer())
         .then(buffer => {
@@ -106,11 +92,11 @@ document.getElementById("jailbreak-btn").addEventListener("click", ()=>{
     document.getElementById("jailbreak-btn").disabled = true;
     outputConsole.innerHTML = "";
     window.log("Launching PHOENIX Core Kernel Exploitation...", "#00ffff");
-
+    
     setTimeout(()=>{
         try {
-            if (typeof doJBwithPHOENIXLapseExploit === "function") {
-                doJBwithPHOENIXLapseExploit();
+            if (typeof doJBwithPSFreeLapseExploit === "function") {
+                doJBwithPSFreeLapseExploit();
             } else {
                 throw new Error("Exploit runtime handshake lost.");
             }
@@ -129,6 +115,5 @@ document.getElementById("clock-btn").addEventListener("click", ()=>{
     }, 1200);
 });
 </script>
-
 </body>
 </html>
