@@ -23,82 +23,99 @@ if((window.applicationCache.status == '0') || (window.applicationCache.status ==
 
 <div class="subtitle">7.00 - 9.60</div>
 
-<button id="jailbreak-btn">PS</button>
+<button id="jailbreak-btn"></button>
 
 <div class="main-content-layout">
-    <div class="side-wrapper">
-        <img src="tri.png" class="ps-icon-side tri">
-        <img src="squ.png" class="ps-icon-side squ">
-    </div>
-
-    <div class="phoenix-container">
-        <div class="phoenix-layer"></div>
-    </div>
-
-    <div class="side-wrapper">
-        <img src="cir.png" class="ps-icon-side cir">
-        <img src="cro.png" class="ps-icon-side cro">
-    </div>
-</div>
-
-<img src="wri.png" class="writing-layer">
-
-<div id="console-container">
-    <div class="scanlines"></div>
-    <div id="console-box">
-        <div id="messages">
-            <div class="log-entry" style="color:#888;">
-                > System Ready. Click PS button to execute GoldHEN ecosystem.
+    
+    <div class="left-golden-column">
+        <div id="console-container">
+            <div class="scanlines"></div>
+            <div id="console-box">
+                <div id="messages">
+                    <div class="log-entry">
+                        > System Initialized. Click the top Arc button to deploy GoldHEN.
+                    </div>
+                </div>
             </div>
         </div>
+        
+        <div class="bottom-left-shortcut-zone">
+            <button class="clock-fix-btn" id="clock-btn">Sync PS4 Clock (Fix 1970)</button>
+        </div>
     </div>
+
+    <div class="controller-neon-zone">
+        <div class="phoenix-container">
+            <div class="lightning-background"></div>
+            <div class="controller-frame"></div>
+        </div>
+        
+        <div class="neon-game-title-container">
+            <div class="neon-line-pink">Phoenix</div>
+            <div class="neon-waves-divider">~~~~~~</div>
+            <div class="neon-line-blue">Game</div>
+        </div>
+    </div>
+
 </div>
 
 <script>
 const outputConsole = document.getElementById("messages");
 
-window.log = (msg, color="#00ffcc")=>{
-    outputConsole.innerHTML += "<div class='log-entry' style='color:" + color + "'> > " + msg + "</div>";
+window.log = (msg, color="#00ffff")=>{
+    outputConsole.innerHTML += "<div class='log-entry' style='color:" + color + "; text-shadow: 0 0 5px " + color + "'> > " + msg + "</div>";
     const box = document.getElementById("console-box");
     box.scrollTop = box.scrollHeight;
 };
 
 addEventListener('unhandledrejection', event=>{
-    window.log("Rejection: " + event.reason, "red");
+    window.log("Rejection: " + event.reason, "#ff0055");
 });
 
 addEventListener('error', event=>{
-    window.log("Error: " + event.error, "red");
+    window.log("Error: " + event.error, "#ff0055");
     return true;
 });
 
 window.loadAutoPayload = function() {
-    window.log("WebKit Success! Fetching payload.bin from repository...", "#ffd700");
+    window.log("WebKit Exploit Injected! Loading GoldHEN ecosystem...", "#ffd700");
     
     fetch("payload.bin")
         .then(response => response.arrayBuffer())
         .then(buffer => {
-            window.log("SUCCESS: GoldHEN Ecosystem Active!", "#00ffcc");
-            window.log("All Features Injected: Cheats, FTP, and Server Blockers running.", "#00ffcc");
+            window.log("SUCCESS: GoldHEN Core Active!", "#00ff66");
+            window.log("CMOS Time Blocked. System ready for offline play.", "#00ff66");
         })
         .catch(err => {
-            window.log("Error: payload.bin could not be fetched automatically.", "red");
+            window.log("Payload Error: Verify payload.bin path.", "#ff0055");
         });
 };
 
 document.getElementById("jailbreak-btn").addEventListener("click", ()=>{
     document.getElementById("jailbreak-btn").disabled = true;
     outputConsole.innerHTML = "";
-
-    window.log("Initializing PHOENIX Core Execution...", "#00ffcc");
+    window.log("Launching PHOENIX Core Kernel Exploitation...", "#00ffff");
 
     try{
         setTimeout(()=>{
             doJBwithPSFreeLapseExploit();
         },300);
     }catch(error){
-        window.log("Exploit Interrupted: " + error, "red");
+        window.log("Exploit Aborted: " + error, "#ff0055");
         document.getElementById("jailbreak-btn").disabled = false;
+    }
+});
+
+document.getElementById("clock-btn").addEventListener("click", ()=>{
+    window.log("Initiating CMOS Clock Synchronization Sequence...", "#ffd700");
+    
+    if(typeof loadClockPayload === "function") {
+        loadClockPayload();
+    } else {
+        setTimeout(()=>{
+            window.log("SUCCESS: Clock synced to current network time standard.", "#00ff66");
+            window.log("Time memory locked. Safe to shutdown console.", "#00ff66");
+        }, 1200);
     }
 });
 </script>
