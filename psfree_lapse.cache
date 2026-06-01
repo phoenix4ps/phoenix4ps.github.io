@@ -1,6 +1,5 @@
 CACHE MANIFEST
 # PHOENIX Framework Cache - v3.1.0
-# Clears previous memory stack and enforces new assets load
 
 index.html
 cache.html
@@ -11,11 +10,9 @@ style.css
 payload.bin
 bg.jpg
 icon0.png
-wri.png
-tri.png
-cir.png
-cro.png
-squ.png
+icon1.png
+btn_phoenix.png
+lightning.png
 
 NETWORK:
 *
