@@ -1,0 +1,16 @@
+CACHE MANIFEST
+# Version 3.0.0
+
+index.html
+bundle.js
+payload.bin
+bg.jpg
+icon0.png
+wri.png
+tri.png
+cir.png
+cro.png
+squ.png
+
+NETWORK:
+*

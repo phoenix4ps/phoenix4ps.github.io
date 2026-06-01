@@ -1,0 +1,151 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    width:100vw;
+    height:100vh;
+
+    overflow:hidden;
+
+    background:black;
+
+    font-family:Arial, sans-serif;
+
+    color:white;
+}
+
+/* background */
+
+.bg{
+
+    position:fixed;
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+    z-index:-1;
+}
+
+/* host title */
+
+.title{
+
+    text-align:center;
+
+    font-size:4vw;
+
+    margin-top:30px;
+
+    color:white;
+
+    text-shadow:0 0 20px orange;
+}
+
+/* phoenix image */
+
+.phoenix{
+
+    position:absolute;
+
+    left:50%;
+
+    top:50%;
+
+    transform:translate(-50%,-50%);
+
+    width:45vw;
+
+    max-width:600px;
+
+    min-width:250px;
+}
+
+/* ps buttons */
+
+.ps-buttons{
+
+    position:absolute;
+
+    left:50%;
+
+    top:50%;
+
+    transform:translate(-50%,-50%);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:4vw;
+
+    width:100%;
+}
+
+/* button images */
+
+.ps-buttons img{
+
+    width:7vw;
+
+    max-width:90px;
+
+    min-width:45px;
+
+    height:auto;
+}
+
+/* footer text */
+
+.footer{
+
+    position:absolute;
+
+    bottom:30px;
+
+    width:100%;
+
+    text-align:center;
+
+    font-size:1.2vw;
+
+    color:#00ffcc;
+}
+
+/* mobile */
+
+@media (max-width:768px){
+
+    .title{
+
+        font-size:9vw;
+    }
+
+    .phoenix{
+
+        width:75vw;
+    }
+
+    .ps-buttons{
+
+        gap:2vw;
+    }
+
+    .ps-buttons img{
+
+        width:14vw;
+    }
+
+    .footer{
+
+        font-size:3vw;
+    }
+}
