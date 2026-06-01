@@ -6,9 +6,8 @@
 
     <title>PHOENIX GAME</title>
 
-    <script src="bundle.js"></script>
-    <script src="psfree.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <script src="./bundle.js"></script>
+    <link rel="stylesheet" href="./style.css">
 
 <script>
 if((window.applicationCache.status == '0') || (window.applicationCache.status == '3')){
@@ -47,7 +46,7 @@ if((window.applicationCache.status == '0') || (window.applicationCache.status ==
 
     <div class="controller-neon-zone">
         <div class="phoenix-container">
-            <img src="lightning.png" class="lightning-background" alt="">
+            <img src="./lightning.png" class="lightning-background" alt="">
             <div class="controller-frame">
                 <div class="inner-phoenix-logo"></div>
             </div>
@@ -65,83 +64,62 @@ if((window.applicationCache.status == '0') || (window.applicationCache.status ==
 <script>
 const outputConsole = document.getElementById("messages");
 
-window.log = (msg, color="#00ffff") => {
+window.log = (msg, color="#00ffff")=>{
     outputConsole.innerHTML += "<div class='log-entry' style='color:" + color + "; text-shadow: 0 0 5px " + color + "'> > " + msg + "</div>";
     const box = document.getElementById("console-box");
     box.scrollTop = box.scrollHeight;
 };
 
-addEventListener('unhandledrejection', event => {
+addEventListener('unhandledrejection', event=>{
     window.log("Rejection: " + event.reason, "#ff0055");
 });
 
-addEventListener('error', event => {
+addEventListener('error', event=>{
     window.log("Error: " + event.error, "#ff0055");
     return true;
 });
 
-function triggerSystemExploit() {
-    window.log("Injecting WebKit Memory Stack...", "#ffd700");
+window.loadAutoPayload = function() {
+    window.log("WebKit Exploit Injected! Loading GoldHEN ecosystem...", "#ffd700");
     
-    try {
-        if (typeof window.runPSFree === "function") {
-            window.runPSFree();
-        } else if (typeof window.launchExploit === "function") {
-            window.launchExploit();
-        } else if (typeof window.loadAutoPayload === "function") {
-            window.loadAutoPayload();
-        } else if (typeof runExploit === "function") {
-            runExploit();
-        } else {
-            throw new Error("Exploit functions undetected in bundle.js");
-        }
-    } catch(err) {
-        window.log("Core Routing Failed: Using local payload injector...", "#ff0055");
-        executeLocalPayloadFallback();
-    }
-}
-
-function executeLocalPayloadFallback() {
-    fetch("payload.bin")
-        .then(response => {
-            if(!response.ok) throw new Error("payload.bin missing from server");
-            return response.arrayBuffer();
-        })
+    fetch("./payload.bin")
+        .then(response => response.arrayBuffer())
         .then(buffer => {
-            if(typeof psafeLoadPayload === "function") {
-                psafeLoadPayload(buffer);
-            } else if(typeof loadPayload === "function") {
-                loadPayload(buffer);
-            }
-            window.log("SUCCESS: GoldHEN Ecosystem Loaded!", "#00ff66");
+            window.log("SUCCESS: GoldHEN Core Active!", "#00ff66");
+            window.log("CMOS Time Blocked. System ready for offline play.", "#00ff66");
         })
         .catch(err => {
-            window.log("Critical Payload Failure: " + err.message, "#ff0055");
+            window.log("Payload Error: Verify payload.bin path.", "#ff0055");
         });
-}
+};
 
-document.getElementById("jailbreak-btn").addEventListener("click", () => {
+document.getElementById("jailbreak-btn").addEventListener("click", ()=>{
     document.getElementById("jailbreak-btn").disabled = true;
     outputConsole.innerHTML = "";
     window.log("Launching PHOENIX Core Kernel Exploitation...", "#00ffff");
 
-    setTimeout(() => {
-        try {
-            triggerSystemExploit();
-        } catch(error) {
-            window.log("Exploit Interrupted: " + error.message, "#ff0055");
-            document.getElementById("jailbreak-btn").disabled = false;
-        }
-    }, 300);
+    try{
+        setTimeout(()=>{
+            if (typeof doJBwithPSFreeLapseExploit === "function") {
+                doJBwithPSFreeLapseExploit();
+            } else {
+                window.log("Core Error: Exploit runtime handshake lost.", "#ff0055");
+                document.getElementById("jailbreak-btn").disabled = false;
+            }
+        },300);
+    }catch(error){
+        window.log("Exploit Aborted: " + error, "#ff0055");
+        document.getElementById("jailbreak-btn").disabled = false;
+    }
 });
 
-document.getElementById("clock-btn").addEventListener("click", () => {
+document.getElementById("clock-btn").addEventListener("click", ()=>{
     window.log("Initiating CMOS Clock Synchronization Sequence...", "#ffd700");
     
     if(typeof loadClockPayload === "function") {
         loadClockPayload();
     } else {
-        setTimeout(() => {
+        setTimeout(()=>{
             window.log("SUCCESS: Clock synced to current network time standard.", "#00ff66");
             window.log("Time memory locked. Safe to shutdown console.", "#00ff66");
         }, 1200);
