@@ -3,198 +3,307 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
     <title>PHOENIX GAME - CACHING</title>
-    
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: #000000;
-        }
 
-        body {
-            background-image: url('bg.jpg'); 
-            background-size: cover;
-            background-position: center center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            padding-top: 30px;
-            font-family: Arial, sans-serif;
-        }
+<style>
 
-        h1 {
-            color: #ffffff;
-            font-size: 32px;
-            margin: 0;
-            text-transform: uppercase;
-            text-shadow: 0 0 15px rgba(255, 140, 0, 0.8);
-            z-index: 10;
-        }
+html, body{
+    margin:0;
+    padding:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#000;
+}
 
-        .subtitle {
-            color: #aaaaaa;
-            font-size: 16px;
-            margin-bottom: 15px;
-            letter-spacing: 2px;
-            z-index: 10;
-        }
+body{
+    background-image:url('bg.jpg');
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
 
-        #jailbreak-btn {
-            background-color: rgba(128, 128, 128, 0.15); 
-            color: #888888;
-            width: 80px; 
-            height: 80px;
-            border: 3px solid #888888; 
-            border-radius: 50%; 
-            font-size: 22px;   
-            font-weight: bold;
-            cursor: not-allowed;
-            z-index: 10;
-            box-shadow: none;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            outline: none;
-            opacity: 0.5;
-        }
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
 
-        .phoenix-container {
-            width: 380px; 
-            height: 380px;
-            z-index: 1;
-            mix-blend-mode: screen; 
-            animation: pulse-glow-only 2.5s infinite ease-in-out;
-            margin-top: 15px;
-        }
+    padding-top:30px;
+    font-family:Arial,sans-serif;
+}
 
-        .phoenix-layer {
-            width: 100%;
-            height: 100%;
-            background-image: url('icon0.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-        }
+/* ===================== */
+/* TITLE */
+/* ===================== */
 
-        @keyframes pulse-glow-only {
-            0% { filter: drop-shadow(0 0 15px rgba(255, 69, 0, 0.6)); }
-            50% { filter: drop-shadow(0 0 45px rgba(255, 69, 0, 0.9)); }
-            100% { filter: drop-shadow(0 0 15px rgba(255, 69, 0, 0.6)); }
-        }
+h1{
+    color:#fff;
+    font-size:32px;
+    margin:0;
+    text-transform:uppercase;
+    text-shadow: 0 0 15px rgba(255,140,0,.8);
+    z-index:10;
+}
 
-        .side-wrapper {
-            position: fixed;
-            top: 40%; 
-            display: flex;
-            gap: 40px;
-            z-index: 10;
-        }
-        .left-side { left: 5%; }
-        .right-side { right: 5%; }
+.subtitle{
+    color:#aaa;
+    font-size:16px;
+    margin-bottom:15px;
+    letter-spacing:2px;
+    z-index:10;
+}
 
-        .ps-icon-side {
-            width: 64px;
-            height: 64px;
-        }
+/* ===================== */
+/* BUTTON */
+/* ===================== */
 
-        .tri { filter: drop-shadow(0 0 15px #4caf50); } 
-        .squ { filter: drop-shadow(0 0 15px #e91e63); } 
-        .cir { filter: drop-shadow(0 0 15px #ff5722); } 
-        .cro { filter: drop-shadow(0 0 15px #2196f3); } 
+#jailbreak-btn{
+    background-color:rgba(128,128,128,.15);
+    color:#888;
+    border:3px solid #888;
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    font-size:22px;
+    font-weight:bold;
+    cursor:not-allowed;
+    z-index:10;
+    margin-bottom:15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    outline:none;
+    opacity:.5;
+    box-shadow:none;
+}
 
-        .writing-layer {
-            margin-top: -10px; 
-            width: 380px;
-            height: auto;
-            object-fit: contain;
-            z-index: 10;
-            filter: drop-shadow(0 0 15px #ffd700) drop-shadow(0 0 25px #ff8c00);
-        }
+/* ===================== */
+/* PHOENIX */
+/* ===================== */
 
-        #console-box {
-            background-color: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(8px);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            width: 96%;
-            height: 140px;
-            padding: 15px;
-            font-family: monospace;
-            font-size: 14px;
-            color: #ffd700;
-            z-index: 10;
-            border-radius: 12px;
-            margin-top: 25px; 
-            overflow-y: auto;
-            box-sizing: border-box;
-        }
-    </style>
+.phoenix-container{
+    width:380px;
+    height:380px;
+    z-index:1;
+    mix-blend-mode:screen;
+    animation:pulse-glow-only 2.5s infinite ease-in-out;
+    margin-top:15px;
+}
+
+.phoenix-layer{
+    width:100%;
+    height:100%;
+    background-image:url('icon0.png');
+    background-size:contain;
+    background-repeat:no-repeat;
+    background-position:center;
+}
+
+@keyframes pulse-glow-only{
+    0%{
+        filter: drop-shadow(0 0 15px rgba(255,69,0,.6));
+    }
+    50%{
+        filter: drop-shadow(0 0 45px rgba(255,69,0,.9));
+    }
+    100%{
+        filter: drop-shadow(0 0 15px rgba(255,69,0,.6));
+    }
+}
+
+/* ===================== */
+/* SIDE ICONS */
+/* ===================== */
+
+.side-wrapper{
+    position:fixed;
+    top:40%;
+    display:flex;
+    gap:40px;
+    z-index:10;
+}
+
+.left-side{
+    left:5%;
+}
+
+.right-side{
+    right:5%;
+}
+
+.ps-icon-side{
+    width:64px;
+    height:64px;
+}
+
+.tri{ filter:drop-shadow(0 0 15px #4caf50); }
+.squ{ filter:drop-shadow(0 0 15px #e91e63); }
+.cir{ filter:drop-shadow(0 0 15px #ff5722); }
+.cro{ filter:drop-shadow(0 0 15px #2196f3); }
+
+/* ===================== */
+/* WRITING IMAGE */
+/* ===================== */
+
+.writing-layer{
+    margin-top:-10px;
+    width:380px;
+    object-fit:contain;
+    z-index:10;
+    filter: drop-shadow(0 0 15px #ffd700) drop-shadow(0 0 25px #ff8c00);
+}
+
+/* ===================== */
+/* FLOATING CONSOLE */
+/* ===================== */
+
+#console-container{
+    position:relative;
+    width:96%;
+    height:145px;
+    margin-top:25px;
+    border:none;
+    border-bottom-left-radius:14px;
+    border-bottom-right-radius:14px;
+    background: linear-gradient(to top, rgba(0,0,0,.88) 20%, rgba(0,0,0,.45) 55%, rgba(0,0,0,0) 100%);
+    backdrop-filter:blur(5px);
+    overflow:hidden;
+    z-index:10;
+    -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 100%);
+    mask-image: linear-gradient(to top, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 100%);
+    box-shadow: 0 20px 40px rgba(0,0,0,.35), 0 0 25px rgba(255,255,255,.03);
+}
+
+#console-container::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    background: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 10%, rgba(0,0,0,0) 90%, rgba(0,0,0,1) 100%);
+    mix-blend-mode:destination-out;
+}
+
+/* ===================== */
+/* SCANLINES */
+/* ===================== */
+
+.scanlines{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    background: repeating-linear-gradient(to bottom, rgba(255,255,255,.02) 0px, rgba(255,255,255,.02) 1px, transparent 2px, transparent 4px);
+    opacity:.20;
+}
+
+/* ===================== */
+/* CONSOLE TEXT */
+/* ===================== */
+
+#console-box{
+    width:100%;
+    height:100%;
+    overflow-y:auto;
+    padding:15px;
+    box-sizing:border-box;
+    font-family:monospace;
+    font-size:14px;
+    color:#ffd700;
+}
+
+.log-entry{
+    opacity:0;
+    animation:fadeIn .25s ease forwards;
+    margin-top:4px;
+    line-height:1.4;
+    text-shadow: 0 0 6px currentColor;
+}
+
+@keyframes fadeIn{
+    to{ opacity:1; }
+}
+
+</style>
+
 </head>
+
 <body>
 
-    <h1>PHOENIX HOST</h1>
-    <div class="subtitle">Installing Offline Cache...</div>
+<h1>PHOENIX HOST</h1>
 
-    <button id="jailbreak-btn" disabled>PS</button>
+<div class="subtitle">
+Installing Offline Cache...
+</div>
 
-    <div class="phoenix-container">
-        <div class="phoenix-layer"></div>
-    </div>
+<button id="jailbreak-btn" disabled>
+PS
+</button>
 
-    <div class="side-wrapper left-side">
-        <img src="tri.png" class="ps-icon-side tri">
-        <img src="squ.png" class="ps-icon-side squ">
-    </div>
-    <div class="side-wrapper right-side">
-        <img src="cir.png" class="ps-icon-side cir">
-        <img src="cro.png" class="ps-icon-side cro">
-    </div>
+<div class="phoenix-container">
+    <div class="phoenix-layer"></div>
+</div>
 
-    <img src="wri.png" class="writing-layer">
+<div class="side-wrapper left-side">
+    <img src="tri.png" class="ps-icon-side tri">
+    <img src="squ.png" class="ps-icon-side squ">
+</div>
 
+<div class="side-wrapper right-side">
+    <img src="cir.png" class="ps-icon-side cir">
+    <img src="cro.png" class="ps-icon-side cro">
+</div>
+
+<img src="wri.png" class="writing-layer">
+
+<!-- FLOATING TERMINAL -->
+<div id="console-container">
+    <div class="scanlines"></div>
     <div id="console-box">
-        <div id="messages">Initializing AppCache installation...</div>
+        <div id="messages">
+            <div class="log-entry">> Initializing local storage sequence...</div>
+        </div>
     </div>
+</div>
 
-    <script>
-        history.replaceState(null, null, 'index.html');
-        var histlength = history.length;
-        history.go(-histlength);
+<script>
+history.replaceState(null, null, 'index.html');
+var histlength = history.length;
+history.go(-histlength);
 
-        const outputConsole = document.getElementById("messages");
-        
-        window.log = (msg) => { 
-            outputConsole.innerHTML += "<div>[SYSTEM] " + msg + "</div>";
-            var box = document.getElementById("console-box");
-            box.scrollTop = box.scrollHeight;
-        };
+const outputConsole = document.getElementById("messages");
 
-        function DLProgress(e) {
-            const percent = (Math.round((e.loaded / e.total) * 100));
-            outputConsole.innerHTML = "<div>[CACHE] Downloading files: " + percent + "% complete...</div>";
-        }
+window.log = (msg)=>{
+    outputConsole.innerHTML += "<div class='log-entry'> > " + msg + "</div>";
+    const box = document.getElementById("console-box");
+    box.scrollTop = box.scrollHeight;
+};
 
-        function DisplayCacheProgress() {
-            window.log("Offline Cache installed successfully.");
-            window.log("Redirecting to Home Page in 3 seconds...");
-            setTimeout(function() { window.log("Reloading framework core..."); }, 1500);
-            setTimeout(function() { location.reload(); }, 3000);
-        }
+function DLProgress(e) {
+    if (e.total) {
+        const percent = (Math.round((e.loaded / e.total) * 100));
+        outputConsole.innerHTML = "<div class='log-entry'> > [CACHE] Downloading files: " + percent + "% complete...</div>";
+    } else {
+        outputConsole.innerHTML = "<div class='log-entry'> > [CACHE] Compiling elements into browser memory...</div>";
+    }
+}
 
-        window.applicationCache.addEventListener("progress", DLProgress, false);
-        window.applicationCache.oncached = function(e) { DisplayCacheProgress(); };
-        window.applicationCache.onupdateready = function(e) { DisplayCacheProgress(); };
+function DisplayCacheProgress() {
+    window.log("Offline Cache installed successfully.");
+    window.log("Redirecting to Home Page in 3 seconds...");
+    setTimeout(function() { window.log("Reloading framework core..."); }, 1500);
+    setTimeout(function() { window.location.replace("index.html"); }, 3000);
+}
 
-        document.addEventListener('DOMContentLoaded', () => {
-            window.log("Please wait, preparing local files for storage.");
-        });
-    </script>
+if (window.applicationCache) {
+    window.applicationCache.addEventListener("progress", DLProgress, false);
+    window.applicationCache.oncached = function(e) { DisplayCacheProgress(); };
+    window.applicationCache.onupdateready = function(e) { DisplayCacheProgress(); };
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    window.log("Please wait, securing local staging environment.");
+});
+</script>
+
 </body>
 </html>
