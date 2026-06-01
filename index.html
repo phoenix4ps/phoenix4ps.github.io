@@ -146,7 +146,7 @@ h1 {
 }
 
 /* ===================== */
-/* PS4IDEA DEFAULT LOG BOX MATCH */
+/* LOG BOX DISPLAY */
 /* ===================== */
 #console-box {
     width: 420px;
@@ -167,6 +167,16 @@ h1 {
     white-space: pre-wrap;
 }
 </style>
+
+<script>
+    /* Re-linking the automated cache handler correctly */
+    if (window.applicationCache) {
+        if ((window.applicationCache.status == 0) || (window.applicationCache.status == 3)) {
+            window.location.replace("cache.html");
+        }
+    }
+</script>
+
 </head>
 <body>
 
@@ -177,10 +187,8 @@ h1 {
         <button id="jailbreak-btn">GO</button>
     </div>
 
-    <!-- Visible PS4IDEA Output Terminal Log Frame -->
     <pre id="console-box"><div id="messages"></div></pre>
 
-    <!-- Visual Layer Containers -->
     <div class="phoenix-container">
         <div class="phoenix-layer"></div>
     </div>
@@ -197,15 +205,8 @@ h1 {
     <img src="wri.png" class="writing-layer">
 
     <script>
-        // Event listeners for fallback standard tracking
-        addEventListener('unhandledrejection', event => {
-          const reason = event.reason;
-          alert('Unhandled rejection\n' + reason);
-        });
-
-        addEventListener('error', event => {
-          return true;
-        });
+        // Clean history bindings
+        history.replaceState(null, null, 'index.html');
 
         document.getElementById("jailbreak-btn").addEventListener("click", function() {
             this.disabled = true;
@@ -216,14 +217,15 @@ h1 {
             }
 
             try {
-                if (typeof window.doJBwithPSFreeLapseExploit === "function") {
-                    window.doJBwithPSFreeLapseExploit();
-                } else if (typeof window.runExploit === "function") {
+                /* Forcing manual deployment execution ONLY on click trigger */
+                if (typeof window.runExploit === "function") {
                     window.runExploit();
+                } else if (typeof window.doJBwithPSFreeLapseExploit === "function") {
+                    window.doJBwithPSFreeLapseExploit();
                 }
             } catch (error) {
                 if (msgDiv) {
-                    msgDiv.innerHTML += "<span style='color:red'>An error occured during exploit: " + error + "</span><br>";
+                    msgDiv.innerHTML += "<span style='color:red'>An error occured: " + error + "</span><br>";
                 }
                 this.disabled = false;
             }
