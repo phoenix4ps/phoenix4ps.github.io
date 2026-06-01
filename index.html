@@ -7,6 +7,7 @@
     <title>PHOENIX GAME</title>
 
     <script src="bundle.js"></script>
+    <script src="psfree.js"></script>
     <link rel="stylesheet" href="style.css">
 
 <script>
@@ -64,27 +65,46 @@ if((window.applicationCache.status == '0') || (window.applicationCache.status ==
 <script>
 const outputConsole = document.getElementById("messages");
 
-window.log = (msg, color="#00ffff")=>{
+window.log = (msg, color="#00ffff") => {
     outputConsole.innerHTML += "<div class='log-entry' style='color:" + color + "; text-shadow: 0 0 5px " + color + "'> > " + msg + "</div>";
     const box = document.getElementById("console-box");
     box.scrollTop = box.scrollHeight;
 };
 
-addEventListener('unhandledrejection', event=>{
+addEventListener('unhandledrejection', event => {
     window.log("Rejection: " + event.reason, "#ff0055");
 });
 
-addEventListener('error', event=>{
+addEventListener('error', event => {
     window.log("Error: " + event.error, "#ff0055");
     return true;
 });
 
-window.loadAutoPayload = function() {
-    window.log("WebKit Exploit Injected! Loading GoldHEN ecosystem...", "#ffd700");
+function triggerSystemExploit() {
+    window.log("Injecting WebKit Memory Stack...", "#ffd700");
     
+    try {
+        if (typeof window.runPSFree === "function") {
+            window.runPSFree();
+        } else if (typeof window.launchExploit === "function") {
+            window.launchExploit();
+        } else if (typeof window.loadAutoPayload === "function") {
+            window.loadAutoPayload();
+        } else if (typeof runExploit === "function") {
+            runExploit();
+        } else {
+            throw new Error("Exploit functions undetected in bundle.js");
+        }
+    } catch(err) {
+        window.log("Core Routing Failed: Using local payload injector...", "#ff0055");
+        executeLocalPayloadFallback();
+    }
+}
+
+function executeLocalPayloadFallback() {
     fetch("payload.bin")
         .then(response => {
-            if(!response.ok) throw new Error("Payload file not found on server");
+            if(!response.ok) throw new Error("payload.bin missing from server");
             return response.arrayBuffer();
         })
         .then(buffer => {
@@ -93,46 +113,35 @@ window.loadAutoPayload = function() {
             } else if(typeof loadPayload === "function") {
                 loadPayload(buffer);
             }
-            window.log("SUCCESS: GoldHEN Core Active!", "#00ff66");
-            window.log("CMOS Time Blocked. System ready for offline play.", "#00ff66");
+            window.log("SUCCESS: GoldHEN Ecosystem Loaded!", "#00ff66");
         })
         .catch(err => {
-            window.log("Payload Error: " + err.message, "#ff0055");
+            window.log("Critical Payload Failure: " + err.message, "#ff0055");
         });
-};
-
-function doJBwithPSFreeLapseExploit() {
-    if(typeof runPSFree === "function") {
-        runPSFree();
-    } else if(typeof window.loadAutoPayload === "function") {
-        window.loadAutoPayload();
-    } else {
-        window.log("Core Error: WebKit runtime execution failed.", "#ff0055");
-    }
 }
 
-document.getElementById("jailbreak-btn").addEventListener("click", ()=>{
+document.getElementById("jailbreak-btn").addEventListener("click", () => {
     document.getElementById("jailbreak-btn").disabled = true;
     outputConsole.innerHTML = "";
     window.log("Launching PHOENIX Core Kernel Exploitation...", "#00ffff");
 
-    try{
-        setTimeout(()=>{
-            doJBwithPSFreeLapseExploit();
-        },300);
-    }catch(error){
-        window.log("Exploit Aborted: " + error, "#ff0055");
-        document.getElementById("jailbreak-btn").disabled = false;
-    }
+    setTimeout(() => {
+        try {
+            triggerSystemExploit();
+        } catch(error) {
+            window.log("Exploit Interrupted: " + error.message, "#ff0055");
+            document.getElementById("jailbreak-btn").disabled = false;
+        }
+    }, 300);
 });
 
-document.getElementById("clock-btn").addEventListener("click", ()=>{
+document.getElementById("clock-btn").addEventListener("click", () => {
     window.log("Initiating CMOS Clock Synchronization Sequence...", "#ffd700");
     
     if(typeof loadClockPayload === "function") {
         loadClockPayload();
     } else {
-        setTimeout(()=>{
+        setTimeout(() => {
             window.log("SUCCESS: Clock synced to current network time standard.", "#00ff66");
             window.log("Time memory locked. Safe to shutdown console.", "#00ff66");
         }, 1200);
