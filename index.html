@@ -47,7 +47,9 @@ if((window.applicationCache.status == '0') || (window.applicationCache.status ==
     <div class="controller-neon-zone">
         <div class="phoenix-container">
             <img src="lightning.png" class="lightning-background" alt="">
-            <div class="controller-frame"></div>
+            <div class="controller-frame">
+                <div class="inner-phoenix-logo"></div>
+            </div>
         </div>
         
         <div class="neon-game-title-container">
@@ -81,18 +83,28 @@ window.loadAutoPayload = function() {
     window.log("WebKit Exploit Injected! Loading GoldHEN ecosystem...", "#ffd700");
     
     fetch("payload.bin")
-        .then(response => response.arrayBuffer())
+        .then(response => {
+            if(!response.ok) throw new Error("Payload file not found on server");
+            return response.arrayBuffer();
+        })
         .then(buffer => {
+            if(typeof psafeLoadPayload === "function") {
+                psafeLoadPayload(buffer);
+            } else if(typeof loadPayload === "function") {
+                loadPayload(buffer);
+            }
             window.log("SUCCESS: GoldHEN Core Active!", "#00ff66");
             window.log("CMOS Time Blocked. System ready for offline play.", "#00ff66");
         })
         .catch(err => {
-            window.log("Payload Error: Verify payload.bin path.", "#ff0055");
+            window.log("Payload Error: " + err.message, "#ff0055");
         });
 };
 
 function doJBwithPSFreeLapseExploit() {
-    if (typeof window.loadAutoPayload === "function") {
+    if(typeof runPSFree === "function") {
+        runPSFree();
+    } else if(typeof window.loadAutoPayload === "function") {
         window.loadAutoPayload();
     } else {
         window.log("Core Error: WebKit runtime execution failed.", "#ff0055");
