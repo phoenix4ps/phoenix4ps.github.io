@@ -45,24 +45,24 @@ class Int {
     if (check_not_in_range(low) || check_not_in_range(high)) { throw TypeError('Invalid integers'); }
     this._u32 = new Uint32Array([low, high]);
   }
-  get lo() { return this._u32[0]; }
-  get hi() { return this._u32[1]; }
-  get bot() { return this._u32[0] | 0; }
-  get top() { return this._u32[1] | 0; }
+  get lo() { return this._u32; }
+  get hi() { return this._u32; }
+  get bot() { return this._u32 | 0; }
+  get top() { return this._u32 | 0; }
   neg() {
     const u32 = this._u32;
-    const low = (~u32[0] >>> 0) + 1;
-    return new this.constructor(low >>> 0, ((~u32[1] >>> 0) + (low > 0xffffffff)) >>> 0);
+    const low = (~u32 >>> 0) + 1;
+    return new this.constructor(low >>> 0, ((~u32 >>> 0) + (low > 0xffffffff)) >>> 0);
   }
-  eq(b) { const v = lohi_from_one(b); return this._u32[0] === v[0] && this._u32[1] === v[1]; }
+  eq(b) { const v = lohi_from_one(b); return this._u32 === v && this._u32 === v; }
   ne(b) { return !this.eq(b); }
   add(b) {
-    const v = lohi_from_one(b); const low = this._u32[0] + v[0];
-    return new this.constructor(low >>> 0, (this._u32[1] + v[1] + (low > 0xffffffff)) >>> 0);
+    const v = lohi_from_one(b); const low = this._u32 + v;
+    return new this.constructor(low >>> 0, (this._u32 + v + (low > 0xffffffff)) >>> 0);
   }
   sub(b) {
-    const v = lohi_from_one(b); const low = this._u32[0] + (~v[0] >>> 0) + 1;
-    return new this.constructor(low >>> 0, (this._u32[1] + (~v[1] >>> 0) + (low > 0xffffffff)) >>> 0);
+    const v = lohi_from_one(b); const low = this._u32 + (~v >>> 0) + 1;
+    return new this.constructor(low >>> 0, (this._u32 + (~v >>> 0) + (low > 0xffffffff)) >>> 0);
   }
   toString() { return '0x' + this.hi.toString(16).padStart(8,'0') + this.lo.toString(16).padStart(8,'0'); }
 }
@@ -75,9 +75,9 @@ function init_module(memory) { mem = memory; }
 
 function add_and_set_addr(mem, offset, base_lo, base_hi) {
   const values = lohi_from_one(offset);
-  const low = base_lo + values[0];
+  const low = base_lo + values;
   mem._main[off_vector] = low;
-  mem._main[off_vector2] = base_hi + values[1] + (low > 0xffffffff);
+  mem._main[off_vector2] = base_hi + values + (low > 0xffffffff);
 }
 
 class Addr extends Int {
@@ -96,7 +96,7 @@ window.Int = Int;
 window.Addr = Addr;
 window.init_module = init_module;
 
-window.doJBwithPSFreeLapseExploit = function() {
+window.doJBwithPSFreeLapseExploit = window.doJBwithPHOENIXLapseExploit = function() {
     try {
         let mainBuffer = new Uint32Array(0x20);
         let mockMemory = {
