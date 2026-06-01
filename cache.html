@@ -177,20 +177,26 @@
         };
 
         function DLProgress(e) {
-            const percent = (Math.round((e.loaded / e.total) * 100));
-            outputConsole.innerHTML = "<div>[CACHE] Downloading files: " + percent + "% complete...</div>";
+            if (e.total) {
+                const percent = (Math.round((e.loaded / e.total) * 100));
+                outputConsole.innerHTML = "<div>[CACHE] Downloading files: " + percent + "% complete...</div>";
+            } else {
+                outputConsole.innerHTML = "<div>[CACHE] Storing elements into database...</div>";
+            }
         }
 
         function DisplayCacheProgress() {
             window.log("Offline Cache installed successfully.");
             window.log("Redirecting to Home Page in 3 seconds...");
             setTimeout(function() { window.log("Reloading framework core..."); }, 1500);
-            setTimeout(function() { location.reload(); }, 3000);
+            setTimeout(function() { window.location.replace("index.html"); }, 3000);
         }
 
-        window.applicationCache.addEventListener("progress", DLProgress, false);
-        window.applicationCache.oncached = function(e) { DisplayCacheProgress(); };
-        window.applicationCache.onupdateready = function(e) { DisplayCacheProgress(); };
+        if (window.applicationCache) {
+            window.applicationCache.addEventListener("progress", DLProgress, false);
+            window.applicationCache.oncached = function(e) { DisplayCacheProgress(); };
+            window.applicationCache.onupdateready = function(e) { DisplayCacheProgress(); };
+        }
 
         document.addEventListener('DOMContentLoaded', () => {
             window.log("Please wait, preparing local files for storage.");
