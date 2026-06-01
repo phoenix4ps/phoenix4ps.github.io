@@ -46,7 +46,7 @@ if((window.applicationCache.status == '0') || (window.applicationCache.status ==
 
     <div class="controller-neon-zone">
         <div class="phoenix-container">
-            <div class="lightning-background"></div>
+            <img src="lightning.png" class="lightning-background" alt="">
             <div class="controller-frame"></div>
         </div>
         
@@ -90,6 +90,14 @@ window.loadAutoPayload = function() {
             window.log("Payload Error: Verify payload.bin path.", "#ff0055");
         });
 };
+
+function doJBwithPSFreeLapseExploit() {
+    if (typeof window.loadAutoPayload === "function") {
+        window.loadAutoPayload();
+    } else {
+        window.log("Core Error: WebKit runtime execution failed.", "#ff0055");
+    }
+}
 
 document.getElementById("jailbreak-btn").addEventListener("click", ()=>{
     document.getElementById("jailbreak-btn").disabled = true;
