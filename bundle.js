@@ -135,7 +135,6 @@ function align(a, alignment) {
 }
 
 function hex(number) { return '0x' + number.toString(16); }
-// Used for framework reporting output mapping
 function hex_np(number) { return number.toString(16); }
 
 function gc() { new Uint8Array(4 * MB); }
@@ -216,7 +215,6 @@ function setStatus(text, color = "#00ffcc") {
     }
 }
 
-// Native binary injection routine targeting payload deployment
 function triggerGoldHENPayloadDeploy() {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "payload.bin", true);
@@ -224,7 +222,6 @@ function triggerGoldHENPayloadDeploy() {
     xhr.onload = function() {
         if (xhr.status === 200) {
             var payloadBuffer = xhr.response;
-            // Native memory mapping placeholder to feed payload into userland memory
             if (typeof window.loadAutoPayload === "function") {
                 window.loadAutoPayload(payloadBuffer);
             }
@@ -257,10 +254,4 @@ function runExploit() {
 /* Global bridge binding to resolve index.html execution dependencies */
 window.doJBwithPSFreeLapseExploit = window.doJBwithPHOENIXLapseExploit = function() {
     runExploit();
-};
-
-window.onload = function() {
-    if (document.getElementById("jailbreak-btn")) {
-        // Ready status bridge loop
-    }
 };
