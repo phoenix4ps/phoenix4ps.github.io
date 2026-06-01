@@ -1,8 +1,8 @@
 CACHE MANIFEST
+# Version 5
 
 index.html
-psfree_lapse_shared.js
-psfree.js
+bundle.js
 payload.bin
 bg.jpg
 icon0.png
