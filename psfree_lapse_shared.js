@@ -216,7 +216,9 @@ function hexdump(view) {
     var off = (pos * 16).toString(16);
     while (off.length < 8) off = "0" + off;
     var row = bytes[pos];
-    log(off + " | " + row + " |" + row + "|");
+    if (typeof window.log === "function") {
+      window.log(off + " | " + row[0] + " |" + row[1] + "|");
+    }
   }
 }
 
