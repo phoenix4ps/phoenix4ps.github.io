@@ -95,6 +95,28 @@ h1{
 }
 
 /* ===================== */
+/* PS4IDEA LOG FORMAT CONSOLE */
+/* ===================== */
+
+#console-box {
+    width: 420px;
+    background-color: #1e1e1e;
+    color: #cccccc;
+    border: 1px solid #3c3c3c;
+    padding: 12px;
+    border-radius: 6px;
+    margin-top: 20px;
+    text-align: left;
+    overflow-y: auto;
+    z-index: 10;
+}
+
+#messages {
+    font-family: monospace;
+    white-space: pre-wrap;
+}
+
+/* ===================== */
 /* PHOENIX */
 /* ===================== */
 
@@ -102,236 +124,65 @@ h1{
     width:380px;
     height:380px;
     z-index:1;
-    mix-blend-mode:screen;
-    animation:pulse-glow-only 2.5s infinite ease-in-out;
-    margin-top:15px;
 }
-
-.phoenix-layer{
-    width:100%;
-    height:100%;
-    background-image:url('icon0.png');
-    background-size:contain;
-    background-repeat:no-repeat;
-    background-position:center;
-}
-
-@keyframes pulse-glow-only{
-    0%{
-        filter: drop-shadow(0 0 15px rgba(255,69,0,.6));
-    }
-    50%{
-        filter: drop-shadow(0 0 45px rgba(255,69,0,.9));
-    }
-    100%{
-        filter: drop-shadow(0 0 15px rgba(255,69,0,.6));
-    }
-}
-
-/* ===================== */
-/* SIDE ICONS */
-/* ===================== */
-
-.side-wrapper{
-    position:fixed;
-    top:40%;
-    display:flex;
-    gap:40px;
-    z-index:10;
-}
-
-.left-side{
-    left:5%;
-}
-
-.right-side{
-    right:5%;
-}
-
-.ps-icon-side{
-    width:64px;
-    height:64px;
-}
-
-.tri{ filter:drop-shadow(0 0 15px #4caf50); }
-.squ{ filter:drop-shadow(0 0 15px #e91e63); }
-.cir{ filter:drop-shadow(0 0 15px #ff5722); }
-.cro{ filter:drop-shadow(0 0 15px #2196f3); }
-
-/* ===================== */
-/* WRITING IMAGE */
-/* ===================== */
-
-.writing-layer{
-    margin-top:-10px;
-    width:380px;
-    object-fit:contain;
-    z-index:10;
-    filter: drop-shadow(0 0 15px #ffd700) drop-shadow(0 0 25px #ff8c00);
-}
-
-/* ===================== */
-/* FLOATING CONSOLE */
-/* ===================== */
-
-#console-container{
-    position:relative;
-    width:96%;
-    height:145px;
-    margin-top:25px;
-    border:none;
-    border-bottom-left-radius:14px;
-    border-bottom-right-radius:14px;
-    background: linear-gradient(to top, rgba(0,0,0,.88) 20%, rgba(0,0,0,.45) 55%, rgba(0,0,0,0) 100%);
-    backdrop-filter:blur(5px);
-    overflow:hidden;
-    z-index:10;
-    -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 100%);
-    mask-image: linear-gradient(to top, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 100%);
-    box-shadow: 0 20px 40px rgba(0,0,0,.35), 0 0 25px rgba(255,255,255,.03);
-}
-
-#console-container::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    pointer-events:none;
-    background: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 10%, rgba(0,0,0,0) 90%, rgba(0,0,0,1) 100%);
-    mix-blend-mode:destination-out;
-}
-
-/* ===================== */
-/* SCANLINES */
-/* ===================== */
-
-.scanlines{
-    position:absolute;
-    inset:0;
-    pointer-events:none;
-    background: repeating-linear-gradient(to bottom, rgba(255,255,255,.02) 0px, rgba(255,255,255,.02) 1px, transparent 2px, transparent 4px);
-    opacity:.20;
-}
-
-/* ===================== */
-/* CONSOLE TEXT */
-/* ===================== */
-
-#console-box{
-    width:100%;
-    height:100%;
-    overflow-y:auto;
-    padding:15px;
-    box-sizing:border-box;
-    font-family:monospace;
-    font-size:14px;
-    color:#00ffcc;
-}
-
-.log-entry{
-    opacity:0;
-    animation:fadeIn .25s ease forwards;
-    margin-top:4px;
-    line-height:1.4;
-    text-shadow: 0 0 6px currentColor;
-}
-
-@keyframes fadeIn{
-    to{ opacity:1; }
-}
-
 </style>
-
-<script>
-if((window.applicationCache.status == '0') || (window.applicationCache.status == '3')){
-    window.location.replace("cache.html");
-}
-</script>
-
 </head>
-
 <body>
 
-<h1>PHOENIX HOST</h1>
+    <h1>PHOENIX GAME</h1>
+    <div class="subtitle">Select payload to deploy</div>
 
-<div class="subtitle">
-7.00 - 9.60
-</div>
-
-<button id="jailbreak-btn">
-PS
-</button>
-
-<div class="phoenix-container">
-    <div class="phoenix-layer"></div>
-</div>
-
-<div class="side-wrapper left-side">
-    <img src="tri.png" class="ps-icon-side tri">
-    <img src="squ.png" class="ps-icon-side squ">
-</div>
-
-<div class="side-wrapper right-side">
-    <img src="cir.png" class="ps-icon-side cir">
-    <img src="cro.png" class="ps-icon-side cro">
-</div>
-
-<img src="wri.png" class="writing-layer">
-
-<!-- FLOATING TERMINAL -->
-<div id="console-container">
-    <div class="scanlines"></div>
-    <div id="console-box">
-        <div id="messages">
-            <div class="log-entry" style="color:#888;">
-                > System Ready. Click PS button.
-            </div>
-        </div>
+    <div>
+        <button id="jailbreak-btn">GO</button>
     </div>
-</div>
 
-<script>
-const outputConsole = document.getElementById("messages");
+    <!-- PS4IDEA Default visible layout match -->
+    <pre id="console-box"><div id="messages"></div></pre>
 
-/* LIVE LOGGER */
-window.log = (msg, color="#00ffcc")=>{
-    outputConsole.innerHTML += "<div class='log-entry' style='color:" + color + "'> > " + msg + "</div>";
-    const box = document.getElementById("console-box");
-    box.scrollTop = box.scrollHeight;
-};
+    <script>
+        // Event definitions for unhandled rejections matching PS4IDEA standard
+        addEventListener('unhandledrejection', event => {
+          const reason = event.reason;
+          alert(
+            'Unhandled rejection\n'
+            + `${reason}\n`
+            + `${reason.sourceURL}:${reason.line}:${reason.column}\n`
+            + `${reason.stack}`
+          );
+        });
 
-/* ERROR HANDLING */
-addEventListener('unhandledrejection', event=>{
-    window.log("Rejection: " + event.reason, "red");
-});
+        addEventListener('error', event => {
+          const reason = event.error;
+          alert(
+            'Unhandled error\n'
+            + `${reason}\n`
+            + `${reason.sourceURL}:${reason.line}:${reason.column}\n`
+            + `${reason.stack}`
+          );
+          return true;
+        });
 
-addEventListener('error', event=>{
-    window.log("Error: " + event.error, "red");
-    return true;
-});
-
-/* EXECUTION */
-document.getElementById("jailbreak-btn").addEventListener("click", ()=>{
-    document.getElementById("jailbreak-btn").disabled = true;
-    outputConsole.innerHTML = "";
-    window.log("Initializing PHOENIX Core Execution...", "#00ffcc");
-
-    try{
-        setTimeout(()=>{
-            if (typeof doJBwithPSFreeLapseExploit === "function") {
-                doJBwithPSFreeLapseExploit();
-            } else if (typeof doJBwithPHOENIXLapseExploit === "function") {
-                doJBwithPHOENIXLapseExploit();
-            } else {
-                window.log("Runtime Error: Handshake function missing.", "red");
-                document.getElementById("jailbreak-btn").disabled = false;
+        document.getElementById("jailbreak-btn").addEventListener("click", function() {
+            this.disabled = true;
+            
+            var msgDiv = document.getElementById("messages");
+            if (msgDiv) {
+                msgDiv.textContent = ""; 
             }
-        },300);
-    }catch(error){
-        window.log("Exploit Interrupted: " + error, "red");
-        document.getElementById("jailbreak-btn").disabled = false;
-    }
-});
-</script>
 
+            try {
+                if (typeof window.doJBwithPSFreeLapseExploit === "function") {
+                    window.doJBwithPSFreeLapseExploit();
+                } else if (typeof window.runExploit === "function") {
+                    window.runExploit();
+                }
+            } catch (error) {
+                if (msgDiv) {
+                    msgDiv.innerHTML += "<span style='color:red'>An error occured during exploit: " + error + "</span><br>";
+                }
+                this.disabled = false;
+            }
+        });
+    </script>
 </body>
 </html>
