@@ -1,221 +1,393 @@
 <!DOCTYPE html>
-<html lang="en" manifest="psfree_lapse.cache">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PHOENIX GAME</title>
-    
-    <!-- Unified stable injection framework via ps4idea engine -->
-    <script src="bundle.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: #000000;
-        }
+<title>PHOENIX BLENDED PREVIEW</title>
 
-        body {
-            background-image: url('bg.jpg'); 
-            background-size: cover;
-            background-position: center center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            padding-top: 30px;
-            font-family: Arial, sans-serif;
-        }
+<style>
 
-        h1 {
-            color: #ffffff;
-            font-size: 32px;
-            margin: 0;
-            text-transform: uppercase;
-            text-shadow: 0 0 15px rgba(255, 140, 0, 0.8);
-            z-index: 10;
-        }
+html, body{
+    margin:0;
+    padding:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#07090c;
+}
 
-        .subtitle {
-            color: #aaaaaa;
-            font-size: 16px;
-            margin-bottom: 15px;
-            letter-spacing: 2px;
-            z-index: 10;
-        }
+body{
+    background:
+    radial-gradient(circle at center,
+    #18202b 0%,
+    #0b0f14 45%,
+    #050608 100%);
 
-        #jailbreak-btn {
-            background-color: rgba(0, 92, 248, 0.15); 
-            color: #005cf8;
-            border: 3px solid #005cf8; 
-            width: 80px; 
-            height: 80px;
-            border-radius: 50%; 
-            font-size: 22px;   
-            font-weight: bold;
-            cursor: pointer;
-            z-index: 10;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            outline: none;
-            opacity: 1;
-            box-shadow: 0 0 20px rgba(0, 92, 248, 0.5);
-        }
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
 
-        #jailbreak-btn:disabled {
-            background-color: rgba(128, 128, 128, 0.15); 
-            color: #888888;
-            border: 3px solid #888888;
-            cursor: not-allowed;
-            opacity: 0.5;
-            box-shadow: none;
-        }
+    font-family:Arial,sans-serif;
+    padding-top:30px;
+}
 
-        .phoenix-container {
-            width: 380px; 
-            height: 380px;
-            z-index: 1;
-            mix-blend-mode: screen; 
-            animation: pulse-glow-only 2.5s infinite ease-in-out;
-            margin-top: 15px;
-        }
+/* ===================== */
+/* TITLE */
+/* ===================== */
 
-        .phoenix-layer {
-            width: 100%;
-            height: 100%;
-            background-image: url('icon0.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-        }
+h1{
+    color:#fff;
+    margin:0;
+    font-size:34px;
+    letter-spacing:2px;
 
-        @keyframes pulse-glow-only {
-            0% { filter: drop-shadow(0 0 15px rgba(255, 69, 0, 0.6)); }
-            50% { filter: drop-shadow(0 0 45px rgba(255, 69, 0, 0.9)); }
-            100% { filter: drop-shadow(0 0 15px rgba(255, 69, 0, 0.6)); }
-        }
+    text-shadow:
+    0 0 10px rgba(255,140,0,.6),
+    0 0 30px rgba(255,140,0,.3);
+}
 
-        .side-wrapper {
-            position: fixed;
-            top: 40%; 
-            display: flex;
-            gap: 40px;
-            z-index: 10;
-        }
-        .left-side { left: 5%; }
-        .right-side { right: 5%; }
+.subtitle{
+    color:#8e8e8e;
+    margin-top:8px;
+    margin-bottom:25px;
+    letter-spacing:3px;
+    font-size:14px;
+}
 
-        .ps-icon-side {
-            width: 64px;
-            height: 64px;
-        }
+/* ===================== */
+/* BUTTON */
+/* ===================== */
 
-        .tri { filter: drop-shadow(0 0 15px #4caf50); } 
-        .squ { filter: drop-shadow(0 0 15px #e91e63); } 
-        .cir { filter: drop-shadow(0 0 15px #ff5722); } 
-        .cro { filter: drop-shadow(0 0 15px #2196f3); } 
+#demo-btn{
+    width:85px;
+    height:85px;
+    border-radius:50%;
 
-        .writing-layer {
-            margin-top: -10px; 
-            width: 380px;
-            height: auto;
-            object-fit: contain;
-            z-index: 10;
-            filter: drop-shadow(0 0 15px #ffd700) drop-shadow(0 0 25px #ff8c00);
-        }
+    border:3px solid #0077ff;
 
-        #console-box {
-            background-color: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(8px);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            width: 96%;
-            height: 140px;
-            padding: 15px;
-            font-family: monospace;
-            font-size: 14px;
-            color: #00ffcc;
-            z-index: 10;
-            border-radius: 12px;
-            margin-top: 25px; 
-            overflow-y: auto;
-            box-sizing: border-box;
-        }
-    </style>
-    <script>
-        // Automatic redirection logic used by ps4idea
-        if ((window.applicationCache.status == '0') || (window.applicationCache.status == '3')) {
-            window.location.replace("cache.html");
-        }
-    </script>
+    background:
+    radial-gradient(circle at top,
+    rgba(0,140,255,.25),
+    rgba(0,92,248,.08));
+
+    color:#4da6ff;
+    font-size:20px;
+    font-weight:bold;
+
+    cursor:pointer;
+    outline:none;
+
+    box-shadow:
+    0 0 15px rgba(0,92,248,.4),
+    inset 0 0 15px rgba(0,92,248,.15);
+
+    transition:.25s;
+}
+
+#demo-btn:active{
+    transform:scale(.95);
+}
+
+/* ===================== */
+/* PHOENIX GLOW */
+/* ===================== */
+
+.phoenix{
+    width:300px;
+    height:300px;
+
+    margin-top:20px;
+    border-radius:50%;
+
+    background:
+    radial-gradient(circle,
+    rgba(255,120,0,.8) 0%,
+    rgba(255,80,0,.35) 35%,
+    rgba(255,0,0,.08) 60%,
+    transparent 75%);
+
+    filter:blur(10px);
+
+    animation:pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse{
+
+    0%{
+        transform:scale(.95);
+        opacity:.7;
+    }
+
+    50%{
+        transform:scale(1.05);
+        opacity:1;
+    }
+
+    100%{
+        transform:scale(.95);
+        opacity:.7;
+    }
+}
+
+/* ===================== */
+/* BLENDED CONSOLE */
+/* ===================== */
+
+#console-container{
+
+    position:relative;
+
+    width:92%;
+    max-width:520px;
+    height:160px;
+
+    margin-top:-20px;
+
+    border-left:2px solid rgba(255,255,255,.10);
+    border-right:2px solid rgba(255,255,255,.10);
+    border-bottom:2px solid rgba(255,255,255,.10);
+
+    border-bottom-left-radius:14px;
+    border-bottom-right-radius:14px;
+
+    background:
+    linear-gradient(
+    to top,
+    rgba(0,0,0,.90) 20%,
+    rgba(0,0,0,.45) 50%,
+    rgba(0,0,0,0) 100%
+    );
+
+    backdrop-filter:blur(4px);
+
+    overflow:hidden;
+
+    /* TOP FADE */
+    mask-image:
+    linear-gradient(
+    to top,
+    rgba(0,0,0,1) 45%,
+    rgba(0,0,0,0) 100%
+    );
+
+    -webkit-mask-image:
+    linear-gradient(
+    to top,
+    rgba(0,0,0,1) 45%,
+    rgba(0,0,0,0) 100%
+    );
+}
+
+/* SIDE FADE OVERLAY */
+
+#console-container::before{
+
+    content:"";
+
+    position:absolute;
+    inset:0;
+
+    pointer-events:none;
+
+    background:
+    linear-gradient(
+    to right,
+
+    rgba(0,0,0,1) 0%,
+    rgba(0,0,0,0) 10%,
+
+    rgba(0,0,0,0) 90%,
+    rgba(0,0,0,1) 100%
+    );
+
+    mix-blend-mode:destination-out;
+}
+
+/* ===================== */
+/* CONSOLE TEXT */
+/* ===================== */
+
+#console-box{
+    width:100%;
+    height:100%;
+
+    overflow-y:auto;
+
+    box-sizing:border-box;
+    padding:16px;
+
+    font-family:monospace;
+    font-size:14px;
+}
+
+.log-entry{
+
+    opacity:0;
+
+    animation:fadeIn .25s ease forwards;
+
+    margin-top:5px;
+
+    line-height:1.4;
+}
+
+@keyframes fadeIn{
+    to{
+        opacity:1;
+    }
+}
+
+/* ===================== */
+/* SCANLINE EFFECT */
+/* ===================== */
+
+.scanlines{
+
+    position:absolute;
+    inset:0;
+
+    pointer-events:none;
+
+    background:
+    repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,.02) 0px,
+    rgba(255,255,255,.02) 1px,
+    transparent 2px,
+    transparent 4px
+    );
+
+    opacity:.25;
+}
+
+</style>
 </head>
+
 <body>
 
-    <h1>PHOENIX HOST</h1>
-    <div class="subtitle">7.00 - 9.60</div>
+<h1>PHOENIX HOST</h1>
+<div class="subtitle">BLENDED CONSOLE PREVIEW</div>
 
-    <button id="jailbreak-btn">PS</button>
+<button id="demo-btn" onclick="startDemo()">PS</button>
 
-    <div class="phoenix-container">
-        <div class="phoenix-layer"></div>
-    </div>
+<div class="phoenix"></div>
 
-    <div class="side-wrapper left-side">
-        <img src="tri.png" class="ps-icon-side tri">
-        <img src="squ.png" class="ps-icon-side squ">
-    </div>
-    <div class="side-wrapper right-side">
-        <img src="cir.png" class="ps-icon-side cir">
-        <img src="cro.png" class="ps-icon-side cro">
-    </div>
+<div id="console-container">
 
-    <img src="wri.png" class="writing-layer">
+    <div class="scanlines"></div>
 
     <div id="console-box">
-        <div id="messages">System Ready. Click PS button.</div>
+
+        <div id="messages">
+
+            <div class="log-entry" style="color:#777;">
+                > Ready for initialization...
+            </div>
+
+        </div>
+
     </div>
 
-    <script>
-        const outputConsole = document.getElementById("messages");
-        
-        // Link internal bundle logger directly to Phoenix console view
-        window.log = (msg, color="#00ffcc") => { 
-            outputConsole.innerHTML += "<div style='color:" + color + "'> > " + msg + "</div>";
-            var box = document.getElementById("console-box");
-            box.scrollTop = box.scrollHeight;
-        };
+</div>
 
-        // Standard event tracking for crash handling
-        addEventListener('unhandledrejection', event => {
-            window.log("Rejection: " + event.reason, "red");
-        });
-        addEventListener('error', event => {
-            window.log("Error: " + event.error, "red");
-            return true; 
-        });
+<script>
 
-        // Trigger execution chain on click
-        document.getElementById("jailbreak-btn").addEventListener("click", () => {
-            document.getElementById("jailbreak-btn").disabled = true;
-            outputConsole.innerHTML = ""; 
-            window.log("Initializing PS4IDEA Core Execution...", "#00ffcc");
-            
-            try {
-                setTimeout(function() {
-                    // Trigger the absolute stable entrypoint function from ps4idea
-                    doJBwithPSFreeLapseExploit();
-                }, 300);
-            } catch (error) {
-                window.log("Exploit Interrupted: " + error, "red");
-                document.getElementById("jailbreak-btn").disabled = false;
-            }
-        });
-    </script>
+const outputConsole =
+document.getElementById("messages");
+
+const logs = [
+
+    {
+        text:"Initializing WebKit core...",
+        color:"#00ffcc"
+    },
+
+    {
+        text:"Searching for corrupted JSObjects...",
+        color:"#00ffcc"
+    },
+
+    {
+        text:"Garbage Collector triggered...",
+        color:"#ffd700"
+    },
+
+    {
+        text:"WebKit exploit succeeded.",
+        color:"#00ff88"
+    },
+
+    {
+        text:"Launching Lapse Kernel...",
+        color:"#00ffcc"
+    },
+
+    {
+        text:"Escalating privileges...",
+        color:"#ffae00"
+    },
+
+    {
+        text:"Kernel access granted.",
+        color:"#00ff88"
+    },
+
+    {
+        text:"Injecting GoldHEN payload...",
+        color:"#ff7b00"
+    },
+
+    {
+        text:"GoldHEN loaded successfully.",
+        color:"#00ff88"
+    },
+
+    {
+        text:"System fully unlocked.",
+        color:"#ffffff"
+    }
+];
+
+function addLog(text,color){
+
+    outputConsole.innerHTML +=
+    "<div class='log-entry' style='color:"+color+"'> > "+text+"</div>";
+
+    const box =
+    document.getElementById("console-box");
+
+    box.scrollTop =
+    box.scrollHeight;
+}
+
+function startDemo(){
+
+    outputConsole.innerHTML = "";
+
+    let i = 0;
+
+    const interval = setInterval(()=>{
+
+        if(i >= logs.length){
+
+            clearInterval(interval);
+            return;
+        }
+
+        addLog(
+        logs[i].text,
+        logs[i].color
+        );
+
+        i++;
+
+    },900);
+}
+
+</script>
+
 </body>
 </html>
