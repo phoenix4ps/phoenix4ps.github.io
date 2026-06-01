@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PHOENIX GAME</title>
     
-    <!-- Unified stable injection framework via ps4idea engine -->
+    <!-- Stable injection framework via real exploit engine -->
     <script src="bundle.js"></script>
 
     <style>
@@ -67,6 +67,7 @@
             outline: none;
             opacity: 1;
             box-shadow: 0 0 20px rgba(0, 92, 248, 0.5);
+            transition: 0.3s;
         }
 
         #jailbreak-btn:disabled {
@@ -149,7 +150,6 @@
         }
     </style>
     <script>
-        // Automatic redirection logic used by ps4idea
         if ((window.applicationCache.status == '0') || (window.applicationCache.status == '3')) {
             window.location.replace("cache.html");
         }
@@ -184,35 +184,41 @@
     <script>
         const outputConsole = document.getElementById("messages");
         
-        // Link internal bundle logger directly to Phoenix console view
         window.log = (msg, color="#00ffcc") => { 
             outputConsole.innerHTML += "<div style='color:" + color + "'> > " + msg + "</div>";
             var box = document.getElementById("console-box");
             box.scrollTop = box.scrollHeight;
         };
 
-        // Standard event tracking for crash handling
         addEventListener('unhandledrejection', event => {
-            window.log("Rejection: " + event.reason, "red");
+            const reason = event.reason;
+            alert(
+                'Unhandled rejection\n'
+                + `${reason}\n`
+                + `${reason.sourceURL}:${reason.line}:${reason.column}\n`
+                + `${reason.stack}`
+            );
         });
         addEventListener('error', event => {
-            window.log("Error: " + event.error, "red");
+            const reason = event.error;
+            alert(
+                'Unhandled error\n'
+                + `${reason}\n`
+                + `${reason.sourceURL}:${reason.line}:${reason.column}\n`
+                + `${reason.stack}`
+            );
             return true; 
         });
 
-        // Trigger execution chain on click
         document.getElementById("jailbreak-btn").addEventListener("click", () => {
             document.getElementById("jailbreak-btn").disabled = true;
             outputConsole.innerHTML = ""; 
-            window.log("Initializing PS4IDEA Core Execution...", "#00ffcc");
+            window.log("Initializing PHOENIX Core Execution...", "#00ffcc");
             
             try {
-                setTimeout(function() {
-                    // Trigger the absolute stable entrypoint function from ps4idea
-                    doJBwithPSFreeLapseExploit();
-                }, 300);
+                doJBwithPSFreeLapseExploit();
             } catch (error) {
-                window.log("Exploit Interrupted: " + error, "red");
+                window.log("An error occurred during exploit: " + error, "red");
                 document.getElementById("jailbreak-btn").disabled = false;
             }
         });
