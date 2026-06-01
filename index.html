@@ -3,11 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PHOENIX GAME</title>
+    <title>PHOENIX GAME - CACHING</title>
     
-    <script src="psfree_lapse_shared.js"></script>
-    <script src="psfree.js"></script>
-
     <style>
         html, body {
             margin: 0;
@@ -28,14 +25,13 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            padding-top: 15px;
+            padding-top: 30px;
             font-family: Arial, sans-serif;
         }
 
-        /* 1. TOP HEADER */
         h1 {
             color: #ffffff;
-            font-size: 18px;
+            font-size: 32px;
             margin: 0;
             text-transform: uppercase;
             text-shadow: 0 0 15px rgba(255, 140, 0, 0.8);
@@ -44,40 +40,39 @@
 
         .subtitle {
             color: #aaaaaa;
-            font-size: 10px;
-            margin-bottom: 5px;
+            font-size: 16px;
+            margin-bottom: 15px;
             letter-spacing: 2px;
             z-index: 10;
         }
 
-        /* 2. START BUTTON */
         #jailbreak-btn {
-            background-color: rgba(0, 92, 248, 0.15); 
-            color: #005cf8;
-            width: 55px; 
-            height: 55px;
-            border: 2px solid #005cf8; 
+            background-color: rgba(128, 128, 128, 0.15); 
+            color: #888888;
+            width: 80px; 
+            height: 80px;
+            border: 3px solid #888888; 
             border-radius: 50%; 
-            font-size: 16px;   
+            font-size: 22px;   
             font-weight: bold;
-            cursor: pointer;
+            cursor: not-allowed;
             z-index: 10;
-            box-shadow: 0 0 15px rgba(0, 92, 248, 0.5);
-            margin-bottom: 10px;
+            box-shadow: none;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
             outline: none;
+            opacity: 0.5;
         }
 
-        /* 3. CENTER PHOENIX */
         .phoenix-container {
-            width: 190px; 
-            height: 190px;
+            width: 380px; 
+            height: 380px;
             z-index: 1;
             mix-blend-mode: screen; 
             animation: pulse-glow-only 2.5s infinite ease-in-out;
-            margin-top: 10px;
+            margin-top: 15px;
         }
 
         .phoenix-layer {
@@ -90,69 +85,64 @@
         }
 
         @keyframes pulse-glow-only {
-            0% { filter: drop-shadow(0 0 10px rgba(255, 69, 0, 0.6)); }
-            50% { filter: drop-shadow(0 0 35px rgba(255, 69, 0, 0.9)); }
-            100% { filter: drop-shadow(0 0 10px rgba(255, 69, 0, 0.6)); }
+            0% { filter: drop-shadow(0 0 15px rgba(255, 69, 0, 0.6)); }
+            50% { filter: drop-shadow(0 0 45px rgba(255, 69, 0, 0.9)); }
+            100% { filter: drop-shadow(0 0 15px rgba(255, 69, 0, 0.6)); }
         }
 
-        /* 4. SIDE BUTTONS - ALIGNED TO CENTER */
         .side-wrapper {
             position: fixed;
-            top: 215px; 
+            top: 40%; 
             display: flex;
-            gap: 20px;
+            gap: 40px;
             z-index: 10;
         }
-        .left-side { left: 8%; }
-        .right-side { right: 8%; }
+        .left-side { left: 5%; }
+        .right-side { right: 5%; }
 
         .ps-icon-side {
-            width: 32px;
-            height: 32px;
+            width: 64px;
+            height: 64px;
         }
 
-        /* COLOR GLOW FOR PS SYMBOLS */
-        .tri { filter: drop-shadow(0 0 12px #4caf50); } 
-        .squ { filter: drop-shadow(0 0 12px #e91e63); } 
-        .cir { filter: drop-shadow(0 0 12px #ff5722); } 
-        .cro { filter: drop-shadow(0 0 12px #2196f3); } 
+        .tri { filter: drop-shadow(0 0 15px #4caf50); } 
+        .squ { filter: drop-shadow(0 0 15px #e91e63); } 
+        .cir { filter: drop-shadow(0 0 15px #ff5722); } 
+        .cro { filter: drop-shadow(0 0 15px #2196f3); } 
 
-        /* 5. WRITING BELOW PHOENIX */
         .writing-layer {
-            margin-top: -20px; 
-            width: 240px;
+            margin-top: -10px; 
+            width: 380px;
             height: auto;
             object-fit: contain;
             z-index: 10;
-            filter: drop-shadow(0 0 10px #ffd700) drop-shadow(0 0 20px #ff8c00);
+            filter: drop-shadow(0 0 15px #ffd700) drop-shadow(0 0 25px #ff8c00);
         }
 
-        /* 6. CONSOLE BOX */
         #console-box {
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            width: 85%;
-            max-width: 320px;
-            height: 60px;
-            padding: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            width: 96%;
+            height: 140px;
+            padding: 15px;
             font-family: monospace;
-            font-size: 10px;
-            color: #00ffcc;
+            font-size: 14px;
+            color: #ffd700;
             z-index: 10;
-            border-radius: 10px;
-            position: absolute;
-            bottom: 20px;
+            border-radius: 12px;
+            margin-top: 25px; 
             overflow-y: auto;
+            box-sizing: border-box;
         }
     </style>
 </head>
 <body>
 
     <h1>PHOENIX HOST</h1>
-    <div class="subtitle">7.00 - 9.60</div>
+    <div class="subtitle">Installing Offline Cache...</div>
 
-    <button id="jailbreak-btn" onclick="startExploit()">PS</button>
+    <button id="jailbreak-btn" disabled>PS</button>
 
     <div class="phoenix-container">
         <div class="phoenix-layer"></div>
@@ -170,23 +160,41 @@
     <img src="wri.png" class="writing-layer">
 
     <div id="console-box">
-        <div id="messages">System Ready...</div>
+        <div id="messages">Initializing AppCache installation...</div>
     </div>
 
     <script>
-        function printMsg(text) {
-            const msgDiv = document.getElementById("messages");
-            msgDiv.innerHTML += "<div class='log-entry'>> " + text + "</div>";
-            const box = document.getElementById("console-box");
+        history.replaceState(null, null, 'index.html');
+        var histlength = history.length;
+        history.go(-histlength);
+
+        const outputConsole = document.getElementById("messages");
+        
+        window.log = (msg) => { 
+            outputConsole.innerHTML += "<div>[SYSTEM] " + msg + "</div>";
+            var box = document.getElementById("console-box");
             box.scrollTop = box.scrollHeight;
+        };
+
+        function DLProgress(e) {
+            const percent = (Math.round((e.loaded / e.total) * 100));
+            outputConsole.innerHTML = "<div>[CACHE] Downloading files: " + percent + "% complete...</div>";
         }
-        function startExploit() {
-            document.getElementById("messages").innerHTML = ""; 
-            printMsg("Initializing..."); 
-            try {
-                setTimeout(function() { run_psfree(); }, 500);
-            } catch(e) { printMsg("Error!"); }
+
+        function DisplayCacheProgress() {
+            window.log("Offline Cache installed successfully.");
+            window.log("Redirecting to Home Page in 3 seconds...");
+            setTimeout(function() { window.log("Reloading framework core..."); }, 1500);
+            setTimeout(function() { location.reload(); }, 3000);
         }
+
+        window.applicationCache.addEventListener("progress", DLProgress, false);
+        window.applicationCache.oncached = function(e) { DisplayCacheProgress(); };
+        window.applicationCache.onupdateready = function(e) { DisplayCacheProgress(); };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            window.log("Please wait, preparing local files for storage.");
+        });
     </script>
 </body>
 </html>
