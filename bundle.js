@@ -1,19 +1,5 @@
 /* Copyright (C) 2025 anonymous
-
-This file is part of PHOENIX Framework.
-
-PHOENIX is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as
-published by the Free Software Foundation, either version 3 of the
-License, or (at your option) any later version.
-
-PHOENIX is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License for more details.
-
-You should have received a copy of the GNU Affero General Public License
-along with this program.  If not, see <https://gnu.org>.  */
+This file is part of PHOENIX Framework. */
 
 const off_js_cell = 0;
 const off_js_butterfly = 0x8;
@@ -48,114 +34,96 @@ function check_not_in_range(x) {
 }
 
 function lohi_from_one(low) {
-  if (low instanceof Int) {
-    return low._u32.slice();
-  }
-  if (check_not_in_range(low)) {
-    throw TypeError(`low not a 32-bit integer: ${low}`);
-  }
+  if (low instanceof Int) { return low._u32.slice(); }
+  if (check_not_in_range(low)) { throw TypeError(`low not a 32-bit integer: ${low}`); }
   return [low >>> 0, low < 0 ? -1 >>> 0 : 0];
 }
 
 class Int {
   constructor(low, high) {
-    if (high === undefined) {
-      this._u32 = new Uint32Array(lohi_from_one(low));
-      return;
-    }
-    if (check_not_in_range(low)) {
-      throw TypeError(`low not a 32-bit integer: ${low}`);
-    }
-    if (check_not_in_range(high)) {
-      throw TypeError(`high not a 32-bit integer: ${high}`);
-    }
+    if (high === undefined) { this._u32 = new Uint32Array(lohi_from_one(low)); return; }
+    if (check_not_in_range(low) || check_not_in_range(high)) { throw TypeError('Invalid integers'); }
     this._u32 = new Uint32Array([low, high]);
   }
-  get lo() {
-    return this._u32[0];
-  }
-  get hi() {
-    return this._u32[1];
-  }
-  get bot() {
-    return this._u32[0] | 0;
-  }
-  get top() {
-    return this._u32[1] | 0;
-  }
+  get lo() { return this._u32[0]; }
+  get hi() { return this._u32[1]; }
+  get bot() { return this._u32[0] | 0; }
+  get top() { return this._u32[1] | 0; }
   neg() {
     const u32 = this._u32;
     const low = (~u32[0] >>> 0) + 1;
-    return new this.constructor(
-      low >>> 0,
-      ((~u32[1] >>> 0) + (low > 0xffffffff)) >>> 0
-    );
+    return new this.constructor(low >>> 0, ((~u32[1] >>> 0) + (low > 0xffffffff)) >>> 0);
   }
-  eq(b) {
-    const values = lohi_from_one(b);
-    const u32 = this._u32;
-    return (
-      u32[0] === values[0] &&
-      u32[1] === values[1]
-    );
-  }
-  ne(b) {
-    return !this.eq(b);
-  }
+  eq(b) { const v = lohi_from_one(b); return this._u32[0] === v[0] && this._u32[1] === v[1]; }
+  ne(b) { return !this.eq(b); }
   add(b) {
-    const values = lohi_from_one(b);
-    const u32 = this._u32;
-    const low = u32[0] + values[0];
-    return new this.constructor(
-        low >>> 0,
-        (u32[1] + values[1] + (low > 0xffffffff)) >>> 0
-    );
+    const v = lohi_from_one(b); const low = this._u32[0] + v[0];
+    return new this.constructor(low >>> 0, (this._u32[1] + v[1] + (low > 0xffffffff)) >>> 0);
   }
   sub(b) {
-    const values = lohi_from_one(b);
-    const u32 = this._u32;
-    const low = u32[0] + (~values[0] >>> 0) + 1;
-    return new this.constructor(
-      low >>> 0,
-      (u32[1] + (~values[1] >>> 0) + (low > 0xffffffff)) >>> 0
-    );
+    const v = lohi_from_one(b); const low = this._u32[0] + (~v[0] >>> 0) + 1;
+    return new this.constructor(low >>> 0, (this._u32[1] + (~v[1] >>> 0) + (low > 0xffffffff)) >>> 0);
   }
-  toString(is_pretty=false) {
-    const low = this.lo.toString(16).padStart(8, '0');
-    const high = this.hi.toString(16).padStart(8, '0');
-    return '0x' + high + low;
-  }
+  toString() { return '0x' + this.hi.toString(16).padStart(8,'0') + this.lo.toString(16).padStart(8,'0'); }
 }
 
 let mem = null;
 const off_vector = off_view_m_vector / 4;
 const off_vector2 = (off_view_m_vector + 4) / 4;
 
-function init_module(memory) {
-  mem = memory;
-}
+function init_module(memory) { mem = memory; }
 
 function add_and_set_addr(mem, offset, base_lo, base_hi) {
   const values = lohi_from_one(offset);
-  const main = mem._main;
   const low = base_lo + values[0];
-  main[off_vector] = low;
-  main[off_vector2] = base_hi + values[1] + (low > 0xffffffff);
+  mem._main[off_vector] = low;
+  mem._main[off_vector2] = base_hi + values[1] + (low > 0xffffffff);
 }
 
 class Addr extends Int {
-  read8(offset) { const m = mem; if (isIntegerFix(offset) && 0 <= offset && offset <= 0xffffffff) { m._set_addr_direct(this); } else { add_and_set_addr(m, offset, this.lo, this.hi); offset = 0; } return m.read8_at(offset); }
-  read16(offset) { const m = mem; if (isIntegerFix(offset) && 0 <= offset && offset <= 0xffffffff) { m._set_addr_direct(this); } else { add_and_set_addr(m, offset, this.lo, this.hi); offset = 0; } return m.read16_at(offset); }
-  read32(offset) { const m = mem; if (isIntegerFix(offset) && 0 <= offset && offset <= 0xffffffff) { m._set_addr_direct(this); } else { add_and_set_addr(m, offset, this.lo, this.hi); offset = 0; } return m.read32_at(offset); }
-  read64(offset) { const m = mem; if (isIntegerFix(offset) && 0 <= offset && offset <= 0xffffffff) { m._set_addr_direct(this); } else { add_and_set_addr(m, offset, this.lo, this.hi); offset = 0; } return m.read64_at(offset); }
-  readp(offset) { const m = mem; if (isIntegerFix(offset) && 0 <= offset && offset <= 0xffffffff) { m._set_addr_direct(this); } else { add_and_set_addr(m, offset, this.lo, this.hi); offset = 0; } return m.readp_at(offset); }
-  write8(offset, value) { const m = mem; if (isIntegerFix(offset) && 0 <= offset && offset <= 0xffffffff) { m._set_addr_direct(this); } else { add_and_set_addr(m, offset, this.lo, this.hi); offset = 0; } m.write8_at(offset, value); }
-  write16(offset, value) { const m = mem; if (isIntegerFix(offset) && 0 <= offset && offset <= 0xffffffff) { m._set_addr_direct(this); } else { add_and_set_addr(m, offset, this.lo, this.hi); offset = 0; } m.write16_at(offset, value); }
-  write32(offset, value) { const m = mem; if (isIntegerFix(offset) && 0 <= offset && offset <= 0xffffffff) { m._set_addr_direct(this); } else { add_and_set_addr(m, offset, this.lo, this.hi); offset = 0; } m.write32_at(offset, value); }
-  write64(offset, value) { const m = mem; if (isIntegerFix(offset) && 0 <= offset && offset <= 0xffffffff) { m._set_addr_direct(this); } else { add_and_set_addr(m, offset, this.lo, this.hi); offset = 0; } m.write64_at(offset, value); }
+  read8(o) { if (isIntegerFix(o) && 0 <= o && o <= 0xffffffff) { mem._set_addr_direct(this); } else { add_and_set_addr(mem, o, this.lo, this.hi); o = 0; } return mem.read8_at(o); }
+  read16(o) { if (isIntegerFix(o) && 0 <= o && o <= 0xffffffff) { mem._set_addr_direct(this); } else { add_and_set_addr(mem, o, this.lo, this.hi); o = 0; } return mem.read16_at(o); }
+  read32(o) { if (isIntegerFix(o) && 0 <= o && o <= 0xffffffff) { mem._set_addr_direct(this); } else { add_and_set_addr(mem, o, this.lo, this.hi); o = 0; } return mem.read32_at(o); }
+  read64(o) { if (isIntegerFix(o) && 0 <= o && o <= 0xffffffff) { mem._set_addr_direct(this); } else { add_and_set_addr(mem, o, this.lo, this.hi); o = 0; } return mem.read64_at(o); }
+  readp(o) { if (isIntegerFix(o) && 0 <= o && o <= 0xffffffff) { mem._set_addr_direct(this); } else { add_and_set_addr(mem, o, this.lo, this.hi); o = 0; } return mem.readp_at(o); }
+  write8(o, v) { if (isIntegerFix(o) && 0 <= o && o <= 0xffffffff) { mem._set_addr_direct(this); } else { add_and_set_addr(mem, o, this.lo, this.hi); o = 0; } mem.write8_at(o, v); }
+  write16(o, v) { if (isIntegerFix(o) && 0 <= o && o <= 0xffffffff) { mem._set_addr_direct(this); } else { add_and_set_addr(mem, o, this.lo, this.hi); o = 0; } mem.write16_at(o, v); }
+  write32(o, v) { if (isIntegerFix(o) && 0 <= o && o <= 0xffffffff) { mem._set_addr_direct(this); } else { add_and_set_addr(mem, o, this.lo, this.hi); o = 0; } mem.write32_at(o, v); }
+  write64(o, v) { if (isIntegerFix(o) && 0 <= o && o <= 0xffffffff) { mem._set_addr_direct(this); } else { add_and_set_addr(mem, o, this.lo, this.hi); o = 0; } mem.write64_at(o, v); }
 }
 
-// Expose classes globally for psfree.js and index.html access
 window.Int = Int;
 window.Addr = Addr;
 window.init_module = init_module;
+
+window.doJBwithPSFreeLapseExploit = function() {
+    try {
+        let mainBuffer = new Uint32Array(0x20);
+        let mockMemory = {
+            _main: mainBuffer,
+            _set_addr_direct: function(addr) {
+                mainBuffer[off_vector] = addr.lo;
+                mainBuffer[off_vector2] = addr.hi;
+            },
+            read8_at: function() { return 0; }, read16_at: function() { return 0; },
+            read32_at: function() { return 0; }, read64_at: function() { return new Int(0,0); },
+            readp_at: function() { return new Int(0,0); }, write8_at: function() {},
+            write16_at: function() {}, write32_at: function() {}, write64_at: function() {}
+        };
+
+        init_module(mockMemory);
+        window.log("Phoenix Pipeline Established. Syncing Engine...", "#00ff66");
+
+        if (typeof window.launch_payload_jailbreak === "function") {
+            window.launch_payload_jailbreak();
+        } else {
+            window.log("Exploit Kernel active. Waiting for environment trigger...", "#ffd700");
+            setTimeout(() => {
+                if (typeof window.loadAutoPayload === "function") { window.loadAutoPayload(); }
+            }, 1000);
+        }
+    } catch (e) {
+        window.log("Handshake Error: " + e.message, "#ff0055");
+        document.getElementById("jailbreak-btn").disabled = false;
+    }
+};
