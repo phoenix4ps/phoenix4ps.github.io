@@ -93,8 +93,12 @@
         };
 
         function DLProgress(e) {
-            const percent = (Math.round((e.loaded / e.total) * 100));
-            outputConsole.textContent = `> [CACHE] Downloading assets... ${percent}% complete.`;
+            if (e.total) {
+                const percent = (Math.round((e.loaded / e.total) * 100));
+                outputConsole.textContent = `> [CACHE] Downloading assets... ${percent}% complete.`;
+            } else {
+                outputConsole.textContent = `> [CACHE] Storing elements into cache database...`;
+            }
         }
 
         function DisplayCacheProgress() {
