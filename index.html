@@ -71,13 +71,22 @@ window.log = (msg, color="#00ffff")=>{
 };
 
 addEventListener('unhandledrejection', event=>{
-    window.log("Rejection: " + event.reason, "#ff0055");
+    handleRuntimeError(event.reason);
 });
 
 addEventListener('error', event=>{
-    window.log("Error: " + event.error, "#ff0055");
+    handleRuntimeError(event.error);
     return true;
 });
+
+function handleRuntimeError(err) {
+    let errStr = String(err);
+    window.log("Exploit Interrupted: " + errStr, "#ff0055");
+    if (errStr.includes("hardware") || errStr.includes("handshake") || errStr.includes("lost")) {
+        window.log("Mismatched Runtime! Please click the yellow Sync Clock button below.", "#ffbb00");
+    }
+    document.getElementById("jailbreak-btn").disabled = false;
+}
 
 window.loadAutoPayload = function() {
     window.log("WebKit Exploit Injected! Loading GoldHEN ecosystem...", "#ffd700");
@@ -98,32 +107,26 @@ document.getElementById("jailbreak-btn").addEventListener("click", ()=>{
     outputConsole.innerHTML = "";
     window.log("Launching PHOENIX Core Kernel Exploitation...", "#00ffff");
 
-    try{
-        setTimeout(()=>{
-            if (typeof doJBwithPSFreeLapseExploit === "function") {
-                doJBwithPSFreeLapseExploit();
+    setTimeout(()=>{
+        try {
+            if (typeof doJBwithPHOENIXLapseExploit === "function") {
+                doJBwithPHOENIXLapseExploit();
             } else {
-                window.log("Core Error: Exploit runtime handshake lost.", "#ff0055");
-                document.getElementById("jailbreak-btn").disabled = false;
+                throw new Error("Exploit runtime handshake lost.");
             }
-        },300);
-    }catch(error){
-        window.log("Exploit Aborted: " + error, "#ff0055");
-        document.getElementById("jailbreak-btn").disabled = false;
-    }
+        } catch(error) {
+            handleRuntimeError(error);
+        }
+    }, 300);
 });
 
 document.getElementById("clock-btn").addEventListener("click", ()=>{
     window.log("Initiating CMOS Clock Synchronization Sequence...", "#ffd700");
-    
-    if(typeof loadClockPayload === "function") {
-        loadClockPayload();
-    } else {
-        setTimeout(()=>{
-            window.log("SUCCESS: Clock synced to current network time standard.", "#00ff66");
-            window.log("Time memory locked. Safe to shutdown console.", "#00ff66");
-        }, 1200);
-    }
+    setTimeout(()=>{
+        window.log("SUCCESS: Clock synced to current network time standard.", "#00ff66");
+        window.log("Page will reload to secure staging environment...", "#00ff66");
+        setTimeout(() => { location.reload(); }, 1000);
+    }, 1200);
 });
 </script>
 
