@@ -140,7 +140,7 @@
 <body>
 
     <h1>PHOENIX HOST</h1>
-    <div class="subtitle" id="status-text">Installing Offline Cache...</div>
+    <div class="subtitle">Installing Offline Cache...</div>
 
     <button id="jailbreak-btn" disabled>PS</button>
 
@@ -169,50 +169,31 @@
         history.go(-histlength);
 
         const outputConsole = document.getElementById("messages");
-        const subtitleText = document.getElementById("status-text");
         
         window.log = (msg) => { 
-            outputConsole.innerHTML += "<div>" + msg + "</div>";
+            outputConsole.innerHTML += "<div>[SYSTEM] " + msg + "</div>";
             var box = document.getElementById("console-box");
-            if (box) box.scrollTop = box.scrollHeight;
+            box.scrollTop = box.scrollHeight;
         };
 
         function DLProgress(e) {
-            if (e.total) {
-                const percent = (Math.round((e.loaded / e.total) * 100));
-                outputConsole.innerHTML = "<div>[CACHE] Downloading... " + percent + "% complete.</div>";
-                if (subtitleText) {
-                    subtitleText.innerHTML = "Caching Progress: " + percent + "%";
-                }
-            } else {
-                outputConsole.innerHTML = "<div>[CACHE] Storing elements into database...</div>";
-            }
+            const percent = (Math.round((e.loaded / e.total) * 100));
+            outputConsole.innerHTML = "<div>[CACHE] Downloading files: " + percent + "% complete...</div>";
         }
 
         function DisplayCacheProgress() {
-            outputConsole.innerHTML = "";
-            window.log(" ");
-            window.log("[SUCCESS] Cache installed successfully.");
-            window.log("Page will reload in 3 seconds...");
-            
-            if (subtitleText) {
-                subtitleText.innerHTML = "Cache Success! Reloading...";
-            }
-
-            setTimeout(function() { window.log("Reloading..."); }, 2000);
-            setTimeout(function() { window.location.replace("index.html"); }, 3000);
+            window.log("Offline Cache installed successfully.");
+            window.log("Redirecting to Home Page in 3 seconds...");
+            setTimeout(function() { window.log("Reloading framework core..."); }, 1500);
+            setTimeout(function() { location.reload(); }, 3000);
         }
 
-        if (window.applicationCache) {
-            window.applicationCache.addEventListener("progress", DLProgress, false);
-            window.applicationCache.oncached = function(e) { DisplayCacheProgress(); };
-            window.applicationCache.onupdateready = function(e) { DisplayCacheProgress(); };
-        }
+        window.applicationCache.addEventListener("progress", DLProgress, false);
+        window.applicationCache.oncached = function(e) { DisplayCacheProgress(); };
+        window.applicationCache.onupdateready = function(e) { DisplayCacheProgress(); };
 
         document.addEventListener('DOMContentLoaded', () => {
-            outputConsole.innerHTML = "";
-            window.log("AppCache download initiating...");
-            window.log("Please wait, this may take a few seconds.");
+            window.log("Please wait, preparing local files for storage.");
         });
     </script>
 </body>
