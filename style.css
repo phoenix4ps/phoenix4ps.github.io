@@ -282,150 +282,26 @@ h1 {
     -webkit-text-stroke: 1px #fff;
 }
 
-.system-popup {
-    position: relative;
-    width: 100%;
-    max-width: 440px;
-    background: rgba(4, 12, 24, 0.55);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(0, 255, 255, 0.25);
-    padding: 22px;
-    margin: 0 auto;
-    box-sizing: border-box;
-    color: #ffffff;
-    font-family: 'Segoe UI', Arial, sans-serif;
-    box-shadow: 0 0 30px rgba(0, 136, 255, 0.2), inset 0 0 15px rgba(0, 255, 255, 0.08);
-    overflow: hidden;
-    border-radius: 2px;
-    animation: systemGlitchOpen 0.4s ease-out forwards;
+@keyframes controller-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.03); }
 }
 
-.neon-border-top, .neon-border-bottom {
-    position: absolute;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: #00ffff;
-    box-shadow: 0 0 15px #0088ff, 0 0 6px #00ffff;
-}
-.neon-border-top { top: 0; }
-.neon-border-bottom { bottom: 0; }
-
-.popup-header {
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid rgba(0, 255, 255, 0.25);
-    padding-bottom: 12px;
-    margin-bottom: 18px;
+@keyframes neon-lamp-flicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 1; filter: drop-shadow(0 0 15px #00ffff) drop-shadow(0 0 30px #0088ff); }
+    19%, 24%, 55%, 56% { opacity: 0.1; filter: none; }
+    20%, 21%, 23% { opacity: 0.7; filter: drop-shadow(0 0 8px #00ffff); }
 }
 
-.info-icon {
-    width: 26px;
-    height: 26px;
-    border: 2px solid #00ffff;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 900;
-    color: #00ffff;
-    margin-right: 14px;
-    box-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
-    font-family: 'Courier New', monospace;
+@keyframes fadeIn {
+    to { opacity: 1; }
 }
 
-.popup-header h2 {
-    font-size: 19px;
-    margin: 0;
-    color: #ffffff;
-    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-    letter-spacing: 2px;
-    font-weight: 800;
-    text-transform: uppercase;
+@media (max-width: 900px) {
+    .main-content-layout { grid-template-columns: 1fr; gap: 30px; }
+    .left-golden-column { height: auto; }
+    #console-container { height: 180px; background-size: 35%; }
+    .controller-neon-zone { height: auto; margin-top: 15px; }
+    .phoenix-container { width: 300px; height: 210px; }
+    .neon-line-pink, .neon-line-blue { font-size: 30px; }
 }
-
-.system-message {
-    font-size: 13px;
-    color: #8ab4f8;
-    margin: 8px 0;
-    letter-spacing: 1px;
-    font-weight: 600;
-}
-
-.input-container {
-    position: relative;
-    margin: 18px 0;
-}
-
-.system-input {
-    width: 100%;
-    background: rgba(0, 24, 48, 0.65);
-    border: 1px solid #005cf8;
-    padding: 12px 14px;
-    color: #fff;
-    font-size: 15px;
-    outline: none;
-    box-sizing: border-box;
-    transition: all 0.25s ease-in-out;
-    box-shadow: inset 0 0 8px rgba(0, 92, 248, 0.2);
-    font-family: monospace;
-}
-
-.system-input:focus {
-    border-color: #00ffff;
-    box-shadow: 0 0 14px rgba(0, 255, 255, 0.4), inset 0 0 8px rgba(0, 255, 255, 0.2);
-    background: rgba(0, 36, 72, 0.8);
-}
-
-.button-group {
-    display: flex;
-    justify-content: flex-end;
-    gap: 14px;
-    margin-top: 22px;
-}
-
-.system-btn {
-    background: transparent;
-    border: 1px solid #005cf8;
-    color: #00ffff;
-    padding: 8px 24px;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: bold;
-    letter-spacing: 1px;
-    transition: all 0.2s ease-in-out;
-    text-transform: uppercase;
-}
-
-.confirm-btn {
-    background: rgba(0, 92, 248, 0.15);
-    border-color: #00ffff;
-    color: #ffffff;
-    text-shadow: 0 0 5px #00ffff;
-}
-
-.confirm-btn:hover {
-    background: #00ffff;
-    color: #030308;
-    box-shadow: 0 0 18px #00ffff;
-    font-weight: 900;
-}
-
-.cancel-btn:hover {
-    background: rgba(255, 255, 255, 0.08);
-    color: #ffffff;
-    border-color: rgba(255, 255, 255, 0.3);
-}
-
-@keyframes systemGlitchOpen {
-    0% {
-        transform: scale(0.85);
-        opacity: 0;
-        filter: brightness(3) blur(5px);
-    }
-    40% {
-        transform: scale(1.02);
-        opacity: 0.8;
-        filter: brightness(1);
-    }
