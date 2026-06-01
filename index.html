@@ -2,118 +2,562 @@
 <html lang="en" manifest="psfree_lapse.cache">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0,
+    maximum-scale=1.0, user-scalable=no">
+
     <title>PHOENIX GAME</title>
-    <script src="./bundle.js"></script>
-    <link rel="stylesheet" href="./style.css">
-    <script>
-    if((window.applicationCache.status == '0') || (window.applicationCache.status == '3')){
-        window.location.replace("cache.html");
+
+    <!-- Stable PS4IDEA Core -->
+    <script src="bundle.js"></script>
+
+<style>
+
+html, body{
+    margin:0;
+    padding:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#000;
+}
+
+body{
+
+    background-image:url('bg.jpg');
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+
+    padding-top:30px;
+
+    font-family:Arial,sans-serif;
+}
+
+/* ===================== */
+/* TITLE */
+/* ===================== */
+
+h1{
+
+    color:#fff;
+    font-size:32px;
+
+    margin:0;
+
+    text-transform:uppercase;
+
+    text-shadow:
+    0 0 15px rgba(255,140,0,.8);
+
+    z-index:10;
+}
+
+.subtitle{
+
+    color:#aaa;
+    font-size:16px;
+
+    margin-bottom:15px;
+
+    letter-spacing:2px;
+
+    z-index:10;
+}
+
+/* ===================== */
+/* BUTTON */
+/* ===================== */
+
+#jailbreak-btn{
+
+    background-color:rgba(0,92,248,.15);
+
+    color:#005cf8;
+
+    border:3px solid #005cf8;
+
+    width:80px;
+    height:80px;
+
+    border-radius:50%;
+
+    font-size:22px;
+    font-weight:bold;
+
+    cursor:pointer;
+
+    z-index:10;
+
+    margin-bottom:15px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    outline:none;
+
+    box-shadow:
+    0 0 20px rgba(0,92,248,.5);
+
+    transition:.25s;
+}
+
+#jailbreak-btn:active{
+    transform:scale(.95);
+}
+
+#jailbreak-btn:disabled{
+
+    background-color:rgba(128,128,128,.15);
+
+    color:#888;
+
+    border:3px solid #888;
+
+    opacity:.5;
+
+    cursor:not-allowed;
+
+    box-shadow:none;
+}
+
+/* ===================== */
+/* PHOENIX */
+/* ===================== */
+
+.phoenix-container{
+
+    width:380px;
+    height:380px;
+
+    z-index:1;
+
+    mix-blend-mode:screen;
+
+    animation:pulse-glow-only 2.5s infinite ease-in-out;
+
+    margin-top:15px;
+}
+
+.phoenix-layer{
+
+    width:100%;
+    height:100%;
+
+    background-image:url('icon0.png');
+
+    background-size:contain;
+    background-repeat:no-repeat;
+    background-position:center;
+}
+
+@keyframes pulse-glow-only{
+
+    0%{
+        filter:
+        drop-shadow(0 0 15px rgba(255,69,0,.6));
     }
-    </script>
+
+    50%{
+        filter:
+        drop-shadow(0 0 45px rgba(255,69,0,.9));
+    }
+
+    100%{
+        filter:
+        drop-shadow(0 0 15px rgba(255,69,0,.6));
+    }
+}
+
+/* ===================== */
+/* SIDE ICONS */
+/* ===================== */
+
+.side-wrapper{
+
+    position:fixed;
+
+    top:40%;
+
+    display:flex;
+
+    gap:40px;
+
+    z-index:10;
+}
+
+.left-side{
+    left:5%;
+}
+
+.right-side{
+    right:5%;
+}
+
+.ps-icon-side{
+
+    width:64px;
+    height:64px;
+}
+
+.tri{
+    filter:drop-shadow(0 0 15px #4caf50);
+}
+
+.squ{
+    filter:drop-shadow(0 0 15px #e91e63);
+}
+
+.cir{
+    filter:drop-shadow(0 0 15px #ff5722);
+}
+
+.cro{
+    filter:drop-shadow(0 0 15px #2196f3);
+}
+
+/* ===================== */
+/* WRITING IMAGE */
+/* ===================== */
+
+.writing-layer{
+
+    margin-top:-10px;
+
+    width:380px;
+
+    object-fit:contain;
+
+    z-index:10;
+
+    filter:
+    drop-shadow(0 0 15px #ffd700)
+    drop-shadow(0 0 25px #ff8c00);
+}
+
+/* ===================== */
+/* FLOATING CONSOLE */
+/* ===================== */
+
+#console-container{
+
+    position:relative;
+
+    width:96%;
+    height:145px;
+
+    margin-top:25px;
+
+    border:none;
+
+    border-bottom-left-radius:14px;
+    border-bottom-right-radius:14px;
+
+    background:
+    linear-gradient(
+    to top,
+    rgba(0,0,0,.88) 20%,
+    rgba(0,0,0,.45) 55%,
+    rgba(0,0,0,0) 100%
+    );
+
+    backdrop-filter:blur(5px);
+
+    overflow:hidden;
+
+    z-index:10;
+
+    /* FULL FADE */
+    -webkit-mask-image:
+    linear-gradient(
+    to top,
+    rgba(0,0,0,1) 45%,
+    rgba(0,0,0,0) 100%
+    );
+
+    mask-image:
+    linear-gradient(
+    to top,
+    rgba(0,0,0,1) 45%,
+    rgba(0,0,0,0) 100%
+    );
+
+    /* SOFT LOWER GLOW */
+    box-shadow:
+    0 20px 40px rgba(0,0,0,.35),
+    0 0 25px rgba(255,255,255,.03);
+}
+
+/* SIDE FADE */
+
+#console-container::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    pointer-events:none;
+
+    background:
+    linear-gradient(
+    to right,
+
+    rgba(0,0,0,1) 0%,
+    rgba(0,0,0,0) 10%,
+
+    rgba(0,0,0,0) 90%,
+    rgba(0,0,0,1) 100%
+    );
+
+    mix-blend-mode:destination-out;
+}
+
+/* ===================== */
+/* SCANLINES */
+/* ===================== */
+
+.scanlines{
+
+    position:absolute;
+
+    inset:0;
+
+    pointer-events:none;
+
+    background:
+    repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,.02) 0px,
+    rgba(255,255,255,.02) 1px,
+    transparent 2px,
+    transparent 4px
+    );
+
+    opacity:.20;
+}
+
+/* ===================== */
+/* CONSOLE TEXT */
+/* ===================== */
+
+#console-box{
+
+    width:100%;
+    height:100%;
+
+    overflow-y:auto;
+
+    padding:15px;
+
+    box-sizing:border-box;
+
+    font-family:monospace;
+
+    font-size:14px;
+
+    color:#00ffcc;
+}
+
+.log-entry{
+
+    opacity:0;
+
+    animation:fadeIn .25s ease forwards;
+
+    margin-top:4px;
+
+    line-height:1.4;
+
+    text-shadow:
+    0 0 6px currentColor;
+}
+
+@keyframes fadeIn{
+
+    to{
+        opacity:1;
+    }
+}
+
+</style>
+
+<script>
+
+if(
+(window.applicationCache.status == '0') ||
+(window.applicationCache.status == '3')
+){
+    window.location.replace("cache.html");
+}
+
+</script>
+
 </head>
+
 <body>
 
 <h1>PHOENIX HOST</h1>
-<div class="subtitle">7.00 - 9.60</div>
 
-<button id="jailbreak-btn">Start Exploit</button>
+<div class="subtitle">
+7.00 - 9.60
+</div>
 
-<div class="main-content-layout">
-    <div class="left-golden-column">
-        <div id="console-container">
-            <div class="scanlines"></div>
-            <div id="console-box">
-                <div id="messages">
-                    <div class="log-entry">> System Initialized. Click the top Arc button to deploy GoldHEN.</div>
-                </div>
+<button id="jailbreak-btn">
+PS
+</button>
+
+<div class="phoenix-container">
+    <div class="phoenix-layer"></div>
+</div>
+
+<div class="side-wrapper left-side">
+
+    <img src="tri.png"
+    class="ps-icon-side tri">
+
+    <img src="squ.png"
+    class="ps-icon-side squ">
+
+</div>
+
+<div class="side-wrapper right-side">
+
+    <img src="cir.png"
+    class="ps-icon-side cir">
+
+    <img src="cro.png"
+    class="ps-icon-side cro">
+
+</div>
+
+<img src="wri.png"
+class="writing-layer">
+
+<!-- FLOATING TERMINAL -->
+
+<div id="console-container">
+
+    <div class="scanlines"></div>
+
+    <div id="console-box">
+
+        <div id="messages">
+
+            <div class="log-entry"
+            style="color:#888;">
+
+                > System Ready. Click PS button.
+
             </div>
+
         </div>
-        <div class="bottom-left-shortcut-zone">
-            <button class="clock-fix-btn" id="clock-btn">Sync PS4 Clock (Fix 1970)</button>
-        </div>
+
     </div>
-    <div class="controller-neon-zone">
-        <div class="phoenix-container">
-            <img src="./lightning.png" class="lightning-background" alt="">
-            <div class="controller-frame">
-                <div class="inner-phoenix-logo"></div>
-            </div>
-        </div>
-        <div class="neon-game-title-container">
-            <div class="neon-line-pink">Phoenix</div>
-            <div class="neon-waves-divider">~~~~~~</div>
-            <div class="neon-line-blue">Game</div>
-        </div>
-    </div>
+
 </div>
 
 <script>
-const outputConsole = document.getElementById("messages");
 
-window.log = (msg, color="#00ffff")=>{
-    outputConsole.innerHTML += "<div class='log-entry' style='color:" + color + "; text-shadow: 0 0 5px " + color + "'> > " + msg + "</div>";
-    const box = document.getElementById("console-box");
-    box.scrollTop = box.scrollHeight;
+const outputConsole =
+document.getElementById("messages");
+
+/* LIVE LOGGER */
+
+window.log = (
+msg,
+color="#00ffcc"
+)=>{
+
+    outputConsole.innerHTML +=
+
+    "<div class='log-entry' style='color:"
+    + color +
+    "'> > " +
+    msg +
+    "</div>";
+
+    const box =
+    document.getElementById("console-box");
+
+    box.scrollTop =
+    box.scrollHeight;
 };
 
-addEventListener('unhandledrejection', event=>{
-    handleRuntimeError(event.reason);
+/* ERROR HANDLING */
+
+addEventListener(
+'unhandledrejection',
+event=>{
+
+    window.log(
+    "Rejection: " + event.reason,
+    "red"
+    );
 });
 
-addEventListener('error', event=>{
-    handleRuntimeError(event.error);
+addEventListener(
+'error',
+event=>{
+
+    window.log(
+    "Error: " + event.error,
+    "red"
+    );
+
     return true;
 });
 
-function handleRuntimeError(err) {
-    let errStr = String(err);
-    window.log("Exploit Interrupted: " + errStr, "#ff0055");
-    if (errStr.includes("hardware") || errStr.includes("handshake") || errStr.includes("lost")) {
-        window.log("Mismatched Runtime! Please click the yellow Sync Clock button below.", "#ffbb00");
-    }
-    document.getElementById("jailbreak-btn").disabled = false;
-}
+/* EXECUTION */
 
-window.loadAutoPayload = function() {
-    window.log("WebKit Exploit Injected! Loading GoldHEN ecosystem...", "#ffd700");
-    fetch("./payload.bin")
-        .then(response => response.arrayBuffer())
-        .then(buffer => {
-            window.log("SUCCESS: GoldHEN Core Active!", "#00ff66");
-            window.log("CMOS Time Blocked. System ready for offline play.", "#00ff66");
-        })
-        .catch(err => {
-            window.log("Payload Error: Verify payload.bin path.", "#ff0055");
-        });
-};
+document
+.getElementById("jailbreak-btn")
 
-document.getElementById("jailbreak-btn").addEventListener("click", ()=>{
-    document.getElementById("jailbreak-btn").disabled = true;
+.addEventListener(
+"click",
+()=>{
+
+    document
+    .getElementById("jailbreak-btn")
+    .disabled = true;
+
     outputConsole.innerHTML = "";
-    window.log("Launching PHOENIX Core Kernel Exploitation...", "#00ffff");
-    
-    setTimeout(()=>{
-        try {
-            if (typeof doJBwithPSFreeLapseExploit === "function") {
-                doJBwithPSFreeLapseExploit();
-            } else {
-                throw new Error("Exploit runtime handshake lost.");
-            }
-        } catch(error) {
-            handleRuntimeError(error);
-        }
-    }, 300);
+
+    window.log(
+    "Initializing PS4IDEA Core Execution...",
+    "#00ffcc"
+    );
+
+    try{
+
+        setTimeout(()=>{
+
+            doJBwithPSFreeLapseExploit();
+
+        },300);
+
+    }catch(error){
+
+        window.log(
+        "Exploit Interrupted: " + error,
+        "red"
+        );
+
+        document
+        .getElementById("jailbreak-btn")
+        .disabled = false;
+    }
 });
 
-document.getElementById("clock-btn").addEventListener("click", ()=>{
-    window.log("Initiating CMOS Clock Synchronization Sequence...", "#ffd700");
-    setTimeout(()=>{
-        window.log("SUCCESS: Clock synced to current network time standard.", "#00ff66");
-        window.log("Page will reload to secure staging environment...", "#00ff66");
-        setTimeout(() => { location.reload(); }, 1000);
-    }, 1200);
-});
 </script>
+
 </body>
 </html>

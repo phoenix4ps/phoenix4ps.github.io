@@ -1,125 +1,199 @@
 <!DOCTYPE html>
 <html lang="en" manifest="psfree_lapse.cache">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PHOENIX GAME - CACHING</title>
-    <link rel="stylesheet" href="./style.css">
+    
     <style>
-        .cache-page-layout {
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000000;
+        }
+
+        body {
+            background-image: url('bg.jpg'); 
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            width: 100%;
-            max-width: 600px;
-            margin-top: 10px;
-            gap: 20px;
+            padding-top: 30px;
+            font-family: Arial, sans-serif;
         }
 
-        .cache-phoenix-container {
-            width: 180px;
-            height: 180px;
+        h1 {
+            color: #ffffff;
+            font-size: 32px;
+            margin: 0;
+            text-transform: uppercase;
+            text-shadow: 0 0 15px rgba(255, 140, 0, 0.8);
+            z-index: 10;
+        }
+
+        .subtitle {
+            color: #aaaaaa;
+            font-size: 16px;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+            z-index: 10;
+        }
+
+        #jailbreak-btn {
+            background-color: rgba(128, 128, 128, 0.15); 
+            color: #888888;
+            width: 80px; 
+            height: 80px;
+            border: 3px solid #888888; 
+            border-radius: 50%; 
+            font-size: 22px;   
+            font-weight: bold;
+            cursor: not-allowed;
+            z-index: 10;
+            box-shadow: none;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            outline: none;
+            opacity: 0.5;
+        }
+
+        .phoenix-container {
+            width: 380px; 
+            height: 380px;
             z-index: 1;
-            mix-blend-mode: screen;
-            animation: cache-pulse 2.5s infinite ease-in-out;
+            mix-blend-mode: screen; 
+            animation: pulse-glow-only 2.5s infinite ease-in-out;
+            margin-top: 15px;
         }
 
-        .cache-phoenix-layer {
+        .phoenix-layer {
             width: 100%;
             height: 100%;
             background-image: url('icon0.png');
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
-            filter: drop-shadow(0 0 15px #ff8c00) drop-shadow(0 0 30px #ff4500);
         }
 
-        #console {
-            position: relative;
-            width: 92%;
-            max-width: 550px;
-            height: 150px;
-            border: 2px solid rgba(0, 255, 255, 0.8);
-            border-radius: 4px;
-            background: rgba(4, 12, 24, 0.45);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            box-shadow: 0 0 25px rgba(0, 255, 255, 0.25), inset 0 0 15px rgba(0, 255, 255, 0.1);
-            padding: 15px 20px;
-            box-sizing: border-box;
-            font-family: 'Courier New', monospace;
+        @keyframes pulse-glow-only {
+            0% { filter: drop-shadow(0 0 15px rgba(255, 69, 0, 0.6)); }
+            50% { filter: drop-shadow(0 0 45px rgba(255, 69, 0, 0.9)); }
+            100% { filter: drop-shadow(0 0 15px rgba(255, 69, 0, 0.6)); }
+        }
+
+        .side-wrapper {
+            position: fixed;
+            top: 40%; 
+            display: flex;
+            gap: 40px;
+            z-index: 10;
+        }
+        .left-side { left: 5%; }
+        .right-side { right: 5%; }
+
+        .ps-icon-side {
+            width: 64px;
+            height: 64px;
+        }
+
+        .tri { filter: drop-shadow(0 0 15px #4caf50); } 
+        .squ { filter: drop-shadow(0 0 15px #e91e63); } 
+        .cir { filter: drop-shadow(0 0 15px #ff5722); } 
+        .cro { filter: drop-shadow(0 0 15px #2196f3); } 
+
+        .writing-layer {
+            margin-top: -10px; 
+            width: 380px;
+            height: auto;
+            object-fit: contain;
+            z-index: 10;
+            filter: drop-shadow(0 0 15px #ffd700) drop-shadow(0 0 25px #ff8c00);
+        }
+
+        #console-box {
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            width: 96%;
+            height: 140px;
+            padding: 15px;
+            font-family: monospace;
             font-size: 14px;
-            color: #00ffff;
+            color: #ffd700;
+            z-index: 10;
+            border-radius: 12px;
+            margin-top: 25px; 
             overflow-y: auto;
-            text-align: left;
-            white-space: pre-wrap;
-            margin: 0;
-        }
-
-        #console::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle, rgba(255, 100, 0, 0.05) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
-        @keyframes cache-pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.04); }
+            box-sizing: border-box;
         }
     </style>
 </head>
 <body>
 
     <h1>PHOENIX HOST</h1>
-    <div class="subtitle">Installing Offline Storage...</div>
+    <div class="subtitle">Installing Offline Cache...</div>
 
-    <div class="cache-page-layout">
-        <div class="cache-phoenix-container">
-            <div class="cache-phoenix-layer"></div>
-        </div>
+    <button id="jailbreak-btn" disabled>PS</button>
 
-        <pre id="console"></pre>
+    <div class="phoenix-container">
+        <div class="phoenix-layer"></div>
+    </div>
+
+    <div class="side-wrapper left-side">
+        <img src="tri.png" class="ps-icon-side tri">
+        <img src="squ.png" class="ps-icon-side squ">
+    </div>
+    <div class="side-wrapper right-side">
+        <img src="cir.png" class="ps-icon-side cir">
+        <img src="cro.png" class="ps-icon-side cro">
+    </div>
+
+    <img src="wri.png" class="writing-layer">
+
+    <div id="console-box">
+        <div id="messages">Initializing AppCache installation...</div>
     </div>
 
     <script>
-        const outputConsole = document.getElementById("console");
+        history.replaceState(null, null, 'index.html');
+        var histlength = history.length;
+        history.go(-histlength);
+
+        const outputConsole = document.getElementById("messages");
         
         window.log = (msg) => { 
-            outputConsole.textContent += "> " + msg + "\n"; 
-            outputConsole.scrollTop = outputConsole.scrollHeight;
+            outputConsole.innerHTML += "<div>[SYSTEM] " + msg + "</div>";
+            var box = document.getElementById("console-box");
+            box.scrollTop = box.scrollHeight;
         };
 
         function DLProgress(e) {
-            if (e.total) {
-                const percent = (Math.round((e.loaded / e.total) * 100));
-                outputConsole.textContent = `> [CACHE] Downloading assets... ${percent}% complete.`;
-            } else {
-                outputConsole.textContent = `> [CACHE] Storing elements into cache database...`;
-            }
+            const percent = (Math.round((e.loaded / e.total) * 100));
+            outputConsole.innerHTML = "<div>[CACHE] Downloading files: " + percent + "% complete...</div>";
         }
 
         function DisplayCacheProgress() {
-            window.log(" ");
-            window.log("[SUCCESS] Offline storage deployed successfully.");
-            window.log("Launching PHOENIX Environment in 3 seconds...");
-            
-            setTimeout(function() { window.log("Redirecting system core..."); }, 1500);
-            setTimeout(function() { window.location.replace("index.html"); }, 3000);
+            window.log("Offline Cache installed successfully.");
+            window.log("Redirecting to Home Page in 3 seconds...");
+            setTimeout(function() { window.log("Reloading framework core..."); }, 1500);
+            setTimeout(function() { location.reload(); }, 3000);
         }
 
-        if(window.applicationCache) {
-            window.applicationCache.addEventListener("progress", DLProgress, false);
-            window.applicationCache.oncached = function(e) { DisplayCacheProgress(); };
-            window.applicationCache.onupdateready = function(e) { DisplayCacheProgress(); };
-        }
+        window.applicationCache.addEventListener("progress", DLProgress, false);
+        window.applicationCache.oncached = function(e) { DisplayCacheProgress(); };
+        window.applicationCache.onupdateready = function(e) { DisplayCacheProgress(); };
 
         document.addEventListener('DOMContentLoaded', () => {
-            outputConsole.textContent = "";
-            window.log("AppCache storage sequence initiating...");
-            window.log("Please wait, locking data inside PS4 browser memory.");
+            window.log("Please wait, preparing local files for storage.");
         });
     </script>
 </body>

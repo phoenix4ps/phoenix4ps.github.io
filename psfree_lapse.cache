@@ -1,18 +1,16 @@
 CACHE MANIFEST
-# PHOENIX Framework Cache - v3.1.1-UPDATED
+# Version 3.0.0
 
 index.html
-cache.html
 bundle.js
-psfree.js
-psfree_lapse_shared.js
-style.css
 payload.bin
 bg.jpg
 icon0.png
-icon1.png
-btn_phoenix.png
-lightning.png
+wri.png
+tri.png
+cir.png
+cro.png
+squ.png
 
 NETWORK:
 *
