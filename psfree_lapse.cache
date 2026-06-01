@@ -1,8 +1,9 @@
 CACHE MANIFEST
-# Version 4.0.2
+# Version 4.0.7
 
 index.html
-bundle.js
+psfree_lapse_shared.js
+psfree.js
 payload.bin
 bg.jpg
 icon0.png
