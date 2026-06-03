@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Version 5.1
+# Version 5.2
 
 index.html
 cache.html
@@ -7,6 +7,7 @@ bundle.js
 payload.bin
 bg.jpg
 icon0.png
+click_bird.png
 wri.png
 tri.png
 cir.png
