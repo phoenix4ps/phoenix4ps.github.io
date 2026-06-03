@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" manifest="psfree_lapse.cache">
+<html lang="en" class="notranslate" translate="no" manifest="psfree_lapse.cache">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -98,40 +98,43 @@
             z-index: 5;
         }
 
-        /* LEFT SIDE: Custom Sci-Fi Console Box with Blue Frame & Neon */
+        /* LEFT SIDE: Sci-Fi Console Box with Intelligent Frame Slicing */
         #console-box {
             width: 520px; 
             height: 320px;
             box-sizing: border-box;
-            
-            /* Applied smart CSS tint matrix to switch purple frame to vibrant Neon Blue */
-            border: 24px solid transparent;
-            border-image: url('frame.png') 40 round;
-            filter: hue-rotate(110deg) saturate(150%) drop-shadow(0 0 25px rgba(0, 92, 248, 0.85));
-            
-            /* Dynamic breathing glow effect */
-            animation: neon-blue-pulse 3s infinite ease-in-out;
             display: flex;
             flex-direction: column;
+            
+            /* Secure structural boundaries for the custom frame image */
+            border: 24px solid transparent;
+            border-image-source: url('frame.png');
+            border-image-slice: 30 35 30 35 fill;
+            border-image-repeat: round;
+            
+            /* Applied smart CSS tint matrix to switch purple frame to vibrant Neon Blue */
+            filter: hue-rotate(110deg) saturate(150%) drop-shadow(0 0 25px rgba(0, 92, 248, 0.85));
+            animation: neon-blue-pulse 3s infinite ease-in-out;
         }
 
-        /* Transparent Black Semi-opaque Internal Menu List */
+        /* Transparent Black Internal Menu Container fixed behind the borders */
         .console-internal-menu {
             width: 100%;
             height: 100%;
-            background-color: rgba(6, 6, 8, 0.75); /* Dark transparent menu look */
-            backdrop-filter: blur(8px); /* Glassmorphism blur effect */
-            border-radius: 6px;
-            padding: 12px;
+            background-color: rgba(6, 6, 8, 0.82); 
+            backdrop-filter: blur(8px); 
+            border-radius: 4px;
+            padding: 15px;
             overflow-y: auto;
             box-sizing: border-box;
             font-family: 'Courier New', monospace;
             font-size: 13px;
             font-weight: bold;
-            color: #00ffcc; /* Cyan readable text */
+            color: #00ffcc; 
+            background-clip: padding-box; /* CRITICAL: Prevent dark background from overlaying the frame.png */
         }
 
-        /* Custom Scrollbar for the internal container */
+        /* Custom Scrollbar for the internal log panel */
         .console-internal-menu::-webkit-scrollbar {
             width: 5px;
         }
@@ -173,7 +176,7 @@
             100% { filter: drop-shadow(0 0 15px rgba(255, 69, 0, 0.5)); }
         }
 
-        /* Background UI Element wrappers */
+        /* Floating Accent Elements */
         .side-wrapper {
             position: fixed;
             top: 45%; 
@@ -206,7 +209,7 @@
         }
     </script>
 </head>
-<body>
+<body class="notranslate">
 
     <h1>PHOENIX HOST</h1>
     <div class="subtitle">7.00 - 9.60</div>
