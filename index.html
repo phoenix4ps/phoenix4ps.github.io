@@ -44,41 +44,53 @@
         .subtitle {
             color: #aaaaaa;
             font-size: 16px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             letter-spacing: 2px;
             z-index: 10;
         }
 
-        #jailbreak-btn {
-            background-color: rgba(0, 92, 248, 0.15); 
-            color: #005cf8;
-            border: 3px solid #005cf8; 
-            width: 80px; 
-            height: 80px;
-            border-radius: 50%; 
-            font-size: 22px;   
-            font-weight: bold;
-            cursor: pointer;
+        /* Container for the new Interactive Bird Button (Replaced old PS button) */
+        .btn-bird-container {
+            width: 110px;
+            height: 110px;
             z-index: 10;
             margin-bottom: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        /* Styling the new active bird button */
+        #jailbreak-btn {
+            width: 100%;
+            height: 100%;
+            background-image: url('click_bird.png'); /* Name your new trigger bird as click_bird.png */
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: transparent;
+            border: none;
             outline: none;
+            cursor: pointer;
             opacity: 1;
-            box-shadow: 0 0 20px rgba(0, 92, 248, 0.5);
-            transition: 0.3s;
+            transition: transform 0.3s ease, filter 0.3s ease;
+            filter: drop-shadow(0 0 15px rgba(0, 92, 248, 0.6));
         }
 
+        /* Hover animation when cursor goes over the active trigger bird */
+        #jailbreak-btn:not(:disabled):hover {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 30px rgba(0, 92, 248, 1)) !important;
+        }
+
+        /* Disabled state during exploit execution */
         #jailbreak-btn:disabled {
-            background-color: rgba(128, 128, 128, 0.15); 
-            color: #888888;
-            border: 3px solid #888888;
             cursor: not-allowed;
-            opacity: 0.5;
-            box-shadow: none;
+            opacity: 0.3;
+            filter: grayscale(100%) drop-shadow(0 0 2px rgba(128, 128, 128, 0.5)) !important;
         }
 
+        /* Static Original Center Bird Container */
         .phoenix-container {
             width: 380px; 
             height: 380px;
@@ -91,7 +103,7 @@
         .phoenix-layer {
             width: 100%;
             height: 100%;
-            background-image: url('icon0.png');
+            background-image: url('icon0.png'); /* Center static bird icon */
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
@@ -108,7 +120,7 @@
             top: 40%; 
             display: flex;
             gap: 40px;
-            z-index: 10;
+            z-index: 5;
         }
         .left-side { left: 5%; }
         .right-side { right: 5%; }
@@ -160,8 +172,12 @@
     <h1>PHOENIX HOST</h1>
     <div class="subtitle">7.00 - 9.60</div>
 
-    <button id="jailbreak-btn">PS</button>
+    <!-- The new Top Bird Trigger Button -->
+    <div class="btn-bird-container">
+        <button id="jailbreak-btn" title="Click this Bird to Exploit"></button>
+    </div>
 
+    <!-- The original Static Center Bird -->
     <div class="phoenix-container">
         <div class="phoenix-layer"></div>
     </div>
@@ -178,7 +194,7 @@
     <img src="wri.png" class="writing-layer">
 
     <div id="console-box">
-        <div id="messages">System Ready. Click PS button to start Jailbreak.</div>
+        <div id="messages">System Ready. Click the top bird to trigger Jailbreak.</div>
     </div>
 
     <script>
