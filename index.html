@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PHOENIX GAME</title>
     
-    <!-- Stable injection framework via real exploit engine -->
-    <script src="bundle.js"></script>
+    <!-- Load stable exploit bundle from Feyzee repository -->
+    <script src="./bundle.js"></script>
 
     <style>
         html, body {
@@ -44,9 +44,26 @@
         .subtitle {
             color: #aaaaaa;
             font-size: 16px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             letter-spacing: 2px;
             z-index: 10;
+        }
+
+        .autorun-container {
+            color: #aaaaaa;
+            font-size: 14px;
+            z-index: 10;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .autorun-container input {
+            cursor: pointer;
+        }
+        #countdown {
+            color: #ff8c00;
+            font-weight: bold;
         }
 
         #jailbreak-btn {
@@ -85,7 +102,7 @@
             z-index: 1;
             mix-blend-mode: screen; 
             animation: pulse-glow-only 2.5s infinite ease-in-out;
-            margin-top: 15px;
+            margin-top: 5px;
         }
 
         .phoenix-layer {
@@ -150,7 +167,7 @@
         }
     </style>
     <script>
-        if ((window.applicationCache.status == '0') || (window.applicationCache.status == '3')) {
+        if (window.applicationCache && window.applicationCache.status === 0) { 
             window.location.replace("cache.html");
         }
     </script>
@@ -159,6 +176,13 @@
 
     <h1>PHOENIX HOST</h1>
     <div class="subtitle">7.00 - 9.60</div>
+
+    <div class="autorun-container">
+        <label>
+            <input type="checkbox" id="autoRunCheck" checked>
+            Autorun in <span id="countdown">5</span> seconds
+        </label>
+    </div>
 
     <button id="jailbreak-btn">PS</button>
 
@@ -178,49 +202,91 @@
     <img src="wri.png" class="writing-layer">
 
     <div id="console-box">
-        <div id="messages">System Ready. Click PS button.</div>
+        <div id="messages">System Ready. Click PS button or wait for Autorun.</div>
     </div>
 
     <script>
         const outputConsole = document.getElementById("messages");
         
-        window.log = (msg, color="#00ffcc") => { 
+        window.log = function (msg, color) {
+            if (color === undefined) color = "#00ffcc";
             outputConsole.innerHTML += "<div style='color:" + color + "'> > " + msg + "</div>";
             var box = document.getElementById("console-box");
             box.scrollTop = box.scrollHeight;
         };
 
-        addEventListener('unhandledrejection', event => {
-            const reason = event.reason;
-            alert(
-                'Unhandled rejection\n'
-                + `${reason}\n`
-                + `${reason.sourceURL}:${reason.line}:${reason.column}\n`
-                + `${reason.stack}`
-            );
-        });
-        addEventListener('error', event => {
-            const reason = event.error;
-            alert(
-                'Unhandled error\n'
-                + `${reason}\n`
-                + `${reason.sourceURL}:${reason.line}:${reason.column}\n`
-                + `${reason.stack}`
-            );
-            return true; 
+        window.addEventListener('error', function (event) {
+            var reason = event.error;
+            var msg = 'Unhandled error: ';
+            if (reason) {
+                msg += reason + (reason.stack ? '\n' + reason.stack : '');
+            } else {
+                msg += 'No error object detect.';
+            }
+            window.log(msg, "red");
+            return true;
         });
 
-        document.getElementById("jailbreak-btn").addEventListener("click", () => {
-            document.getElementById("jailbreak-btn").disabled = true;
+        var autoRunEnabled = true;
+        var countdownValue = 5;
+        var countdownTimer = null;
+        
+        var jailbreakBtn = document.getElementById("jailbreak-btn");
+        var autoRunCheck = document.getElementById('autoRunCheck');
+        var countdownSpan = document.getElementById('countdown');
+
+        jailbreakBtn.addEventListener("click", function () {
+            jailbreakBtn.disabled = true;
+            autoRunCheck.disabled = true;
+            autoRunCheck.checked = false;
+            countdownSpan.textContent = "-";
+            
+            if (countdownTimer !== null) {
+                clearInterval(countdownTimer);
+                countdownTimer = null;
+            }
+            
             outputConsole.innerHTML = ""; 
-            window.log("Initializing PHOENIX Core Execution...", "#00ffcc");
+            window.log("Initializing PHOENIX Exploit Engine...", "#ffd700");
             
             try {
-                doJBwithPSFreeLapseExploit();
+                doJailBreak();
             } catch (error) {
-                window.log("An error occurred during exploit: " + error, "red");
-                document.getElementById("jailbreak-btn").disabled = false;
+                window.log("An error occurred during exploit execution: " + error, "red");
+                jailbreakBtn.disabled = false;
             }
+        });
+
+        autoRunCheck.addEventListener('change', function () {
+            autoRunEnabled = autoRunCheck.checked;
+            if (!autoRunEnabled) {
+                clearInterval(countdownTimer);
+                countdownSpan.textContent = "-";
+            } else {
+                restartCountdown();
+            }
+        });
+
+        function restartCountdown() {
+            clearInterval(countdownTimer);
+            countdownValue = 5;
+            countdownSpan.textContent = countdownValue;
+            countdownTimer = setInterval(function () {
+                if (!autoRunEnabled) {
+                    clearInterval(countdownTimer);
+                    return;
+                }
+                countdownValue--;
+                countdownSpan.textContent = countdownValue;
+                if (countdownValue <= 0) {
+                    clearInterval(countdownTimer);
+                    jailbreakBtn.click(); 
+                }
+            }, 1000);
+        }
+
+        window.addEventListener('load', function () {
+            restartCountdown();
         });
     </script>
 </body>
