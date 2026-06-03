@@ -1,7 +1,8 @@
 CACHE MANIFEST
-# Version 5
+# Version 5.1
 
 index.html
+cache.html
 bundle.js
 payload.bin
 bg.jpg
