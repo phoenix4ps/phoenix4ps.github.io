@@ -28,7 +28,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            padding-top: 30px;
+            padding-top: 25px;
             font-family: Arial, sans-serif;
         }
 
@@ -49,22 +49,21 @@
             z-index: 10;
         }
 
-        /* Container for the new Interactive Bird Button (Replaced old PS button) */
+        /* Top Bird Trigger Button Container */
         .btn-bird-container {
             width: 110px;
             height: 110px;
             z-index: 10;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        /* Styling the new active bird button */
         #jailbreak-btn {
             width: 100%;
             height: 100%;
-            background-image: url('click_bird.png'); /* Name your new trigger bird as click_bird.png */
+            background-image: url('click_bird.png'); 
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
@@ -77,88 +76,128 @@
             filter: drop-shadow(0 0 15px rgba(0, 92, 248, 0.6));
         }
 
-        /* Hover animation when cursor goes over the active trigger bird */
         #jailbreak-btn:not(:disabled):hover {
             transform: scale(1.1);
             filter: drop-shadow(0 0 30px rgba(0, 92, 248, 1)) !important;
         }
 
-        /* Disabled state during exploit execution */
         #jailbreak-btn:disabled {
             cursor: not-allowed;
             opacity: 0.3;
             filter: grayscale(100%) drop-shadow(0 0 2px rgba(128, 128, 128, 0.5)) !important;
         }
 
-        /* Static Original Center Bird Container */
+        /* Side-by-Side Flex Layout Container */
+        .main-layout {
+            display: flex;
+            width: 94%;
+            max-width: 1200px;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            z-index: 5;
+        }
+
+        /* LEFT SIDE: Custom Sci-Fi Console Box with Blue Frame & Neon */
+        #console-box {
+            width: 520px; 
+            height: 320px;
+            box-sizing: border-box;
+            
+            /* Applied smart CSS tint matrix to switch purple frame to vibrant Neon Blue */
+            border: 24px solid transparent;
+            border-image: url('frame.png') 40 round;
+            filter: hue-rotate(110deg) saturate(150%) drop-shadow(0 0 25px rgba(0, 92, 248, 0.85));
+            
+            /* Dynamic breathing glow effect */
+            animation: neon-blue-pulse 3s infinite ease-in-out;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Transparent Black Semi-opaque Internal Menu List */
+        .console-internal-menu {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(6, 6, 8, 0.75); /* Dark transparent menu look */
+            backdrop-filter: blur(8px); /* Glassmorphism blur effect */
+            border-radius: 6px;
+            padding: 12px;
+            overflow-y: auto;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            font-weight: bold;
+            color: #00ffcc; /* Cyan readable text */
+        }
+
+        /* Custom Scrollbar for the internal container */
+        .console-internal-menu::-webkit-scrollbar {
+            width: 5px;
+        }
+        .console-internal-menu::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+        }
+        .console-internal-menu::-webkit-scrollbar-thumb {
+            background: #005cf8;
+            border-radius: 4px;
+        }
+
+        /* RIGHT SIDE: Phoenix Center Bird shifted completely to the Right */
         .phoenix-container {
-            width: 380px; 
-            height: 380px;
-            z-index: 1;
+            width: 440px; 
+            height: 440px;
             mix-blend-mode: screen; 
             animation: pulse-glow-only 2.5s infinite ease-in-out;
-            margin-top: 5px;
         }
 
         .phoenix-layer {
             width: 100%;
             height: 100%;
-            background-image: url('icon0.png'); /* Center static bird icon */
+            background-image: url('icon0.png'); 
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
         }
 
-        @keyframes pulse-glow-only {
-            0% { filter: drop-shadow(0 0 15px rgba(255, 69, 0, 0.6)); }
-            50% { filter: drop-shadow(0 0 45px rgba(255, 69, 0, 0.9)); }
-            100% { filter: drop-shadow(0 0 15px rgba(255, 69, 0, 0.6)); }
+        /* Keyframes Animations */
+        @keyframes neon-blue-pulse {
+            0% { filter: hue-rotate(110deg) saturate(150%) drop-shadow(0 0 15px rgba(0, 92, 248, 0.6)); }
+            50% { filter: hue-rotate(110deg) saturate(170%) drop-shadow(0 0 35px rgba(0, 92, 248, 1)); }
+            100% { filter: hue-rotate(110deg) saturate(150%) drop-shadow(0 0 15px rgba(0, 92, 248, 0.6)); }
         }
 
+        @keyframes pulse-glow-only {
+            0% { filter: drop-shadow(0 0 15px rgba(255, 69, 0, 0.5)); }
+            50% { filter: drop-shadow(0 0 40px rgba(255, 69, 0, 0.8)); }
+            100% { filter: drop-shadow(0 0 15px rgba(255, 69, 0, 0.5)); }
+        }
+
+        /* Background UI Element wrappers */
         .side-wrapper {
             position: fixed;
-            top: 40%; 
+            top: 45%; 
             display: flex;
-            gap: 40px;
-            z-index: 5;
+            gap: 25px;
+            z-index: 2;
+            opacity: 0.6;
         }
-        .left-side { left: 5%; }
-        .right-side { right: 5%; }
-
-        .ps-icon-side {
-            width: 64px;
-            height: 64px;
-        }
-
-        .tri { filter: drop-shadow(0 0 15px #4caf50); } 
-        .squ { filter: drop-shadow(0 0 15px #e91e63); } 
-        .cir { filter: drop-shadow(0 0 15px #ff5722); } 
-        .cro { filter: drop-shadow(0 0 15px #2196f3); } 
+        .left-side { left: 2%; }
+        .right-side { right: 2%; }
+        .ps-icon-side { width: 48px; height: 48px; }
+        .tri { filter: drop-shadow(0 0 10px #4caf50); } 
+        .squ { filter: drop-shadow(0 0 10px #e91e63); } 
+        .cir { filter: drop-shadow(0 0 10px #ff5722); } 
+        .cro { filter: drop-shadow(0 0 10px #2196f3); } 
 
         .writing-layer {
-            margin-top: -10px; 
-            width: 380px;
+            position: fixed;
+            bottom: 15px;
+            width: 320px;
             height: auto;
             object-fit: contain;
             z-index: 10;
-            filter: drop-shadow(0 0 15px #ffd700) drop-shadow(0 0 25px #ff8c00);
-        }
-
-        #console-box {
-            background-color: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(8px);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            width: 96%;
-            height: 140px;
-            padding: 15px;
-            font-family: monospace;
-            font-size: 14px;
-            color: #00ffcc;
-            z-index: 10;
-            border-radius: 12px;
-            margin-top: 25px; 
-            overflow-y: auto;
-            box-sizing: border-box;
+            filter: drop-shadow(0 0 15px #ffd700);
         }
     </style>
     <script>
@@ -172,16 +211,29 @@
     <h1>PHOENIX HOST</h1>
     <div class="subtitle">7.00 - 9.60</div>
 
-    <!-- The new Top Bird Trigger Button -->
+    <!-- Active Top Bird Trigger Button -->
     <div class="btn-bird-container">
         <button id="jailbreak-btn" title="Click this Bird to Exploit"></button>
     </div>
 
-    <!-- The original Static Center Bird -->
-    <div class="phoenix-container">
-        <div class="phoenix-layer"></div>
+    <!-- MAIN INTERACTIVE LAYOUT -->
+    <div class="main-layout">
+        
+        <!-- LEFT ELEMENT: Custom Neon Sci-Fi Frame Console -->
+        <div id="console-box">
+            <div class="console-internal-menu" id="messages">
+                System Ready. Click the top bird to trigger Jailbreak.
+            </div>
+        </div>
+
+        <!-- RIGHT ELEMENT: Static Phoenix shifted right -->
+        <div class="phoenix-container">
+            <div class="phoenix-layer"></div>
+        </div>
+
     </div>
 
+    <!-- UI Floating Accents -->
     <div class="side-wrapper left-side">
         <img src="tri.png" class="ps-icon-side tri">
         <img src="squ.png" class="ps-icon-side squ">
@@ -193,17 +245,13 @@
 
     <img src="wri.png" class="writing-layer">
 
-    <div id="console-box">
-        <div id="messages">System Ready. Click the top bird to trigger Jailbreak.</div>
-    </div>
-
     <script>
         const outputConsole = document.getElementById("messages");
         
         window.log = function (msg, color) {
             if (color === undefined) color = "#00ffcc";
             outputConsole.innerHTML += "<div style='color:" + color + "'> > " + msg + "</div>";
-            var box = document.getElementById("console-box");
+            var box = document.querySelector(".console-internal-menu");
             box.scrollTop = box.scrollHeight;
         };
 
