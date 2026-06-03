@@ -44,26 +44,9 @@
         .subtitle {
             color: #aaaaaa;
             font-size: 16px;
-            margin-bottom: 10px;
+            margin-bottom: 25px;
             letter-spacing: 2px;
             z-index: 10;
-        }
-
-        .autorun-container {
-            color: #aaaaaa;
-            font-size: 14px;
-            z-index: 10;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .autorun-container input {
-            cursor: pointer;
-        }
-        #countdown {
-            color: #ff8c00;
-            font-weight: bold;
         }
 
         #jailbreak-btn {
@@ -177,13 +160,6 @@
     <h1>PHOENIX HOST</h1>
     <div class="subtitle">7.00 - 9.60</div>
 
-    <div class="autorun-container">
-        <label>
-            <input type="checkbox" id="autoRunCheck" checked>
-            Autorun in <span id="countdown">5</span> seconds
-        </label>
-    </div>
-
     <button id="jailbreak-btn">PS</button>
 
     <div class="phoenix-container">
@@ -202,7 +178,7 @@
     <img src="wri.png" class="writing-layer">
 
     <div id="console-box">
-        <div id="messages">System Ready. Click PS button or wait for Autorun.</div>
+        <div id="messages">System Ready. Click PS button to start Jailbreak.</div>
     </div>
 
     <script>
@@ -227,25 +203,10 @@
             return true;
         });
 
-        var autoRunEnabled = true;
-        var countdownValue = 5;
-        var countdownTimer = null;
-        
         var jailbreakBtn = document.getElementById("jailbreak-btn");
-        var autoRunCheck = document.getElementById('autoRunCheck');
-        var countdownSpan = document.getElementById('countdown');
 
         jailbreakBtn.addEventListener("click", function () {
             jailbreakBtn.disabled = true;
-            autoRunCheck.disabled = true;
-            autoRunCheck.checked = false;
-            countdownSpan.textContent = "-";
-            
-            if (countdownTimer !== null) {
-                clearInterval(countdownTimer);
-                countdownTimer = null;
-            }
-            
             outputConsole.innerHTML = ""; 
             window.log("Initializing PHOENIX Exploit Engine...", "#ffd700");
             
@@ -255,38 +216,6 @@
                 window.log("An error occurred during exploit execution: " + error, "red");
                 jailbreakBtn.disabled = false;
             }
-        });
-
-        autoRunCheck.addEventListener('change', function () {
-            autoRunEnabled = autoRunCheck.checked;
-            if (!autoRunEnabled) {
-                clearInterval(countdownTimer);
-                countdownSpan.textContent = "-";
-            } else {
-                restartCountdown();
-            }
-        });
-
-        function restartCountdown() {
-            clearInterval(countdownTimer);
-            countdownValue = 5;
-            countdownSpan.textContent = countdownValue;
-            countdownTimer = setInterval(function () {
-                if (!autoRunEnabled) {
-                    clearInterval(countdownTimer);
-                    return;
-                }
-                countdownValue--;
-                countdownSpan.textContent = countdownValue;
-                if (countdownValue <= 0) {
-                    clearInterval(countdownTimer);
-                    jailbreakBtn.click(); 
-                }
-            }, 1000);
-        }
-
-        window.addEventListener('load', function () {
-            restartCountdown();
         });
     </script>
 </body>
