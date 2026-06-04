@@ -98,7 +98,7 @@
             z-index: 5;
         }
 
-        /* LEFT SIDE: Sci-Fi Console Box with Intelligent Frame Slicing */
+        /* LEFT SIDE: Sci-Fi Console Box sliced for top and bottom frames only */
         #console-box {
             width: 520px; 
             height: 320px;
@@ -106,11 +106,16 @@
             display: flex;
             flex-direction: column;
             
-            /* Secure structural boundaries for the custom frame image */
-            border: 24px solid transparent;
+            /* Enable Top and Bottom borders, completely disable left and right sides */
+            border-top: 24px solid transparent;
+            border-bottom: 24px solid transparent;
+            border-left: 0px solid transparent;
+            border-right: 0px solid transparent;
+            
+            /* Programmatic slicing to stretch only top/bottom elements of frame.png */
             border-image-source: url('frame.png');
-            border-image-slice: 30 35 30 35 fill;
-            border-image-repeat: round;
+            border-image-slice: 30 0 30 0 fill;
+            border-image-repeat: stretch;
             
             /* Applied smart CSS tint matrix to switch purple frame to vibrant Neon Blue */
             filter: hue-rotate(110deg) saturate(150%) drop-shadow(0 0 25px rgba(0, 92, 248, 0.85));
@@ -131,7 +136,7 @@
             font-size: 13px;
             font-weight: bold;
             color: #00ffcc; 
-            background-clip: padding-box; /* CRITICAL: Prevent dark background from overlaying the frame.png */
+            background-clip: padding-box; /* Stops dark color from overlaying the top/bottom frame graphic */
         }
 
         /* Custom Scrollbar for the internal log panel */
@@ -222,7 +227,7 @@
     <!-- MAIN INTERACTIVE LAYOUT -->
     <div class="main-layout">
         
-        <!-- LEFT ELEMENT: Custom Neon Sci-Fi Frame Console -->
+        <!-- LEFT ELEMENT: Custom Neon Sci-Fi Frame Console (Top/Bottom Mode) -->
         <div id="console-box">
             <div class="console-internal-menu" id="messages">
                 System Ready. Click the top bird to trigger Jailbreak.
