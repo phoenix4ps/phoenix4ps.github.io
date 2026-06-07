@@ -2,30 +2,34 @@ CACHE MANIFEST
 # PSFree-Lapse
 
 about.html
-alert.mjs
 cache.html
-config.mjs
 index.html
-lapse.mjs
 aio_patches.bin
 goldhen.bin
-psfree.mjs
-fonts\LiberationMono-Regular.ttf
-kpatch\900.elf
-module\chain.mjs
-module\constants.mjs
-module\int64.mjs
-module\mem.mjs
-module\memtools.mjs
-module\offset.mjs
-module\rw.mjs
-module\utils.mjs
-module\view.mjs
-rop\900.mjs
+payload.js
+js/alert.mjs
+js/config.mjs
+js/lapse.mjs
+js/psfree.mjs
+js/send.mjs
+kpatch/900.elf
+module/chain.mjs
+module/constants.mjs
+module/int64.mjs
+module/mem.mjs
+module/memtools.mjs
+module/offset.mjs
+module/rw.mjs
+module/utils.mjs
+module/view.mjs
+rop/900.mjs
+images/bgs.jpg
+images/frame.png
+images/click_bird.png
+images/wris.png
 
 NETWORK:
 *
 
 SETTINGS:
 prefer-online:
-
