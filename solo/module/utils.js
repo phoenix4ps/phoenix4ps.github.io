@@ -15,7 +15,7 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
-import { Int } from './int64.mjs';
+import { Int } from './int64.js';
 
 export class DieError extends Error {
     constructor(...args) {
@@ -167,6 +167,5 @@ export function jstr(buffer) {
         }
         res += String.fromCodePoint(item);
     }
-    // convert to primitive string
     return String(res);
 }
