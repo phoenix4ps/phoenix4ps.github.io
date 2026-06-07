@@ -70,6 +70,7 @@
             pointer-events: none;
             will-change: opacity;
             animation: randomNeonPulse 4s infinite ease-in-out;
+            z-index: 1;
         }
 
         .frame-container::after {
@@ -91,6 +92,7 @@
             pointer-events: none;
             will-change: opacity;
             animation: randomNeonPulse 5s infinite ease-in-out reverse;
+            z-index: 1;
         }
 
         #logger {
@@ -98,7 +100,7 @@
             height: 92%; 
             background: rgba(0, 0, 0, 0.6); 
             border-radius: 0px;
-            padding: 10px 12px 12px 12px;
+            padding: 5px 12px 12px 12px;
             font-family: 'Courier New', Courier, monospace;
             font-size: 0.85rem; 
             color: #00ffcc; 
@@ -106,7 +108,8 @@
             overflow-y: auto; 
             box-sizing: border-box;
             line-height: 1.4;
-            z-index: 2;
+            z-index: 3;
+            position: relative;
         }
 
         #logger::-webkit-scrollbar {
@@ -215,4 +218,43 @@
 
     <div class="main-layout">
         
-        <div class="left-section
+        <div class="left-section">
+            <div class="frame-container">
+                <div id="logger">STATUS: Ready.<br>> Awaiting exploit trigger...</div>
+            </div>
+        </div>
+
+        <div class="right-section">
+            <div class="main-controls">
+                
+                <div class="top-group">
+                    <div class="header-container">
+                        <h1 class="main-title-text">PHOENIX HOST</h1>
+                        <div class="subtitle">7.00 - 9.60</div>
+                    </div>
+
+                    <div class="action-container">
+                        <img src="images/click_bird.png" alt="CLICK BIRD" class="btn-bird-trigger" id="clickBirdBtn" tabindex="0">
+                    </div>
+                </div>
+
+                <div class="logo-container">
+                    <img src="images/wris.png" alt="wris" class="main-title-img">
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script type="module" src="js/main.mjs"></script>
+
+    <script>
+        function log(message) {
+            const logger = document.getElementById('logger');
+            logger.innerHTML += "<br>> " + message;
+            logger.scrollTop = logger.scrollHeight;
+        }
+    </script>
+</body>
+</html>
