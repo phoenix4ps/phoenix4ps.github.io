@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# PSFree-Lapse - Version 1.2
+# PSFree-Lapse - Version 3.0
 
 cache.html
 index.html
@@ -7,23 +7,23 @@ aio_patches.bin
 goldhen.bin
 kpatch/900.elf
 
-js/alert.mjs
-js/config.mjs
-js/lapse.mjs
-js/psfree.mjs
-js/send.mjs
+js/alert.js
+js/config.js
+js/lapse.js
+js/psfree.js
+js/send.js
 
-module/chain.mjs
-module/constants.mjs
-module/int64.mjs
-module/mem.mjs
-module/memtools.mjs
-module/offset.mjs
-module/rw.mjs
-module/utils.mjs
-module/view.mjs
+module/chain.js
+module/constants.js
+module/int64.js
+module/mem.js
+module/memtools.js
+module/offset.js
+module/rw.js
+module/utils.js
+module/view.js
 
-rop/900.mjs
+rop/900.js
 
 images/bgs.jpg
 images/frame.png
