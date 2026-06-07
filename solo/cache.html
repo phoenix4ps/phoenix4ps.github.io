@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" manifest="psfree_lapse.cache">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHOENIX HOST - CACHE</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('images/bgs.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .cache-container {
+            background: rgba(0, 0, 0, 0.75);
+            border: 2px solid #00ffcc;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            width: 80%;
+            max-width: 500px;
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.4);
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px rgba(0, 210, 255, 0.8);
+        }
+
+        #status {
+            font-size: 1.1rem;
+            color: #00d2ff;
+            margin-bottom: 20px;
+            font-family: monospace;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 255, 204, 0.3);
+        }
+
+        #progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #00d2ff, #00ffcc);
+            box-shadow: 0 0 10px #00ffcc;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cache-container">
+        <h1>PHOENIX HOST</h1>
+        <div id="status">Installing Offline Cache...</div>
+        <div class="progress-bar-container">
+            <div id="progress-bar"></div>
+        </div>
+    </div>
+
+    <script>
+        const cache = window.applicationCache;
+        const statusDiv = document.getElementById('status');
+        const progressBar = document.getElementById('progress-bar');
+
+        cache.addEventListener('checking', () => {
+            statusDiv.innerHTML = "Checking for updates...";
+        });
+
+        cache.addEventListener('downloading', () => {
+            statusDiv.innerHTML = "Downloading files to cache...";
+        });
+
+        cache.addEventListener('progress', (e) => {
+            if (e.lengthComputable) {
+                const percentage = Math.round((e.loaded / e.total) * 100);
+                progressBar.style.width = percentage + '%';
+                statusDiv.innerHTML = "Downloading: " + percentage + "%";
+            }
+        });
+
+        cache.addEventListener('cached', () => {
+            progressBar.style.width = '100%';
+            statusDiv.innerHTML = "Cache Installed Successfully!<br>Close browser & disconnect internet.";
+            setTimeout(() => { window.location.href = 'index.html'; }, 3000);
+        });
+
+        cache.addEventListener('updateready', () => {
+            cache.swapCache();
+            progressBar.style.width = '100%';
+            statusDiv.innerHTML = "Cache Updated!<br>Reloading...";
+            setTimeout(() => { window.location.reload(); }, 2000);
+        });
+
+        cache.addEventListener('noupdate', () => {
+            progressBar.style.width = '100%';
+            statusDiv.innerHTML = "Cache is up to date!";
+            setTimeout(() => { window.location.href = 'index.html'; }, 2000);
+        });
+
+        cache.addEventListener('error', () => {
+            statusDiv.innerHTML = "Cache Error! Try again or run online.";
+        });
+    </script>
+</body>
+</html>
