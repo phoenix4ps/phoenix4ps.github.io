@@ -5,7 +5,6 @@ cache.html
 index.html
 aio_patches.bin
 goldhen.bin
-payload.js
 js/alert.mjs
 js/config.mjs
 js/lapse.mjs
