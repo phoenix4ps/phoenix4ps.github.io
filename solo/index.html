@@ -40,37 +40,17 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            gap: 30px;
+            justify-content: space-between;
             width: 100%;
-            height: 100%;
-        }
-
-        .logo-container {
-            text-align: center;
-            will-change: transform;
-            animation: floatAnimation 4s infinite ease-in-out;
-        }
-
-        .main-title-img {
-            max-width: 85%;
-            height: auto;
-        }
-
-        .subtitle {
-            font-size: 1.2rem;
-            color: #00d2ff;
-            letter-spacing: 3px;
-            margin-top: 10px;
-            font-weight: bold;
-            text-shadow: 0 0 8px rgba(0, 210, 255, 0.5);
-            font-family: monospace;
+            height: 80%;
         }
 
         .action-container {
             width: 100%;
             display: flex;
             justify-content: center;
+            margin-top: auto;
+            margin-bottom: auto;
         }
 
         .btn-bird-trigger {
@@ -87,6 +67,28 @@
             transform: scale(1.05) translate3d(0,0,0);
             box-shadow: 0 0 25px #00d2ff, inset 0 0 15px #00ffcc;
             outline: none;
+        }
+
+        .logo-container {
+            text-align: center;
+            will-change: transform;
+            animation: floatAnimation 4s infinite ease-in-out;
+            margin-top: auto;
+        }
+
+        .main-title-img {
+            max-width: 85%;
+            height: auto;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #00d2ff;
+            letter-spacing: 3px;
+            margin-top: 5px;
+            font-weight: bold;
+            text-shadow: 0 0 8px rgba(0, 210, 255, 0.5);
+            font-family: monospace;
         }
 
         .left-section {
@@ -172,13 +174,13 @@
         <div class="right-section">
             <div class="main-controls">
                 
+                <div class="action-container">
+                    <img src="images/click_bird.png" alt="CLICK BIRD" class="btn-bird-trigger" id="clickBirdBtn" tabindex="0">
+                </div>
+
                 <div class="logo-container">
                     <img src="images/wris.png" alt="PHOENIX HOST" class="main-title-img">
                     <div class="subtitle">7.00 - 9.60</div>
-                </div>
-
-                <div class="action-container">
-                    <img src="images/click_bird.png" alt="CLICK BIRD" class="btn-bird-trigger" id="clickBirdBtn" tabindex="0">
                 </div>
 
             </div>
