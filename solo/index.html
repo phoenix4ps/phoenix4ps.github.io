@@ -188,4 +188,73 @@
 
         .btn-bird-trigger:hover, .btn-bird-trigger:focus {
             transform: scale(1.05) translate3d(0,0,0);
-            box-shadow
+            box-shadow: 0 0 20px #00d2ff, inset 0 0 10px #00ffcc;
+            outline: none;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-top: auto;
+            margin-bottom: 5px;
+        }
+
+        .main-title-img {
+            max-width: 60%; 
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        @keyframes randomNeonPulse {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-layout">
+        
+        <div class="left-section">
+            <div class="frame-container">
+                <div id="logger">
+                    STATUS: Ready.<br>
+                    > Awaiting exploit trigger...
+                </div>
+            </div>
+        </div>
+
+        <div class="right-section">
+            <div class="main-controls">
+                
+                <div class="top-group">
+                    <div class="header-container">
+                        <h1 class="main-title-text">PHOENIX HOST</h1>
+                        <div class="subtitle">7.00 - 9.60</div>
+                    </div>
+
+                    <div class="action-container">
+                        <img src="images/click_bird.png" alt="CLICK BIRD" class="btn-bird-trigger" id="clickBirdBtn" tabindex="0">
+                    </div>
+                </div>
+
+                <div class="logo-container">
+                    <img src="images/wris.png" alt="wris" class="main-title-img">
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script type="module" src="js/main.mjs"></script>
+
+    <script>
+        function log(message) {
+            const logger = document.getElementById('logger');
+            logger.innerHTML += "<br>> " + message;
+            logger.scrollTop = logger.scrollHeight;
+        }
+    </script>
+</body>
+</html>
