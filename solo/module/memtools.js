@@ -17,13 +17,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 // This module are for utilities that depend on running the exploit first
 
-import { Int } from './int64.mjs';
-import { mem } from './mem.mjs';
-import { align } from './utils.mjs';
-import { page_size } from './offset.mjs';
-import { BufferView } from './rw.mjs';
-import { View1 } from './view.mjs';
-import * as off from './offset.mjs';
+import { Int } from './int64.js';
+import { mem } from './mem.js';
+import { align } from './utils.js';
+import { page_size } from './offset.js';
+import { BufferView } from './rw.js';
+import { View1 } from './view.js';
+import * as off from './offset.js';
 
 // creates an ArrayBuffer whose contents is copied from addr
 export function make_buffer(addr, size) {
@@ -233,23 +233,10 @@ export function init_syscall_array(
             && kbuf[i + 10] === 0x0f
             && kbuf[i + 11] === 0x05
         ) {
-            const syscall_num = kbuf.read32(i + 3);
-            syscall_array[syscall_num] = libkernel_web_base.add(i);
-            // skip the sequence
-            i += 11;
+            const syscall_no = kbuf.read32(i + 3);
+            if (syscall_array[syscall_no] === undefined) {
+                syscall_array[syscall_no] = libkernel_web_base.add(i);
+            }
         }
     }
 }
-
-// create a char array like in the C language
-//
-// string to view since it's easier to get the address of the buffer this way
-export function cstr(str) {
-    str += '\0';
-    return View1.from(str, c => c.codePointAt(0));
-}
-
-// we are re-exporting this since users that want to use cstr() usually want
-// jstr() as well. they are likely working with functions that take/return
-// strings
-export { jstr } from './utils.mjs';
