@@ -53,16 +53,44 @@
         .frame-container::before {
             content: '';
             position: absolute;
-            top: 4%; 
-            left: 4%; 
-            right: 4%; 
-            bottom: 4%; 
-            border: 3px dashed #00d2ff; 
-            border-image: linear-gradient(to bottom right, #00d2ff 0%, transparent 30%, #00ffcc 50%, transparent 70%, #00d2ff 100%) 1;
-            box-shadow: 0 0 15px rgba(0, 210, 255, 0.4), inset 0 0 15px rgba(0, 255, 204, 0.2);
+            top: 2%;
+            left: 2%;
+            right: 2%;
+            bottom: 2%;
+            border: 4px solid transparent;
+            border-image: linear-gradient(135deg, 
+                #00d2ff 0%, 
+                transparent 20%, 
+                transparent 40%, 
+                #00ffcc 55%, 
+                transparent 70%, 
+                #00d2ff 85%, 
+                transparent 100%
+            ) 1;
             pointer-events: none;
             will-change: opacity;
-            animation: systemPulse 3s infinite alternate ease-in-out;
+            animation: randomNeonPulse 4s infinite ease-in-out;
+        }
+
+        .frame-container::after {
+            content: '';
+            position: absolute;
+            top: 2%;
+            left: 2%;
+            right: 2%;
+            bottom: 2%;
+            border: 4px solid transparent;
+            border-image: linear-gradient(315deg, 
+                transparent 15%, 
+                #00ffcc 35%, 
+                transparent 50%, 
+                transparent 75%, 
+                #00d2ff 90%, 
+                transparent 100%
+            ) 1;
+            pointer-events: none;
+            will-change: opacity;
+            animation: randomNeonPulse 5s infinite ease-in-out reverse;
         }
 
         #logger {
@@ -70,19 +98,19 @@
             height: 68%; 
             background: rgba(0, 0, 0, 0.6); 
             border-radius: 8px;
-            padding: 15px;
+            padding: 12px;
             font-family: 'Courier New', Courier, monospace;
-            font-size: 1.1rem;
+            font-size: 0.85rem; 
             color: #00ffcc; 
             text-align: left;
             overflow-y: auto; 
             box-sizing: border-box;
-            line-height: 1.6;
+            line-height: 1.4;
             z-index: 2;
         }
 
         #logger::-webkit-scrollbar {
-            width: 6px;
+            width: 5px;
         }
 
         #logger::-webkit-scrollbar-thumb {
@@ -106,30 +134,30 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
-            height: 90%;
+            height: 85%;
         }
 
         .header-container {
             text-align: center;
-            margin-top: 10px;
+            margin-top: 5px;
         }
 
         .main-title-text {
-            font-size: 2.2rem;
+            font-size: 1.6rem; 
             font-weight: 900;
             color: #ffffff;
-            letter-spacing: 5px;
-            margin: 0 0 5px 0;
-            text-shadow: 0 0 15px rgba(0, 210, 255, 0.8), 0 0 30px rgba(0, 210, 255, 0.4);
+            letter-spacing: 4px;
+            margin: 0 0 3px 0;
+            text-shadow: 0 0 10px rgba(0, 210, 255, 0.8);
         }
 
         .subtitle {
-            font-size: 1.2rem;
+            font-size: 0.95rem; 
             color: #00d2ff;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             margin: 0;
             font-weight: bold;
-            text-shadow: 0 0 8px rgba(0, 210, 255, 0.5);
+            text-shadow: 0 0 5px rgba(0, 210, 255, 0.5);
             font-family: monospace;
         }
 
@@ -142,37 +170,36 @@
         }
 
         .btn-bird-trigger {
-            width: 150px;
-            height: 150px;
+            width: 110px; 
+            height: 110px; 
             object-fit: contain;
             cursor: pointer;
             border-radius: 50%;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
-            box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
+            box-shadow: 0 0 12px rgba(0, 255, 204, 0.4);
         }
 
         .btn-bird-trigger:hover, .btn-bird-trigger:focus {
             transform: scale(1.05) translate3d(0,0,0);
-            box-shadow: 0 0 25px #00d2ff, inset 0 0 15px #00ffcc;
+            box-shadow: 0 0 20px #00d2ff, inset 0 0 10px #00ffcc;
             outline: none;
         }
 
         .logo-container {
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
 
         .main-title-img {
-            max-width: 85%;
+            max-width: 60%; 
             height: auto;
             display: block;
             margin: 0 auto;
         }
 
-        @keyframes systemPulse {
-            0% { opacity: 0.5; }
+        @keyframes randomNeonPulse {
+            0%, 100% { opacity: 0.2; }
             50% { opacity: 1; }
-            100% { opacity: 0.4; }
         }
     </style>
 </head>
