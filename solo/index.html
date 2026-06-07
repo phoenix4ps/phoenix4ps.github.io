@@ -237,7 +237,7 @@
                     </div>
 
                     <div class="action-container">
-                        <img src="images/click_bird.png" alt="CLICK BIRD" class="btn-bird-trigger" id="clickBirdBtn" tabindex="0" onclick="if(typeof launchExploit === 'function') launchExploit();">
+                        <img src="images/click_bird.png" alt="CLICK BIRD" class="btn-bird-trigger" id="clickBirdBtn" tabindex="0" onclick="startJailbreak();">
                     </div>
                 </div>
 
@@ -250,8 +250,6 @@
 
     </div>
 
-    <script type="module" src="js/alert.mjs"></script>
-
     <script>
         function log(message) {
             const consoleBox = document.getElementById('console');
@@ -259,6 +257,15 @@
             consoleBox.scrollTop = consoleBox.scrollHeight;
         }
         window.customLog = log;
+
+        async function startJailbreak() {
+            log("Initiating PSFree Exploit...");
+            try {
+                await import('./js/psfree.mjs');
+            } catch (err) {
+                log("Error loading exploit module: " + err.message);
+            }
+        }
 
         window.addEventListener('load', function() {
             const birdBtn = document.getElementById('clickBirdBtn');
