@@ -187,6 +187,8 @@
             border-radius: 50%;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
             box-shadow: 0 0 12px rgba(0, 255, 204, 0.4);
+            opacity: 0.4;
+            pointer-events: none;
         }
 
         .btn-bird-trigger:hover, .btn-bird-trigger:focus {
@@ -220,9 +222,8 @@
         
         <div class="left-section">
             <div class="frame-container">
-                <pre id="console">STATUS: Ready.
-> Awaiting exploit trigger...
-> Click the bird icon to activate PSFree.</pre>
+                <pre id="console">STATUS: Loading components...
+> Waiting for full page download...</pre>
             </div>
         </div>
 
@@ -249,7 +250,6 @@
 
     </div>
 
-    <script src="payload.js"></script>
     <script type="module" src="js/alert.mjs"></script>
 
     <script>
@@ -259,6 +259,15 @@
             consoleBox.scrollTop = consoleBox.scrollHeight;
         }
         window.customLog = log;
+
+        window.addEventListener('load', function() {
+            const birdBtn = document.getElementById('clickBirdBtn');
+            birdBtn.style.opacity = '1';
+            birdBtn.style.pointerEvents = 'auto';
+            
+            const consoleBox = document.getElementById('console');
+            consoleBox.innerHTML = "STATUS: Ready.\n> Awaiting exploit trigger...\n> Click the bird icon to activate PSFree.";
+        });
     </script>
 </body>
 </html>
