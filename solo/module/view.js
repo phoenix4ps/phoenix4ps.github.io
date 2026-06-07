@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 anonymous
+/* Copyright (C) 2023-2025 anonymous
 
 This file is part of PSFree.
 
@@ -15,12 +15,12 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
-import { Int, lohi_from_one } from './int64.mjs';
-import { Addr } from './mem.mjs';
-import { BufferView } from './rw.mjs';
+import { Int, lohi_from_one } from './int64.js';
+import { Addr } from './mem.js';
+import { BufferView } from './rw.js';
 
-import * as config from '../config.mjs';
-import * as mt from './memtools.mjs';
+import * as config from '../js/config.js';
+import * as mt from './memtools.js';
 
 // View constructors will always get the buffer property in order to make sure
 // that the JSArrayBufferView is a WastefulTypedArray. m_vector may change if
