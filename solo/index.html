@@ -222,7 +222,7 @@
         
         <div class="left-section">
             <div class="frame-container">
-                <pre id="console">STATUS: Loading components...
+                <pre id="console">STATUS: Initializing components...
 > Waiting for full page download...</pre>
             </div>
         </div>
@@ -251,30 +251,63 @@
     </div>
 
     <script>
+        const consoleBox = document.getElementById('console');
+        const birdBtn = document.getElementById('clickBirdBtn');
+
         function log(message) {
-            const consoleBox = document.getElementById('console');
             consoleBox.innerHTML += "\n> " + message;
             consoleBox.scrollTop = consoleBox.scrollHeight;
         }
         window.customLog = log;
+
+        if (window.applicationCache) {
+            window.applicationCache.addEventListener('checking', function() {
+                consoleBox.innerHTML = "STATUS: Checking cache manifest...";
+            }, false);
+
+            window.applicationCache.addEventListener('downloading', function() {
+                consoleBox.innerHTML = "STATUS: Downloading assets...";
+                log("Installing Offline Cache. Please wait...");
+            }, false);
+
+            window.applicationCache.addEventListener('progress', function(e) {
+                if (e.total) {
+                    var percent = Math.round(e.loaded / e.total * 100);
+                    consoleBox.innerHTML = "STATUS: Downloading assets...\n> Installing Offline Cache: " + percent + "%";
+                }
+            }, false);
+
+            window.applicationCache.addEventListener('cached', function() {
+                consoleBox.innerHTML = "STATUS: Cache Ready!\n> All components stored successfully.\n> Please turn OFF your internet connection now.";
+                birdBtn.style.opacity = '1';
+                birdBtn.style.pointerEvents = 'auto';
+            }, false);
+
+            window.applicationCache.addEventListener('noupdate', function() {
+                consoleBox.innerHTML = "STATUS: Ready.\n> Awaiting exploit trigger...\n> Click the bird icon to activate PSFree.";
+                birdBtn.style.opacity = '1';
+                birdBtn.style.pointerEvents = 'auto';
+            }, false);
+
+            window.applicationCache.addEventListener('updateready', function() {
+                window.applicationCache.swapCache();
+                consoleBox.innerHTML = "STATUS: Cache Updated!\n> Reloading page to apply updates...";
+                setTimeout(function() { location.reload(); }, 2000);
+            }, false);
+
+            window.applicationCache.addEventListener('error', function() {
+                if (navigator.onLine === false) {
+                    consoleBox.innerHTML = "STATUS: Offline Mode Active.\n> Awaiting exploit trigger...\n> Click the bird icon to activate PSFree.";
+                    birdBtn.style.opacity = '1';
+                    birdBtn.style.pointerEvents = 'auto';
+                } else {
+                    log("Cache Error! Please check your file paths in .cache manifest.");
+                }
+            }, false);
+        }
 
         async function startJailbreak() {
             log("Initiating PSFree Exploit...");
             try {
                 await import('./js/psfree.mjs');
             } catch (err) {
-                log("Error loading exploit module: " + err.message);
-            }
-        }
-
-        window.addEventListener('load', function() {
-            const birdBtn = document.getElementById('clickBirdBtn');
-            birdBtn.style.opacity = '1';
-            birdBtn.style.pointerEvents = 'auto';
-            
-            const consoleBox = document.getElementById('console');
-            consoleBox.innerHTML = "STATUS: Ready.\n> Awaiting exploit trigger...\n> Click the bird icon to activate PSFree.";
-        });
-    </script>
-</body>
-</html>
