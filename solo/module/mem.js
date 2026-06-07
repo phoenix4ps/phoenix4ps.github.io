@@ -15,8 +15,8 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
-import { Int, lohi_from_one } from './int64.mjs';
-import { view_m_vector, view_m_length } from './offset.mjs';
+import { Int, lohi_from_one } from './int64.js';
+import { view_m_vector, view_m_length } from './offset.js';
 
 export let mem = null;
 
@@ -150,22 +150,6 @@ export class Addr extends Int {
     }
 }
 
-// expected:
-// * main - Uint32Array whose m_vector points to worker
-// * worker - DataView
-//
-// addrof()/fakeobj() expectations:
-// * obj - has a "addr" property and a 0 index.
-// * addr_addr - Int, the address of the slot of obj.addr
-// * fake_addr - Int, the address of the slot of obj[0]
-//
-// a valid example for "obj" is "{addr: null, 0: 0}". note that this example
-// has [0] be 0 so that the butterfly's indexing type is ArrayWithInt32. this
-// prevents the garbage collector from incorrectly treating the slot's value as
-// a JSObject and then crash
-//
-// the relative read/write methods expect the offset to be a unsigned 32-bit
-// integer
 export class Memory {
     constructor(main, worker, obj, addr_addr, fake_addr)  {
         this._main = main;
@@ -181,7 +165,6 @@ export class Memory {
         init_module(this);
 
         const off_mvec = view_m_vector;
-        // use this to create WastefulTypedArrays to avoid a GC crash
         const buf = new ArrayBuffer(0);
 
         const src = new Uint8Array(buf);
@@ -202,7 +185,6 @@ export class Memory {
         this._dst_setter = dset;
     }
 
-    // dst and src may overlap
     cpy(dst, src, len) {
         if (!(isInteger(len) && 0 <= len && len <= 0xffffffff)) {
             throw TypeError('len not a unsigned 32-bit integer');
@@ -222,11 +204,6 @@ export class Memory {
         this._cpydst.set(this._cpysrc);
     }
 
-    // allocate Garbage Collector managed memory. returns [address_of_memory,
-    // backer]. backer is the JSCell that is keeping the returned memory alive,
-    // you can drop it once you have another GC object reference the address.
-    // the backer is an implementation detail. don't use it to mutate the
-    // memory
     gc_alloc(size) {
         if (!isInteger(size)) {
             throw TypeError('size not a integer');
@@ -258,11 +235,7 @@ export class Memory {
     }
 
     addrof(object) {
-        // typeof considers null as a object. blacklist it as it isn't a
-        // JSObject
-        if (object === null
-            || (typeof object !== 'object' && typeof object !== 'function')
-        ) {
+        if (object === null || (typeof object !== 'object' && typeof object !== 'function')) {
             throw TypeError('argument not a JS object');
         }
 
@@ -274,157 +247,27 @@ export class Memory {
 
         main[off_vector] = this._addr_low;
         main[off_vector2] = this._addr_high;
-
-        const res = new Addr(
-            worker.getUint32(0, true),
-            worker.getUint32(4, true),
-        );
-        obj.addr = null;
-
-        return res;
+        return new Addr(worker.getUint32(0, true), worker.getUint32(4, true));
     }
 
-    // expects addr to be a Int
     _set_addr_direct(addr) {
         const main = this._main;
         main[off_vector] = addr.lo;
         main[off_vector2] = addr.hi;
     }
 
-    set_addr(addr) {
-        const values = lohi_from_one(addr);
-        const main = this._main;
-        main[off_vector] = values[0];
-        main[off_vector2] = values[1];
-    }
+    read8_at(offset) { return this._worker.getUint8(offset); }
+    read16_at(offset) { return this._worker.getUint16(offset, true); }
+    read32_at(offset) { return this._worker.getUint32(offset, true); }
+    read64_at(offset) { return new Int(this._worker.getUint32(offset, true), this._worker.getUint32(offset + 4, true)); }
+    readp_at(offset) { return new Addr(this._worker.getUint32(offset, true), this._worker.getUint32(offset + 4, true)); }
 
-    get_addr() {
-        const main = this._main;
-        return new Addr(main[off_vector], main[off_vector2]);
-    }
-
-    read8(addr) {
-        this.set_addr(addr);
-        return this._worker.getUint8(0);
-    }
-
-    read16(addr) {
-        this.set_addr(addr);
-        return this._worker.getUint16(0, true);
-    }
-
-    read32(addr) {
-        this.set_addr(addr);
-        return this._worker.getUint32(0, true);
-    }
-
-    read64(addr) {
-        this.set_addr(addr);
-        const worker = this._worker;
-        return new Int(worker.getUint32(0, true), worker.getUint32(4, true));
-    }
-
-    // returns a pointer instead of an Int
-    readp(addr) {
-        this.set_addr(addr);
-        const worker = this._worker;
-        return new Addr(worker.getUint32(0, true), worker.getUint32(4, true));
-    }
-
-    read8_at(offset) {
-        if (!isInteger(offset)) {
-            throw TypeError('offset not a integer');
-        }
-        return this._worker.getUint8(offset);
-    }
-
-    read16_at(offset) {
-        if (!isInteger(offset)) {
-            throw TypeError('offset not a integer');
-        }
-        return this._worker.getUint16(offset, true);
-    }
-
-    read32_at(offset) {
-        if (!isInteger(offset)) {
-            throw TypeError('offset not a integer');
-        }
-        return this._worker.getUint32(offset, true);
-    }
-
-    read64_at(offset) {
-        if (!isInteger(offset)) {
-            throw TypeError('offset not a integer');
-        }
-        const worker = this._worker;
-        return new Int(
-            worker.getUint32(offset, true),
-            worker.getUint32(offset + 4, true),
-        );
-    }
-
-    readp_at(offset) {
-        if (!isInteger(offset)) {
-            throw TypeError('offset not a integer');
-        }
-        const worker = this._worker;
-        return new Addr(
-            worker.getUint32(offset, true),
-            worker.getUint32(offset + 4, true),
-        );
-    }
-
-    write8(addr, value) {
-        this.set_addr(addr);
-        this._worker.setUint8(0, value);
-    }
-
-    write16(addr, value) {
-        this.set_addr(addr);
-        this._worker.setUint16(0, value, true);
-    }
-
-    write32(addr, value) {
-        this.set_addr(addr);
-        this._worker.setUint32(0, value, true);
-    }
-
-    write64(addr, value) {
-        const values = lohi_from_one(value);
-        this.set_addr(addr);
-        const worker = this._worker;
-        worker.setUint32(0, values[0], true);
-        worker.setUint32(4, values[1], true);
-    }
-
-    write8_at(offset, value) {
-        if (!isInteger(offset)) {
-            throw TypeError('offset not a integer');
-        }
-        this._worker.setUint8(offset, value);
-    }
-
-    write16_at(offset, value) {
-        if (!isInteger(offset)) {
-            throw TypeError('offset not a integer');
-        }
-        this._worker.setUint16(offset, value, true);
-    }
-
-    write32_at(offset, value) {
-        if (!isInteger(offset)) {
-            throw TypeError('offset not a integer');
-        }
-        this._worker.setUint32(offset, value, true);
-    }
-
+    write8_at(offset, value) { this._worker.setUint8(offset, value); }
+    write16_at(offset, value) { this._worker.setUint16(offset, value, true); }
+    write32_at(offset, value) { this._worker.setUint32(offset, value, true); }
     write64_at(offset, value) {
-        if (!isInteger(offset)) {
-            throw TypeError('offset not a integer');
-        }
         const values = lohi_from_one(value);
-        const worker = this._worker;
-        worker.setUint32(offset, values[0], true);
-        worker.setUint32(offset + 4, values[1], true);
+        this._worker.setUint32(offset, values[0], true);
+        this._worker.setUint32(offset + 4, values[1], true);
     }
 }
