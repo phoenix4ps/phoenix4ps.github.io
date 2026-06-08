@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PHOENIX HOST</title>
+    <link rel="icon" href="data:,">
     <style>
         body {
             margin: 0;
@@ -58,15 +59,7 @@
             right: 2%;
             bottom: 2%;
             border: 4px solid transparent;
-            border-image: linear-gradient(135deg, 
-                #00d2ff 0%, 
-                transparent 20%, 
-                transparent 40%, 
-                #00ffcc 55%, 
-                transparent 70%, 
-                #00d2ff 85%, 
-                transparent 100%
-            ) 1;
+            border-image: linear-gradient(135deg, #00d2ff 0%, transparent 20%, transparent 40%, #00ffcc 55%, transparent 70%, #00d2ff 85%, transparent 100%) 1;
             pointer-events: none;
             will-change: opacity;
             animation: randomNeonPulse 4s infinite ease-in-out;
@@ -80,14 +73,7 @@
             right: 2%;
             bottom: 2%;
             border: 4px solid transparent;
-            border-image: linear-gradient(315deg, 
-                transparent 15%, 
-                #00ffcc 35%, 
-                transparent 50%, 
-                transparent 75%, 
-                #00d2ff 90%, 
-                transparent 100%
-            ) 1;
+            border-image: linear-gradient(315deg, transparent 15%, #00ffcc 35%, transparent 50%, transparent 75%, #00d2ff 90%, transparent 100%) 1;
             pointer-events: none;
             will-change: opacity;
             animation: randomNeonPulse 5s infinite ease-in-out reverse;
@@ -187,8 +173,8 @@
             border-radius: 50%;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
             box-shadow: 0 0 12px rgba(0, 255, 204, 0.4);
-            opacity: 0.4;
-            pointer-events: none;
+            opacity: 1;
+            pointer-events: auto;
         }
 
         .btn-bird-trigger:hover, .btn-bird-trigger:focus {
@@ -260,6 +246,10 @@
         }
         window.customLog = log;
 
+        function startJailbreak() {
+            log("Jailbreak process started...");
+        }
+
         if (window.applicationCache) {
             window.applicationCache.addEventListener('checking', function() {
                 consoleBox.innerHTML = "STATUS: Checking cache manifest...";
@@ -278,35 +268,21 @@
             }, false);
 
             window.applicationCache.addEventListener('cached', function() {
-                consoleBox.innerHTML = "STATUS: Cache Ready!\n> All components stored successfully.\n> Please turn OFF your internet connection now.";
-                birdBtn.style.opacity = '1';
-                birdBtn.style.pointerEvents = 'auto';
+                consoleBox.innerHTML = "STATUS: Cache Installed Successfully!\n> Disconnect internet and reopen browser.";
+                birdBtn.style.opacity = "1";
+                birdBtn.style.pointerEvents = "auto";
             }, false);
 
             window.applicationCache.addEventListener('noupdate', function() {
-                consoleBox.innerHTML = "STATUS: Ready.\n> Awaiting exploit trigger...\n> Click the bird icon to activate PSFree.";
-                birdBtn.style.opacity = '1';
-                birdBtn.style.pointerEvents = 'auto';
-            }, false);
-
-            window.applicationCache.addEventListener('updateready', function() {
-                window.applicationCache.swapCache();
-                consoleBox.innerHTML = "STATUS: Cache Updated!\n> Reloading page to apply updates...";
-                setTimeout(function() { location.reload(); }, 2000);
+                consoleBox.innerHTML = "STATUS: Cache up to date.\n> Ready for offline exploit.";
+                birdBtn.style.opacity = "1";
+                birdBtn.style.pointerEvents = "auto";
             }, false);
 
             window.applicationCache.addEventListener('error', function() {
-                if (navigator.onLine === false) {
-                    consoleBox.innerHTML = "STATUS: Offline Mode Active.\n> Awaiting exploit trigger...\n> Click the bird icon to activate PSFree.";
-                    birdBtn.style.opacity = '1';
-                    birdBtn.style.pointerEvents = 'auto';
-                } else {
-                    log("Cache Error! Please check your file paths in .cache manifest.");
-                }
+                consoleBox.innerHTML = "STATUS: Cache Error!\n> Check if 'psfree_lapse.cache' has missing file paths.";
             }, false);
         }
-
-        async function startJailbreak() {
-            log("Initiating PSFree Exploit...");
-            try {
-                await import('./js/psfree.js');
+    </script>
+</body>
+</html>
