@@ -250,7 +250,7 @@
             log("Jailbreak process started...");
         }
 
-        if (window.applicationCache) {
+        if (window.applicationCache && window.applicationCache.status !== undefined) {
             window.applicationCache.addEventListener('checking', function() {
                 consoleBox.innerHTML = "STATUS: Checking cache manifest...";
             }, false);
@@ -269,19 +269,22 @@
 
             window.applicationCache.addEventListener('cached', function() {
                 consoleBox.innerHTML = "STATUS: Cache Installed Successfully!\n> Disconnect internet and reopen browser.";
-                birdBtn.style.opacity = "1";
-                birdBtn.style.pointerEvents = "auto";
             }, false);
 
             window.applicationCache.addEventListener('noupdate', function() {
                 consoleBox.innerHTML = "STATUS: Cache up to date.\n> Ready for offline exploit.";
-                birdBtn.style.opacity = "1";
-                birdBtn.style.pointerEvents = "auto";
             }, false);
 
             window.applicationCache.addEventListener('error', function() {
-                consoleBox.innerHTML = "STATUS: Cache Error!\n> Check if 'psfree_lapse.cache' has missing file paths.";
+                consoleBox.innerHTML = "STATUS: Cache Error!\n> Testing mode or missing files.";
             }, false);
+        } else if ('serviceWorker' in navigator) {
+            consoleBox.innerHTML = "STATUS: Modern Browser Detected.\n> Simulating Cache Success for testing.";
+            setTimeout(function() {
+                consoleBox.innerHTML = "STATUS: Cache Up to Date (Simulation).\n> Ready for testing.";
+            }, 1500);
+        } else {
+            consoleBox.innerHTML = "STATUS: Cache system not supported on this browser.";
         }
     </script>
 </body>
