@@ -246,8 +246,28 @@
         }
         window.customLog = log;
 
+        function loadScript(src) {
+            return new Promise(function(resolve, reject) {
+                var script = document.createElement('script');
+                script.src = src;
+                script.onload = resolve;
+                script.onerror = reject;
+                document.head.appendChild(script);
+            });
+        }
+
         function startJailbreak() {
             log("Jailbreak process started...");
+            log("Loading modules...");
+            loadScript("js/config.js")
+                .then(function() { return loadScript("js/alert.js"); })
+                .then(function() { return loadScript("js/psfree.js"); })
+                .then(function() { 
+                    log("PSFree exploit loaded! Executing... Please wait.");
+                })
+                .catch(function(err) {
+                    log("Error loading exploit scripts.");
+                });
         }
 
         if (window.applicationCache && window.applicationCache.status !== undefined) {
@@ -284,8 +304,3 @@
                 consoleBox.innerHTML = "STATUS: Cache Up to Date (Simulation).\n> Ready for testing.";
             }, 1500);
         } else {
-            consoleBox.innerHTML = "STATUS: Cache system not supported on this browser.";
-        }
-    </script>
-</body>
-</html>
