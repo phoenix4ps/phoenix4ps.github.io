@@ -236,7 +236,8 @@
 
     </div>
 
-    <script>
+
+<script>
         const consoleBox = document.getElementById('console');
         const birdBtn = document.getElementById('clickBirdBtn');
 
@@ -250,6 +251,7 @@
             return new Promise(function(resolve, reject) {
                 var script = document.createElement('script');
                 script.src = src;
+                script.type = 'module';
                 script.onload = resolve;
                 script.onerror = reject;
                 document.head.appendChild(script);
@@ -304,7 +306,7 @@
                 consoleBox.innerHTML = "STATUS: Cache Up to Date (Simulation).\n> Ready for testing.";
             }, 1500);
         } else { 
-consoleBox.innerHTML = "STATUS: Cache system not supported on this browser.";
+            consoleBox.innerHTML = "STATUS: Cache system not supported on this browser.";
         }
     </script>
 </body>
