@@ -208,8 +208,8 @@
     <div class="main-layout">
         <div class="left-section">
             <div class="frame-container">
-                <pre id="console">STATUS: Initializing components...
-> Waiting for full page download...</pre>
+                <pre id="console">STATUS: Preloading system assets...
+> Loading graphics, please wait...</pre>
             </div>
         </div>
         <div class="right-section">
@@ -232,11 +232,26 @@
     <script>
         const consoleBox = document.getElementById('console');
         const birdBtn = document.getElementById('clickBirdBtn');
+        const originalTitle = "PHOENIX GAME";
+        
+        function disableBird() {
+            birdBtn.style.pointerEvents = "none";
+            birdBtn.style.opacity = "0.3";
+        }
+        
+        function enableBird() {
+            birdBtn.style.pointerEvents = "auto";
+            birdBtn.style.opacity = "1";
+        }
+
+        disableBird();
+
         function log(message) {
             consoleBox.innerHTML += "\n> " + message;
             consoleBox.scrollTop = consoleBox.scrollHeight;
         }
         window.log = log; 
+
         window.addEventListener('error', function (event) {
             var reason = event.error;
             var msg = 'Unhandled error: ';
@@ -248,46 +263,116 @@
             log(msg);
             return true;
         });
+
         function startJailbreak() {
-            birdBtn.style.pointerEvents = "none";
-            birdBtn.style.opacity = "0.3";
+            disableBird();
             log("Jailbreak process started...");
             log("Initializing PHOENIX Exploit Engine...");
             try {
                 doJailBreak();
             } catch (error) {
                 log("An error occurred during exploit execution: " + error);
-                birdBtn.style.pointerEvents = "auto";
-                birdBtn.style.opacity = "1";
+                enableBird();
             }
         }
-        if (window.applicationCache && window.applicationCache.status !== undefined) {
-            window.applicationCache.addEventListener('checking', function() {
-                consoleBox.innerHTML = "STATUS: Checking cache manifest...";
-            }, false);
-            window.applicationCache.addEventListener('downloading', function() {
-                consoleBox.innerHTML = "STATUS: Downloading assets...\n> Installing Offline Cache. Please wait...";
-            }, false);
-            window.applicationCache.addEventListener('progress', function(e) {
-                if (e.total) {
-                    var percent = Math.round(e.loaded / e.total * 100);
-                    consoleBox.innerHTML = "STATUS: Downloading assets...\n> Installing Offline Cache: " + percent + "%";
-                }
-            }, false);
-            window.applicationCache.addEventListener('cached', function() {
-                consoleBox.innerHTML = "STATUS: Cache Installed Successfully!\n> Disconnect internet and reopen browser.";
-            }, false);
-            window.applicationCache.addEventListener('noupdate', function() {
-                consoleBox.innerHTML = "STATUS: Cache up to date.\n> Ready for offline exploit.";
-            }, false);
-            window.applicationCache.addEventListener('error', function() {
-                consoleBox.innerHTML = "STATUS: Cache up to date.\n> Ready for offline exploit.";
-            }, false);
-        } else if ('serviceWorker' in navigator) {
-            consoleBox.innerHTML = "STATUS: Modern Browser Detected.\n> Ready for exploit testing.";
-        } else { 
-            consoleBox.innerHTML = "STATUS: Cache system not supported on this browser.";
+
+        const assetsToLoad = [
+            'bgs.jpg',
+            'images/frame.png',
+            'images/click_bird.png',
+            'images/wris.png'
+        ];
+        
+        let loadedCount = 0;
+        
+        function preloadAssets() {
+            assetsToLoad.forEach((src) => {
+                const img = new Image();
+                img.src = src;
+                img.onload = () => {
+                    loadedCount++;
+                    if (loadedCount === assetsToLoad.length) {
+                        log("All graphics loaded successfully.");
+                        detectEnvironment();
+                    }
+                };
+                img.onerror = () => {
+                    loadedCount++;
+                    if (loadedCount === assetsToLoad.length) {
+                        detectEnvironment();
+                    }
+                };
+            });
         }
+
+        function detectEnvironment() {
+            const ua = navigator.userAgent;
+            log("Analyzing environment hardware...");
+
+            if (ua.indexOf("PlayStation 4") !== -1) {
+                let softwareVersion = "Unknown FW";
+                const swMatch = ua.match(/PlayStation 4\/([0-9.]+)/);
+                if (swMatch && swMatch[1]) {
+                    softwareVersion = swMatch[1];
+                }
+                log("Environment Verified: PlayStation 4");
+                log("Detected Firmware: " + softwareVersion);
+                initCacheSystem();
+            } else if (ua.indexOf("Windows") !== -1) {
+                consoleBox.innerHTML = "STATUS: PC Environment Detected.\n> Host simulation active.\n> Jailbreak files will not load on Windows.";
+                enableBird();
+            } else if (ua.indexOf("Android") !== -1 || ua.indexOf("iPhone") !== -1 || ua.indexOf("iPad") !== -1) {
+                consoleBox.innerHTML = "STATUS: Mobile Environment Detected.\n> Mobile touch preview active.\n> Jailbreak files will not load on Mobile devices.";
+                enableBird();
+            } else {
+                log("Environment: External Browser Connected.");
+                initCacheSystem();
+            }
+        }
+
+        function initCacheSystem() {
+            if (window.applicationCache && window.applicationCache.status !== undefined) {
+                window.applicationCache.addEventListener('checking', function() {
+                    disableBird();
+                    consoleBox.innerHTML = "STATUS: Checking cache manifest...";
+                }, false);
+                window.applicationCache.addEventListener('downloading', function() {
+                    disableBird();
+                    consoleBox.innerHTML = "STATUS: Downloading jailbreak files...\n> Installing Offline Cache. Please wait...";
+                }, false);
+                window.applicationCache.addEventListener('progress', function(e) {
+                    disableBird();
+                    if (e.total) {
+                        var percent = Math.round(e.loaded / e.total * 100);
+                        document.title = "[" + percent + "%] Loading - " + originalTitle;
+                        consoleBox.innerHTML = "STATUS: Downloading jailbreak files...\n> Installing Offline Cache: " + percent + "%";
+                    }
+                }, false);
+                window.applicationCache.addEventListener('cached', function() {
+                    disableBird();
+                    document.title = "[100%] " + originalTitle;
+                    consoleBox.innerHTML = "STATUS: Cache Installed Successfully!\n> Disconnect internet and reopen browser.";
+                }, false);
+                window.applicationCache.addEventListener('noupdate', function() {
+                    enableBird();
+                    document.title = originalTitle;
+                    consoleBox.innerHTML = "STATUS: Cache up to date.\n> Ready for offline exploit.";
+                }, false);
+                window.applicationCache.addEventListener('error', function() {
+                    enableBird();
+                    document.title = originalTitle;
+                    consoleBox.innerHTML = "STATUS: Cache up to date.\n> Ready for offline exploit.";
+                }, false);
+            } else if ('serviceWorker' in navigator) {
+                enableBird();
+                consoleBox.innerHTML = "STATUS: Modern Browser Detected.\n> Ready for exploit testing.";
+            } else { 
+                enableBird();
+                consoleBox.innerHTML = "STATUS: Cache system not supported on this browser.";
+            }
+        }
+
+        window.addEventListener('load', preloadAssets);
     </script>
 </body>
 </html>
