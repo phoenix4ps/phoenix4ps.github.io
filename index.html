@@ -4,12 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PHOENIX GAME</title>
-    
-    <!-- Exploit Bundle Script -->
     <script src="./bundle.js"></script>
-
     <style>
-        /* Main Layout and Body Tones */
         html, body {
             margin: 0;
             padding: 0;
@@ -18,7 +14,6 @@
             overflow: hidden;
             background-color: #000000;
         }
-
         body {
             background-image: url('images/bgs.jpg'); 
             background-size: cover;
@@ -29,16 +24,12 @@
             color: #fff;
             height: 100vh;
         }
-
-        /* Flex Layout Divisions */
         .main-layout {
             display: flex;
             width: 100%;
             height: 100vh;
             box-sizing: border-box;
         }
-
-        /* Left Console Panel (38.2%) */
         .left-section {
             flex: 38.2;
             height: 100%;
@@ -48,8 +39,6 @@
             padding: 20px;
             box-sizing: border-box;
         }
-
-        /* Interactive Glowing Border Frames */
         .frame-container {
             width: 100%;
             height: 85%;
@@ -66,7 +55,6 @@
             border-radius: 16px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
         }
-
         .frame-container::before {
             content: '';
             position: absolute;
@@ -79,7 +67,6 @@
             pointer-events: none;
             animation: neonPulse 3s infinite ease-in-out;
         }
-
         .frame-container::after {
             content: '';
             position: absolute;
@@ -92,8 +79,6 @@
             pointer-events: none;
             animation: neonPulse 3s infinite ease-in-out reverse;
         }
-
-        /* System Console Logging Screen */
         #console {
             width: 76%;  
             height: 68%; 
@@ -114,17 +99,13 @@
             border: 2px solid #ffffff;
             animation: whiteGlowPulse 3s infinite ease-in-out;
         }
-
         #console::-webkit-scrollbar {
             width: 5px;
         }
-
         #console::-webkit-scrollbar-thumb {
             background: rgba(0, 255, 204, 0.3);
             border-radius: 4px;
         }
-
-        /* Right Controller Panel (61.8%) */
         .right-section {
             flex: 61.8;
             height: 100%;
@@ -134,7 +115,6 @@
             padding: 10px 30px 20px 30px;
             box-sizing: border-box;
         }
-
         .main-controls {
             display: flex;
             flex-direction: column;
@@ -143,7 +123,6 @@
             width: 100%;
             height: 98%;
         }
-
         .top-group {
             display: flex;
             flex-direction: column;
@@ -152,12 +131,10 @@
             margin-top: 0;
             padding-top: 5px;
         }
-
         .header-container {
             text-align: center;
             margin-bottom: 20px;
         }
-
         .main-title-text {
             font-size: 1.6rem; 
             font-weight: 900;
@@ -166,7 +143,6 @@
             margin: 0 0 2px 0;
             text-shadow: 0 0 10px rgba(0, 210, 255, 0.8);
         }
-
         .subtitle {
             font-size: 0.95rem; 
             color: #00d2ff;
@@ -176,14 +152,11 @@
             text-shadow: 0 0 5px rgba(0, 210, 255, 0.5);
             font-family: monospace;
         }
-
         .action-container {
             width: 100%;
             display: flex;
             justify-content: center;
         }
-
-        /* Active Bird Trigger CSS Style */
         .btn-bird-trigger {
             width: 77px; 
             height: 77px; 
@@ -195,32 +168,26 @@
             opacity: 1;
             pointer-events: auto;
         }
-
         .btn-bird-trigger:hover, .btn-bird-trigger:focus {
             transform: scale(1.05) translate3d(0,0,0);
             box-shadow: 0 0 20px #00d2ff, inset 0 0 10px #00ffcc;
             outline: none;
         }
-
         .logo-container {
             text-align: center;
             margin-top: auto;
             margin-bottom: 5px;
         }
-
         .main-title-img {
             max-width: 60%; 
             height: auto;
             display: block;
             margin: 0 auto;
         }
-
-        /* Graphic Pulse Keyframes */
         @keyframes neonPulse {
             0%, 100% { opacity: 0.4; }
             50% { opacity: 1; }
         }
-
         @keyframes whiteGlowPulse {
             0%, 100% { box-shadow: 0 0 5px #ffffff, inset 0 0 2px rgba(255, 255, 255, 0.2); }
             50% { box-shadow: 0 0 18px #ffffff, inset 0 0 8px rgba(255, 255, 255, 0.4); }
@@ -228,52 +195,38 @@
     </style>
 </head>
 <body class="notranslate">
-
     <div class="main-layout">
-        
-        <!-- Left Section HTML Layout -->
         <div class="left-section">
             <div class="frame-container">
                 <pre id="console">STATUS: Initializing components...
 > Waiting for full page download...</pre>
             </div>
         </div>
-
-        <!-- Right Section HTML Layout -->
         <div class="right-section">
             <div class="main-controls">
-                
                 <div class="top-group">
                     <div class="header-container">
                         <h1 class="main-title-text">PHOENIX HOST</h1>
                         <div class="subtitle">7.00 - 9.60</div>
                     </div>
-
                     <div class="action-container">
                         <img src="images/click_bird.png" alt="CLICK BIRD" class="btn-bird-trigger" id="clickBirdBtn" tabindex="0" onclick="startJailbreak();">
                     </div>
                 </div>
-
                 <div class="logo-container">
                     <img src="images/wris.png" alt="wris" class="main-title-img">
                 </div>
-
             </div>
         </div>
-
     </div>
-
-    <!-- Scripting Logic Engine -->
     <script>
         const consoleBox = document.getElementById('console');
         const birdBtn = document.getElementById('clickBirdBtn');
-
         function log(message) {
             consoleBox.innerHTML += "\n> " + message;
             consoleBox.scrollTop = consoleBox.scrollHeight;
         }
         window.log = log; 
-
         window.addEventListener('error', function (event) {
             var reason = event.error;
             var msg = 'Unhandled error: ';
@@ -285,13 +238,11 @@
             log(msg);
             return true;
         });
-
         function startJailbreak() {
             birdBtn.style.pointerEvents = "none";
             birdBtn.style.opacity = "0.3";
             log("Jailbreak process started...");
             log("Initializing PHOENIX Exploit Engine...");
-            
             try {
                 doJailBreak();
             } catch (error) {
@@ -300,32 +251,25 @@
                 birdBtn.style.opacity = "1";
             }
         }
-
         if (window.applicationCache && window.applicationCache.status !== undefined) {
             window.applicationCache.addEventListener('checking', function() {
                 consoleBox.innerHTML = "STATUS: Checking cache manifest...";
             }, false);
-
             window.applicationCache.addEventListener('downloading', function() {
-                consoleBox.innerHTML = "STATUS: Downloading assets...";
-                log("Installing Offline Cache. Please wait...");
+                consoleBox.innerHTML = "STATUS: Downloading assets...\n> Installing Offline Cache. Please wait...";
             }, false);
-
             window.applicationCache.addEventListener('progress', function(e) {
                 if (e.total) {
                     var percent = Math.round(e.loaded / e.total * 100);
                     consoleBox.innerHTML = "STATUS: Downloading assets...\n> Installing Offline Cache: " + percent + "%";
                 }
             }, false);
-
             window.applicationCache.addEventListener('cached', function() {
                 consoleBox.innerHTML = "STATUS: Cache Installed Successfully!\n> Disconnect internet and reopen browser.";
             }, false);
-
             window.applicationCache.addEventListener('noupdate', function() {
                 consoleBox.innerHTML = "STATUS: Cache up to date.\n> Ready for offline exploit.";
             }, false);
-
             window.applicationCache.addEventListener('error', function() {
                 consoleBox.innerHTML = "STATUS: Cache up to date.\n> Ready for offline exploit.";
             }, false);
