@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PHOENIX GAME</title>
     
-    <!-- Load stable exploit bundle from Feyzee repository -->
+    <!-- Exploit Bundle Script -->
     <script src="./bundle.js"></script>
 
     <style>
+        /* Main Layout and Body Tones */
         html, body {
             margin: 0;
             padding: 0;
@@ -19,249 +20,259 @@
         }
 
         body {
-            background-image: url('bg.jpg'); 
+            background-image: url('images/bgs.jpg'); 
             background-size: cover;
-            background-position: center center;
+            background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+            height: 100vh;
+        }
+
+        /* Flex Layout Divisions */
+        .main-layout {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            padding-top: 25px;
-            font-family: Arial, sans-serif;
+            width: 100%;
+            height: 100vh;
+            box-sizing: border-box;
         }
 
-        h1 {
-            color: #ffffff;
-            font-size: 32px;
-            margin: 0;
-            text-transform: uppercase;
-            text-shadow: 0 0 15px rgba(255, 140, 0, 0.8);
-            z-index: 10;
-        }
-
-        .subtitle {
-            color: #aaaaaa;
-            font-size: 16px;
-            margin-bottom: 20px;
-            letter-spacing: 2px;
-            z-index: 10;
-        }
-
-        /* Top Bird Trigger Button Container */
-        .btn-bird-container {
-            width: 110px;
-            height: 110px;
-            z-index: 10;
-            margin-bottom: 20px;
+        /* Left Console Panel (38.2%) */
+        .left-section {
+            flex: 38.2;
+            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
-        #jailbreak-btn {
+        /* Interactive Glowing Border Frames */
+        .frame-container {
             width: 100%;
-            height: 100%;
-            background-image: url('click_bird.png'); 
-            background-size: contain;
-            background-repeat: no-repeat;
+            height: 85%;
+            background-color: rgba(0, 0, 0, 0.55);
+            background-image: url('images/frame.png'); 
+            background-size: 100% 100%;
             background-position: center;
-            background-color: transparent;
-            border: none;
-            outline: none;
-            cursor: pointer;
-            opacity: 1;
-            transition: transform 0.3s ease, filter 0.3s ease;
-            filter: drop-shadow(0 0 15px rgba(0, 92, 248, 0.6));
-        }
-
-        #jailbreak-btn:not(:disabled):hover {
-            transform: scale(1.1);
-            filter: drop-shadow(0 0 30px rgba(0, 92, 248, 1)) !important;
-        }
-
-        #jailbreak-btn:disabled {
-            cursor: not-allowed;
-            opacity: 0.3;
-            filter: grayscale(100%) drop-shadow(0 0 2px rgba(128, 128, 128, 0.5)) !important;
-        }
-
-        /* Side-by-Side Flex Layout Container */
-        .main-layout {
+            background-repeat: no-repeat;
             display: flex;
-            width: 94%;
-            max-width: 1200px;
-            justify-content: space-between;
             align-items: center;
-            margin-top: 10px;
-            z-index: 5;
+            justify-content: center;
+            box-sizing: border-box;
+            position: relative;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
         }
 
-        /* LEFT SIDE: Sci-Fi Console Box sliced for top and bottom frames only */
-        #console-box {
-            width: 520px; 
-            height: 320px;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            
-            /* Enable Top and Bottom borders, completely disable left and right sides */
-            border-top: 24px solid transparent;
-            border-bottom: 24px solid transparent;
-            border-left: 0px solid transparent;
-            border-right: 0px solid transparent;
-            
-            /* Programmatic slicing to stretch only top/bottom elements of frame.png */
-            border-image-source: url('frame.png');
-            border-image-slice: 30 0 30 0 fill;
-            border-image-repeat: stretch;
-            
-            /* Applied smart CSS tint matrix to switch purple frame to vibrant Neon Blue */
-            filter: hue-rotate(110deg) saturate(150%) drop-shadow(0 0 25px rgba(0, 92, 248, 0.85));
-            animation: neon-blue-pulse 3s infinite ease-in-out;
+        .frame-container::before {
+            content: '';
+            position: absolute;
+            top: 2%;
+            left: 2%;
+            right: 2%;
+            bottom: 2%;
+            border: 4px solid transparent;
+            border-image: linear-gradient(135deg, #00d2ff 0%, #00d2ff 15%, transparent 15%, transparent 85%, #00ffcc 85%, #00ffcc 100%) 1;
+            pointer-events: none;
+            animation: neonPulse 3s infinite ease-in-out;
         }
 
-        /* Transparent Black Internal Menu Container fixed behind the borders */
-        .console-internal-menu {
-            width: 100%;
-            height: 100%;
-            background-color: rgba(6, 6, 8, 0.82); 
-            backdrop-filter: blur(8px); 
-            border-radius: 4px;
-            padding: 15px;
-            overflow-y: auto;
-            box-sizing: border-box;
-            font-family: 'Courier New', monospace;
-            font-size: 13px;
-            font-weight: bold;
+        .frame-container::after {
+            content: '';
+            position: absolute;
+            top: 2%;
+            left: 2%;
+            right: 2%;
+            bottom: 2%;
+            border: 4px solid transparent;
+            border-image: linear-gradient(225deg, #00ffcc 0%, #00ffcc 15%, transparent 15%, transparent 85%, #00d2ff 85%, #00d2ff 100%) 1;
+            pointer-events: none;
+            animation: neonPulse 3s infinite ease-in-out reverse;
+        }
+
+        /* System Console Logging Screen */
+        #console {
+            width: 76%;  
+            height: 68%; 
+            background: rgba(0, 0, 0, 0.6); 
+            border-radius: 8px;
+            padding: 12px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85rem; 
             color: #00ffcc; 
-            background-clip: padding-box; /* Stops dark color from overlaying the top/bottom frame graphic */
+            text-align: left;
+            overflow-y: auto; 
+            box-sizing: border-box;
+            line-height: 1.4;
+            z-index: 2;
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            border: 2px solid #ffffff;
+            animation: whiteGlowPulse 3s infinite ease-in-out;
         }
 
-        /* Custom Scrollbar for the internal log panel */
-        .console-internal-menu::-webkit-scrollbar {
+        #console::-webkit-scrollbar {
             width: 5px;
         }
-        .console-internal-menu::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.2);
-        }
-        .console-internal-menu::-webkit-scrollbar-thumb {
-            background: #005cf8;
+
+        #console::-webkit-scrollbar-thumb {
+            background: rgba(0, 255, 204, 0.3);
             border-radius: 4px;
         }
 
-        /* RIGHT SIDE: Phoenix Center Bird shifted completely to the Right */
-        .phoenix-container {
-            width: 440px; 
-            height: 440px;
-            mix-blend-mode: screen; 
-            animation: pulse-glow-only 2.5s infinite ease-in-out;
-        }
-
-        .phoenix-layer {
-            width: 100%;
+        /* Right Controller Panel (61.8%) */
+        .right-section {
+            flex: 61.8;
             height: 100%;
-            background-image: url('icon0.png'); 
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-        }
-
-        /* Keyframes Animations */
-        @keyframes neon-blue-pulse {
-            0% { filter: hue-rotate(110deg) saturate(150%) drop-shadow(0 0 15px rgba(0, 92, 248, 0.6)); }
-            50% { filter: hue-rotate(110deg) saturate(170%) drop-shadow(0 0 35px rgba(0, 92, 248, 1)); }
-            100% { filter: hue-rotate(110deg) saturate(150%) drop-shadow(0 0 15px rgba(0, 92, 248, 0.6)); }
-        }
-
-        @keyframes pulse-glow-only {
-            0% { filter: drop-shadow(0 0 15px rgba(255, 69, 0, 0.5)); }
-            50% { filter: drop-shadow(0 0 40px rgba(255, 69, 0, 0.8)); }
-            100% { filter: drop-shadow(0 0 15px rgba(255, 69, 0, 0.5)); }
-        }
-
-        /* Floating Accent Elements */
-        .side-wrapper {
-            position: fixed;
-            top: 45%; 
             display: flex;
-            gap: 25px;
-            z-index: 2;
-            opacity: 0.6;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 10px 30px 20px 30px;
+            box-sizing: border-box;
         }
-        .left-side { left: 2%; }
-        .right-side { right: 2%; }
-        .ps-icon-side { width: 48px; height: 48px; }
-        .tri { filter: drop-shadow(0 0 10px #4caf50); } 
-        .squ { filter: drop-shadow(0 0 10px #e91e63); } 
-        .cir { filter: drop-shadow(0 0 10px #ff5722); } 
-        .cro { filter: drop-shadow(0 0 10px #2196f3); } 
 
-        .writing-layer {
-            position: fixed;
-            bottom: 15px;
-            width: 320px;
-            height: auto;
+        .main-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            height: 98%;
+        }
+
+        .top-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            margin-top: 0;
+            padding-top: 5px;
+        }
+
+        .header-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .main-title-text {
+            font-size: 1.6rem; 
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: 4px;
+            margin: 0 0 2px 0;
+            text-shadow: 0 0 10px rgba(0, 210, 255, 0.8);
+        }
+
+        .subtitle {
+            font-size: 0.95rem; 
+            color: #00d2ff;
+            letter-spacing: 2px;
+            margin: 0;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(0, 210, 255, 0.5);
+            font-family: monospace;
+        }
+
+        .action-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Active Bird Trigger CSS Style */
+        .btn-bird-trigger {
+            width: 77px; 
+            height: 77px; 
             object-fit: contain;
-            z-index: 10;
-            filter: drop-shadow(0 0 15px #ffd700);
+            cursor: pointer;
+            border-radius: 50%;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 0 12px rgba(0, 255, 204, 0.4);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .btn-bird-trigger:hover, .btn-bird-trigger:focus {
+            transform: scale(1.05) translate3d(0,0,0);
+            box-shadow: 0 0 20px #00d2ff, inset 0 0 10px #00ffcc;
+            outline: none;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-top: auto;
+            margin-bottom: 5px;
+        }
+
+        .main-title-img {
+            max-width: 60%; 
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* Graphic Pulse Keyframes */
+        @keyframes neonPulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes whiteGlowPulse {
+            0%, 100% { box-shadow: 0 0 5px #ffffff, inset 0 0 2px rgba(255, 255, 255, 0.2); }
+            50% { box-shadow: 0 0 18px #ffffff, inset 0 0 8px rgba(255, 255, 255, 0.4); }
         }
     </style>
-    <script>
-        if (window.applicationCache && window.applicationCache.status === 0) { 
-            window.location.replace("cache.html");
-        }
-    </script>
 </head>
 <body class="notranslate">
 
-    <h1>PHOENIX HOST</h1>
-    <div class="subtitle">7.00 - 9.60</div>
-
-    <!-- Active Top Bird Trigger Button -->
-    <div class="btn-bird-container">
-        <button id="jailbreak-btn" title="Click this Bird to Exploit"></button>
-    </div>
-
-    <!-- MAIN INTERACTIVE LAYOUT -->
     <div class="main-layout">
         
-        <!-- LEFT ELEMENT: Custom Neon Sci-Fi Frame Console (Top/Bottom Mode) -->
-        <div id="console-box">
-            <div class="console-internal-menu" id="messages">
-                System Ready. Click the top bird to trigger Jailbreak.
+        <!-- Left Section HTML Layout -->
+        <div class="left-section">
+            <div class="frame-container">
+                <pre id="console">STATUS: Initializing components...
+> Waiting for full page download...</pre>
             </div>
         </div>
 
-        <!-- RIGHT ELEMENT: Static Phoenix shifted right -->
-        <div class="phoenix-container">
-            <div class="phoenix-layer"></div>
+        <!-- Right Section HTML Layout -->
+        <div class="right-section">
+            <div class="main-controls">
+                
+                <div class="top-group">
+                    <div class="header-container">
+                        <h1 class="main-title-text">PHOENIX HOST</h1>
+                        <div class="subtitle">7.00 - 9.60</div>
+                    </div>
+
+                    <div class="action-container">
+                        <img src="images/click_bird.png" alt="CLICK BIRD" class="btn-bird-trigger" id="clickBirdBtn" tabindex="0" onclick="startJailbreak();">
+                    </div>
+                </div>
+
+                <div class="logo-container">
+                    <img src="images/wris.png" alt="wris" class="main-title-img">
+                </div>
+
+            </div>
         </div>
 
     </div>
 
-    <!-- UI Floating Accents -->
-    <div class="side-wrapper left-side">
-        <img src="tri.png" class="ps-icon-side tri">
-        <img src="squ.png" class="ps-icon-side squ">
-    </div>
-    <div class="side-wrapper right-side">
-        <img src="cir.png" class="ps-icon-side cir">
-        <img src="cro.png" class="ps-icon-side cro">
-    </div>
-
-    <img src="wri.png" class="writing-layer">
-
+    <!-- Scripting Logic Engine -->
     <script>
-        const outputConsole = document.getElementById("messages");
-        
-        window.log = function (msg, color) {
-            if (color === undefined) color = "#00ffcc";
-            outputConsole.innerHTML += "<div style='color:" + color + "'> > " + msg + "</div>";
-            var box = document.querySelector(".console-internal-menu");
-            box.scrollTop = box.scrollHeight;
-        };
+        const consoleBox = document.getElementById('console');
+        const birdBtn = document.getElementById('clickBirdBtn');
+
+        function log(message) {
+            consoleBox.innerHTML += "\n> " + message;
+            consoleBox.scrollTop = consoleBox.scrollHeight;
+        }
+        window.log = log; 
 
         window.addEventListener('error', function (event) {
             var reason = event.error;
@@ -271,24 +282,58 @@
             } else {
                 msg += 'No error object detect.';
             }
-            window.log(msg, "red");
+            log(msg);
             return true;
         });
 
-        var jailbreakBtn = document.getElementById("jailbreak-btn");
-
-        jailbreakBtn.addEventListener("click", function () {
-            jailbreakBtn.disabled = true;
-            outputConsole.innerHTML = ""; 
-            window.log("Initializing PHOENIX Exploit Engine...", "#ffd700");
+        function startJailbreak() {
+            birdBtn.style.pointerEvents = "none";
+            birdBtn.style.opacity = "0.3";
+            log("Jailbreak process started...");
+            log("Initializing PHOENIX Exploit Engine...");
             
             try {
                 doJailBreak();
             } catch (error) {
-                window.log("An error occurred during exploit execution: " + error, "red");
-                jailbreakBtn.disabled = false;
+                log("An error occurred during exploit execution: " + error);
+                birdBtn.style.pointerEvents = "auto";
+                birdBtn.style.opacity = "1";
             }
-        });
+        }
+
+        if (window.applicationCache && window.applicationCache.status !== undefined) {
+            window.applicationCache.addEventListener('checking', function() {
+                consoleBox.innerHTML = "STATUS: Checking cache manifest...";
+            }, false);
+
+            window.applicationCache.addEventListener('downloading', function() {
+                consoleBox.innerHTML = "STATUS: Downloading assets...";
+                log("Installing Offline Cache. Please wait...");
+            }, false);
+
+            window.applicationCache.addEventListener('progress', function(e) {
+                if (e.total) {
+                    var percent = Math.round(e.loaded / e.total * 100);
+                    consoleBox.innerHTML = "STATUS: Downloading assets...\n> Installing Offline Cache: " + percent + "%";
+                }
+            }, false);
+
+            window.applicationCache.addEventListener('cached', function() {
+                consoleBox.innerHTML = "STATUS: Cache Installed Successfully!\n> Disconnect internet and reopen browser.";
+            }, false);
+
+            window.applicationCache.addEventListener('noupdate', function() {
+                consoleBox.innerHTML = "STATUS: Cache up to date.\n> Ready for offline exploit.";
+            }, false);
+
+            window.applicationCache.addEventListener('error', function() {
+                consoleBox.innerHTML = "STATUS: Cache up to date.\n> Ready for offline exploit.";
+            }, false);
+        } else if ('serviceWorker' in navigator) {
+            consoleBox.innerHTML = "STATUS: Modern Browser Detected.\n> Ready for exploit testing.";
+        } else { 
+            consoleBox.innerHTML = "STATUS: Cache system not supported on this browser.";
+        }
     </script>
 </body>
 </html>
