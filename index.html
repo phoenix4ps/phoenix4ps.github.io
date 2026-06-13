@@ -28,7 +28,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #fff;
             height: 100vh;
-            opacity: 1; 
+            opacity: 0; 
             transition: opacity 0.5s ease-in-out;
         }
         .main-layout {
@@ -106,7 +106,7 @@
             margin: 0 0 10px 0;
             box-shadow: none !important;
         }
-        #messages {
+        #console {
             width: 76%;  
             height: 64%; 
             background: rgba(0, 0, 0, 0.65) !important; 
@@ -126,10 +126,10 @@
             border: 2px solid #ffffff;
             animation: whiteGlowPulse 3s infinite ease-in-out;
         }
-        #messages::-webkit-scrollbar {
+        #console::-webkit-scrollbar {
             width: 5px;
         }
-        #messages::-webkit-scrollbar-thumb {
+        #console::-webkit-scrollbar-thumb {
             background: rgba(0, 255, 204, 0.3);
             border-radius: 4px;
         }
@@ -186,30 +186,21 @@
             display: flex;
             justify-content: center;
         }
-        #jailbreak-btn {
+        .btn-bird-trigger {
             width: 77px; 
             height: 77px; 
-            background-image: url('click_bird.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            background-color: transparent;
-            border: none;
-            outline: none;
+            object-fit: contain;
             cursor: pointer;
             border-radius: 50%;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
             box-shadow: 0 0 12px rgba(0, 255, 204, 0.4);
             opacity: 1;
+            pointer-events: auto;
         }
-        #jailbreak-btn:hover, #jailbreak-btn:focus {
+        .btn-bird-trigger:hover, .btn-bird-trigger:focus {
             transform: scale(1.05) translate3d(0,0,0);
             box-shadow: 0 0 20px #00d2ff, inset 0 0 10px #00ffcc;
             outline: none;
-        }
-        #jailbreak-btn:disabled {
-            cursor: not-allowed;
-            opacity: 0.3;
         }
         .logo-container {
             text-align: center;
@@ -231,18 +222,14 @@
             50% { box-shadow: 0 0 18px #ffffff, inset 0 0 8px rgba(255, 255, 255, 0.4); }
         }
     </style>
-    <script>
-        if (window.applicationCache && window.applicationCache.status === 0) { 
-            window.location.replace("cache.html");
-        }
-    </script>
 </head>
 <body class="notranslate">
     <div class="main-layout">
         <div class="left-section">
             <div class="frame-container">
                 <div id="info-box">SYSTEM: Detecting environment...</div>
-                <div id="messages">System Ready. Click the top bird to trigger Jailbreak.</div>
+                <pre id="console">STATUS: Preloading system assets...
+> Loading background [0%]</pre>
             </div>
         </div>
         <div class="right-section">
@@ -253,14 +240,112 @@
                         <div class="subtitle" id="hostSubtitle">7.00 - 9.60</div>
                     </div>
                     <div class="action-container">
-                        <button id="jailbreak-btn" title="Click this Bird to Exploit"></button>
+                        <img id="clickBirdBtn" alt="CLICK BIRD" class="btn-bird-trigger" tabindex="0" onclick="startJailbreak();">
                     </div>
                 </div>
                 <div class="logo-container">
-                    <img src="icon0.png" alt="PHOENIX" class="main-title-img">
+                    <img id="wris" alt="wris" class="main-title-img">
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        const consoleBox = document.getElementById('console');
+        const infoBox = document.getElementById('info-box');
+        const birdBtn = document.getElementById('clickBirdBtn');
+        let selectedFirmware = "9.00"; 
+
+        function detectUserEnvironment() {
+            const ua = navigator.userAgent;
+
+            if (ua.indexOf("PlayStation 4") !== -1) {
+                const softwareVersion = ua.substring(ua.indexOf("PlayStation 4/") + 14, ua.indexOf("PlayStation 4/") + 18);
+                selectedFirmware = softwareVersion.trim();
+                infoBox.innerText = `PS4 FIRMWARE: ${selectedFirmware}`;
+                return;
+            }
+
+            if (ua.indexOf("Windows") !== -1) {
+                infoBox.innerText = "SYSTEM: Windows PC";
+            } else if (ua.indexOf("Android") !== -1) {
+                infoBox.innerText = "SYSTEM: Android Phone";
+            } else if (ua.indexOf("iPhone") !== -1 || ua.indexOf("iPad") !== -1 || ua.indexOf("Macintosh") !== -1) {
+                infoBox.innerText = "SYSTEM: Apple Device";
+            } else {
+                infoBox.innerText = "SYSTEM: Unknown Device";
+            }
+        }
+
+        function updateProgressDisplay(percent, textStatus) {
+            window.location.hash = `loading-${percent}%`;
+            const lines = consoleBox.innerHTML.split('\n');
+            if (lines.length > 0) {
+                lines[lines.length - 1] = `> ${textStatus} [${percent}%]`;
+                consoleBox.innerHTML = lines.join('\n');
+            }
+            consoleBox.scrollTop = consoleBox.scrollHeight;
+        }
+
+        const pngImages = [
+            { id: 'clickBirdBtn', src: 'images/click_bird.png' },
+            { id: 'wris', src: 'images/wris.png' }
+        ];
+
+        updateProgressDisplay(0, "Loading background");
+        const bgImage = new Image();
+        bgImage.src = 'bgs.jpg';
+        bgImage.onload = function() {
+            document.body.style.backgroundImage = "url('bgs.jpg')";
+            updateProgressDisplay(40, "Background loaded. Initializing assets");
+            setTimeout(loadPngAssets, 200); 
+        };
+        bgImage.onerror = function() {
+            updateProgressDisplay(40, "Background error. Moving to assets");
+            loadPngAssets();
+        };
+
+        function loadPngAssets() {
+            let loadedCount = 0;
+            const totalPngs = pngImages.length;
+            pngImages.forEach((imgData) => {
+                const img = new Image();
+                img.src = imgData.src;
+                img.onload = function() {
+                    document.getElementById(imgData.id).src = imgData.src;
+                    loadedCount++;
+                    let currentPercent = 40 + Math.floor((loadedCount / totalPngs) * 60);
+                    updateProgressDisplay(currentPercent, `Loading interface UI (${loadedCount}/${totalPngs})`);
+                    if (loadedCount === totalPngs) { setTimeout(showPage, 300); }
+                };
+                img.onerror = function() {
+                    loadedCount++;
+                    let currentPercent = 40 + Math.floor((loadedCount / totalPngs) * 60);
+                    updateProgressDisplay(currentPercent, "Asset skipped");
+                    if (loadedCount === totalPngs) { showPage(); }
+                };
+            });
+        }
+
+        function showPage() {
+            window.location.hash = "ready"; 
+            consoleBox.innerHTML += `\n\n> All assets loaded successfully.`;
+            detectUserEnvironment();
+            consoleBox.innerHTML += `\nSTATUS: Ready`;
+            consoleBox.scrollTop = consoleBox.scrollHeight;
+            document.body.style.opacity = "1"; 
+        }
+
+        function disableBird() {
+            birdBtn.style.pointerEvents = "none";
+            birdBtn.style.opacity = "0.3";
+        }
+
+        function startJailbreak() {
+            disableBird();
+            window.location.hash = "executing-exploit";
+            consoleBox.innerHTML += `\n> Launching exploit code instantly for FW ${selectedFirmware}...`;
+            consoleBox.scrollTop = consoleBox.scrollHeight;
+        }
+    </script>
 </body>
 </html>
