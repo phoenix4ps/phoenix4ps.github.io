@@ -106,7 +106,7 @@
             margin: 0 0 10px 0;
             box-shadow: none !important;
         }
-        #console {
+        #messages {
             width: 76%;  
             height: 64%; 
             background: rgba(0, 0, 0, 0.65) !important; 
@@ -126,10 +126,10 @@
             border: 2px solid #ffffff;
             animation: whiteGlowPulse 3s infinite ease-in-out;
         }
-        #console::-webkit-scrollbar {
+        #messages::-webkit-scrollbar {
             width: 5px;
         }
-        #console::-webkit-scrollbar-thumb {
+        #messages::-webkit-scrollbar-thumb {
             background: rgba(0, 255, 204, 0.3);
             border-radius: 4px;
         }
@@ -186,32 +186,35 @@
             display: flex;
             justify-content: center;
         }
-        .btn-bird-trigger {
+        #jailbreak-btn {
             width: 77px; 
             height: 77px; 
-            object-fit: contain;
+            background-image: url('images/bird.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: transparent;
+            border: none;
+            outline: none;
             cursor: pointer;
             border-radius: 50%;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
             box-shadow: 0 0 12px rgba(0, 255, 204, 0.4);
             opacity: 1;
-            pointer-events: auto;
         }
-        .btn-bird-trigger:hover, .btn-bird-trigger:focus {
+        #jailbreak-btn:hover, #jailbreak-btn:focus {
             transform: scale(1.05) translate3d(0,0,0);
             box-shadow: 0 0 20px #00d2ff, inset 0 0 10px #00ffcc;
             outline: none;
+        }
+        #jailbreak-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.3;
         }
         .logo-container {
             text-align: center;
             margin-top: auto;
             margin-bottom: 5px;
-        }
-        .main-title-img {
-            max-width: 60%; 
-            height: auto;
-            display: block;
-            margin: 0 auto;
         }
         @keyframes neonPulse {
             0%, 100% { opacity: 0.4; }
@@ -222,14 +225,18 @@
             50% { box-shadow: 0 0 18px #ffffff, inset 0 0 8px rgba(255, 255, 255, 0.4); }
         }
     </style>
+    <script>
+        if (window.applicationCache && window.applicationCache.status === 0) { 
+            window.location.replace("cache.html");
+        }
+    </script>
 </head>
 <body class="notranslate">
     <div class="main-layout">
         <div class="left-section">
             <div class="frame-container">
                 <div id="info-box">SYSTEM: Detecting environment...</div>
-                <pre id="console">STATUS: Preloading system assets...
-> Loading background [0%]</pre>
+                <div id="messages">System Ready. Click the top bird to trigger Jailbreak.</div>
             </div>
         </div>
         <div class="right-section">
@@ -240,7 +247,7 @@
                         <div class="subtitle" id="hostSubtitle">7.00 - 9.60</div>
                     </div>
                     <div class="action-container">
-                        <img id="clickBirdBtn" src="images/bird.png" alt="CLICK BIRD" class="btn-bird-trigger">
+                        <button id="jailbreak-btn" title="Click this Bird to Exploit"></button>
                     </div>
                 </div>
             </div>
