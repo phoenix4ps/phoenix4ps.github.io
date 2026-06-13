@@ -60,8 +60,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            gap: 15px;
+            justify-content: flex-start;
+            padding-top: 55px;
             box-sizing: border-box;
             position: relative;
             border-radius: 16px;
@@ -93,10 +93,9 @@
         }
         #info-box {
             width: 76%;
-            background: rgba(0, 210, 255, 0.1) !important;
-            border: 2px solid #00d2ff;
-            border-radius: 6px;
-            padding: 10px;
+            background: transparent !important;
+            border: none !important;
+            padding: 5px 10px;
             font-family: 'Courier New', Courier, monospace;
             font-size: 0.85rem;
             font-weight: bold;
@@ -104,12 +103,12 @@
             text-align: center;
             box-sizing: border-box;
             z-index: 2;
-            margin: 0;
-            box-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
+            margin: 0 0 10px 0;
+            box-shadow: none !important;
         }
         #console {
             width: 76%;  
-            height: 54%; 
+            height: 64%; 
             background: rgba(0, 0, 0, 0.65) !important; 
             border-radius: 8px;
             padding: 12px;
