@@ -222,6 +222,11 @@
             50% { box-shadow: 0 0 18px #ffffff, inset 0 0 8px rgba(255, 255, 255, 0.4); }
         }
     </style>
+    <script>
+        if (window.applicationCache && (window.applicationCache.status == '0' || window.applicationCache.status == '3')) {
+            window.location.replace("cache.html");
+        }
+    </script>
 </head>
 <body class="notranslate">
     <div class="main-layout">
@@ -254,6 +259,20 @@
         const infoBox = document.getElementById('info-box');
         const birdBtn = document.getElementById('clickBirdBtn');
         let selectedFirmware = "9.00"; 
+
+        window.log = (msg, color="#00ffcc") => {
+            consoleBox.innerHTML += `<div style="color:${color}">> ${msg}</div>`;
+            consoleBox.scrollTop = consoleBox.scrollHeight;
+        };
+
+        window.addEventListener('unhandledrejection', event => {
+            window.log("Unhandled rejection: " + event.reason, "red");
+        });
+
+        window.addEventListener('error', event => {
+            window.log("Unhandled error: " + event.error, "red");
+            return true;
+        });
 
         function detectUserEnvironment() {
             const ua = navigator.userAgent;
@@ -343,8 +362,18 @@
         function startJailbreak() {
             disableBird();
             window.location.hash = "executing-exploit";
-            consoleBox.innerHTML += `\n> Launching exploit code instantly for FW ${selectedFirmware}...`;
-            consoleBox.scrollTop = consoleBox.scrollHeight;
+            consoleBox.textContent = ""; 
+            window.log(`Launching exploit code instantly for FW ${selectedFirmware}...`);
+            
+            try {
+                if (typeof doJBwithPSFreeLapseExploit === "function") {
+                    doJBwithPSFreeLapseExploit();
+                } else {
+                    window.log("Error: Exploit function missing in bundle.js", "red");
+                }
+            } catch (error) {
+                window.log("An error occurred during exploit: " + error, "red");
+            }
         }
     </script>
 </body>
