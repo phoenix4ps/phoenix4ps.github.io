@@ -6,24 +6,60 @@
 <title>PHOENIX HOST</title>
 
 <style>
-body{
+html,body{
 margin:0;
 padding:0;
+width:100%;
+height:100%;
+overflow:hidden;
 background:url('bgs.jpg') center/cover no-repeat;
-color:#fff;
 font-family:monospace;
+color:#fff;
+}
+
+.main-layout{
+display:flex;
+width:100%;
+height:100%;
+}
+
+.left-section{
+flex:1;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.frame-container{
+width:90%;
+height:85%;
+background:url('images/frame.png') center/100% 100% no-repeat;
+display:flex;
+align-items:center;
+justify-content:center;
+position:relative;
 overflow:hidden;
 }
+
 #console{
-position:fixed;
-bottom:0;
-left:0;
-width:100%;
-height:40%;
-background:rgba(0,0,0,0.7);
-overflow:auto;
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+width:80%;
+height:75%;
+background:rgba(0,0,0,0.6);
 padding:10px;
 box-sizing:border-box;
+overflow:auto;
+white-space:pre-wrap;
+}
+
+.right-section{
+flex:1;
+display:flex;
+align-items:center;
+justify-content:center;
 }
 </style>
 
@@ -32,89 +68,19 @@ box-sizing:border-box;
 
 <body>
 
-<div id="console">STATUS: Starting...</div>
+<div class="main-layout">
 
-<script>
-const consoleBox=document.getElementById("console");
+<div class="left-section">
+<div class="frame-container">
+<pre id="console">STATUS: Loading...</pre>
+</div>
+</div>
 
-const assetsToLoad=[
-"images/frame.png",
-"images/click_bird.png",
-"images/wris.png"
-];
+<div class="right-section">
+<h1>PHOENIX HOST</h1>
+</div>
 
-let loadedAssets=0;
-let totalAssets=assetsToLoad.length+2;
-
-function log(msg){
-consoleBox.innerHTML+="\n> "+msg;
-consoleBox.scrollTop=consoleBox.scrollHeight;
-}
-
-function updateProgress(){
-let p=Math.round((loadedAssets/totalAssets)*100);
-document.title="["+p+"%] PHOENIX HOST";
-consoleBox.innerHTML=
-"STATUS: Loading...\n> "+p+"%\n> "+loadedAssets+"/"+totalAssets;
-}
-
-function loadBackground(){
-let bg=new Image();
-bg.src="bgs.jpg";
-bg.onload=function(){
-loadedAssets++;
-updateProgress();
-loadPNGs();
-};
-}
-
-function loadPNGs(){
-assetsToLoad.forEach(src=>{
-let img=new Image();
-img.src=src;
-img.onload=function(){
-loadedAssets++;
-updateProgress();
-checkFinish();
-};
-img.onerror=function(){
-loadedAssets++;
-updateProgress();
-checkFinish();
-};
-});
-}
-
-function detectSystem(){
-setTimeout(function(){
-log("System check complete");
-loadedAssets++;
-updateProgress();
-loadRemaining();
-},0);
-}
-
-function loadRemaining(){
-let s=document.createElement("script");
-s.src="./bundle.js";
-s.onload=function(){
-loadedAssets++;
-updateProgress();
-log("Bundle loaded");
-};
-document.body.appendChild(s);
-}
-
-function checkFinish(){
-if(loadedAssets>=totalAssets){
-log("ALL LOADED");
-detectSystem();
-}
-}
-
-updateProgress();
-loadBackground();
-</script>
+</div>
 
 </body>
 </html>
