@@ -28,7 +28,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #fff;
             height: 100vh;
-            opacity: 0; 
+            opacity: 1; 
             transition: opacity 0.5s ease-in-out;
         }
         .main-layout {
@@ -240,112 +240,11 @@
                         <div class="subtitle" id="hostSubtitle">7.00 - 9.60</div>
                     </div>
                     <div class="action-container">
-                        <img id="clickBirdBtn" alt="CLICK BIRD" class="btn-bird-trigger" tabindex="0" onclick="startJailbreak();">
+                        <img id="clickBirdBtn" src="images/bird.png" alt="CLICK BIRD" class="btn-bird-trigger">
                     </div>
-                </div>
-                <div class="logo-container">
-                    <img id="wris" alt="wris" class="main-title-img">
                 </div>
             </div>
         </div>
     </div>
-    <script>
-        const consoleBox = document.getElementById('console');
-        const infoBox = document.getElementById('info-box');
-        const birdBtn = document.getElementById('clickBirdBtn');
-        let selectedFirmware = "9.00"; 
-
-        function detectUserEnvironment() {
-            const ua = navigator.userAgent;
-
-            if (ua.indexOf("PlayStation 4") !== -1) {
-                const softwareVersion = ua.substring(ua.indexOf("PlayStation 4/") + 14, ua.indexOf("PlayStation 4/") + 18);
-                selectedFirmware = softwareVersion.trim();
-                infoBox.innerText = `PS4 FIRMWARE: ${selectedFirmware}`;
-                return;
-            }
-
-            if (ua.indexOf("Windows") !== -1) {
-                infoBox.innerText = "SYSTEM: Windows PC";
-            } else if (ua.indexOf("Android") !== -1) {
-                infoBox.innerText = "SYSTEM: Android Phone";
-            } else if (ua.indexOf("iPhone") !== -1 || ua.indexOf("iPad") !== -1 || ua.indexOf("Macintosh") !== -1) {
-                infoBox.innerText = "SYSTEM: Apple Device";
-            } else {
-                infoBox.innerText = "SYSTEM: Unknown Device";
-            }
-        }
-
-        function updateProgressDisplay(percent, textStatus) {
-            window.location.hash = `loading-${percent}%`;
-            const lines = consoleBox.innerHTML.split('\n');
-            if (lines.length > 0) {
-                lines[lines.length - 1] = `> ${textStatus} [${percent}%]`;
-                consoleBox.innerHTML = lines.join('\n');
-            }
-            consoleBox.scrollTop = consoleBox.scrollHeight;
-        }
-
-        const pngImages = [
-            { id: 'clickBirdBtn', src: 'images/click_bird.png' },
-            { id: 'wris', src: 'images/wris.png' }
-        ];
-
-        updateProgressDisplay(0, "Loading background");
-        const bgImage = new Image();
-        bgImage.src = 'bgs.jpg';
-        bgImage.onload = function() {
-            document.body.style.backgroundImage = "url('bgs.jpg')";
-            updateProgressDisplay(40, "Background loaded. Initializing assets");
-            setTimeout(loadPngAssets, 200); 
-        };
-        bgImage.onerror = function() {
-            updateProgressDisplay(40, "Background error. Moving to assets");
-            loadPngAssets();
-        };
-
-        function loadPngAssets() {
-            let loadedCount = 0;
-            const totalPngs = pngImages.length;
-            pngImages.forEach((imgData) => {
-                const img = new Image();
-                img.src = imgData.src;
-                img.onload = function() {
-                    document.getElementById(imgData.id).src = imgData.src;
-                    loadedCount++;
-                    let currentPercent = 40 + Math.floor((loadedCount / totalPngs) * 60);
-                    updateProgressDisplay(currentPercent, `Loading interface UI (${loadedCount}/${totalPngs})`);
-                    if (loadedCount === totalPngs) { setTimeout(showPage, 300); }
-                };
-                img.onerror = function() {
-                    loadedCount++;
-                    let currentPercent = 40 + Math.floor((loadedCount / totalPngs) * 60);
-                    updateProgressDisplay(currentPercent, "Asset skipped");
-                    if (loadedCount === totalPngs) { showPage(); }
-                };
-            });
-        }
-
-        function showPage() {
-            window.location.hash = "ready"; 
-            consoleBox.innerHTML += `\n\n> All assets loaded successfully.`;
-            detectUserEnvironment();
-            consoleBox.innerHTML += `\nSTATUS: Ready`;
-            consoleBox.scrollTop = consoleBox.scrollHeight;
-            document.body.style.opacity = "1"; 
-        }
-
-        function disableBird() {
-            birdBtn.style.pointerEvents = "none";
-            birdBtn.style.opacity = "0.3";
-        }
-
-        function startJailbreak() {
-            disableBird();
-            window.location.hash = "executing-exploit";
-            consoleBox.innerHTML += `\n> Launching exploit code instantly for FW ${selectedFirmware}...`;
-            consoleBox.scrollTop = consoleBox.scrollHeight;
-        }
-    </script>
 </body>
 </html>
