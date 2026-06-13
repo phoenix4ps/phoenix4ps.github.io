@@ -39,40 +39,6 @@
             background: transparent !important;
             position: relative;
         }
-        .system-selector-container {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(0, 0, 0, 0.6);
-            padding: 8px 15px;
-            border-radius: 8px;
-            border: 1px solid #00d2ff;
-            box-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
-        }
-        .system-selector-container label {
-            font-size: 0.85rem;
-            color: #00d2ff;
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
-        .system-select {
-            background: #111;
-            color: #00ffcc;
-            border: 1px solid #00ffcc;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-family: monospace;
-            font-size: 0.9rem;
-            cursor: pointer;
-            outline: none;
-        }
-        .system-select:focus {
-            box-shadow: 0 0 8px #00ffcc;
-        }
         .left-section {
             flex: 38.2;
             height: 100%;
@@ -92,8 +58,10 @@
             background-position: center;
             background-repeat: no-repeat;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
+            gap: 15px;
             box-sizing: border-box;
             position: relative;
             border-radius: 16px;
@@ -123,9 +91,25 @@
             pointer-events: none;
             animation: neonPulse 3s infinite ease-in-out reverse;
         }
+        #info-box {
+            width: 76%;
+            background: rgba(0, 210, 255, 0.1) !important;
+            border: 2px solid #00d2ff;
+            border-radius: 6px;
+            padding: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #00d2ff;
+            text-align: center;
+            box-sizing: border-box;
+            z-index: 2;
+            margin: 0;
+            box-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
+        }
         #console {
             width: 76%;  
-            height: 68%; 
+            height: 54%; 
             background: rgba(0, 0, 0, 0.65) !important; 
             border-radius: 8px;
             padding: 12px;
@@ -242,19 +226,9 @@
 </head>
 <body class="notranslate">
     <div class="main-layout">
-        <div class="system-selector-container">
-            <label for="fwSelect">Firmware:</label>
-            <select id="fwSelect" class="system-select" onchange="updateSelectedFirmware()">
-                <option value="9.00" selected>9.00</option>
-                <option value="7.00">7.00</option>
-                <option value="7.55">7.55</option>
-                <option value="8.00">8.00</option>
-                <option value="8.50">8.50</option>
-                <option value="9.60">9.60</option>
-            </select>
-        </div>
         <div class="left-section">
             <div class="frame-container">
+                <div id="info-box">SYSTEM: Detecting environment...</div>
                 <pre id="console">STATUS: Preloading system assets...
 > Loading background [0%]</pre>
             </div>
@@ -278,46 +252,29 @@
     </div>
     <script>
         const consoleBox = document.getElementById('console');
+        const infoBox = document.getElementById('info-box');
         const birdBtn = document.getElementById('clickBirdBtn');
-        const fwSelect = document.getElementById('fwSelect');
         let selectedFirmware = "9.00"; 
 
         function detectUserEnvironment() {
             const ua = navigator.userAgent;
-            let detectedDevice = "Unknown Device/OS";
 
             if (ua.indexOf("PlayStation 4") !== -1) {
-                detectedDevice = "PlayStation 4 Console";
                 const softwareVersion = ua.substring(ua.indexOf("PlayStation 4/") + 14, ua.indexOf("PlayStation 4/") + 18);
-                const detectFW = softwareVersion.trim();
-                for (let i = 0; i < fwSelect.options.length; i++) {
-                    if (fwSelect.options[i].value === detectFW) {
-                        fwSelect.selectedIndex = i;
-                        selectedFirmware = detectFW;
-                        consoleBox.innerHTML += `\n> [Detected] Device: ${detectedDevice} (FW: ${selectedFirmware})`;
-                        return;
-                    }
-                }
-                consoleBox.innerHTML += `\n> [Detected] Device: ${detectedDevice} (Custom FW: ${detectFW})`;
+                selectedFirmware = softwareVersion.trim();
+                infoBox.innerText = `PS4 FIRMWARE: ${selectedFirmware}`;
                 return;
             }
 
             if (ua.indexOf("Windows") !== -1) {
-                detectedDevice = "Windows PC";
+                infoBox.innerText = "SYSTEM: Windows PC";
             } else if (ua.indexOf("Android") !== -1) {
-                detectedDevice = "Android Phone/Tablet";
+                infoBox.innerText = "SYSTEM: Android Phone";
             } else if (ua.indexOf("iPhone") !== -1 || ua.indexOf("iPad") !== -1 || ua.indexOf("Macintosh") !== -1) {
-                detectedDevice = "Apple Device (iOS/macOS)";
+                infoBox.innerText = "SYSTEM: Apple Device";
+            } else {
+                infoBox.innerText = "SYSTEM: Unknown Device";
             }
-
-            consoleBox.innerHTML += `\n> [Detected] Device: ${detectedDevice}`;
-            consoleBox.innerHTML += `\n> Environment: Non-PS4, defaulting target to ${selectedFirmware}.`;
-        }
-
-        function updateSelectedFirmware() {
-            selectedFirmware = fwSelect.value;
-            consoleBox.innerHTML += `\n> Target firmware switched to: ${selectedFirmware}`;
-            consoleBox.scrollTop = consoleBox.scrollHeight;
         }
 
         function updateProgressDisplay(percent, textStatus) {
@@ -374,7 +331,7 @@
             window.location.hash = "ready"; 
             consoleBox.innerHTML += `\n\n> All assets loaded successfully.`;
             detectUserEnvironment();
-            consoleBox.innerHTML += `\nSTATUS: Ready (Target FW: ${selectedFirmware})`;
+            consoleBox.innerHTML += `\nSTATUS: Ready`;
             consoleBox.scrollTop = consoleBox.scrollHeight;
             document.body.style.opacity = "1"; 
         }
@@ -393,4 +350,3 @@
     </script>
 </body>
 </html>
-
