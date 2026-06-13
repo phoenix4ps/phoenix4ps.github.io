@@ -281,11 +281,45 @@
         const birdBtn = document.getElementById('clickBirdBtn');
         const fwSelect = document.getElementById('fwSelect');
         let selectedFirmware = "9.00"; 
+
+        function detectUserEnvironment() {
+            const ua = navigator.userAgent;
+            let detectedDevice = "Unknown Device/OS";
+
+            if (ua.indexOf("PlayStation 4") !== -1) {
+                detectedDevice = "PlayStation 4 Console";
+                const softwareVersion = ua.substring(ua.indexOf("PlayStation 4/") + 14, ua.indexOf("PlayStation 4/") + 18);
+                const detectFW = softwareVersion.trim();
+                for (let i = 0; i < fwSelect.options.length; i++) {
+                    if (fwSelect.options[i].value === detectFW) {
+                        fwSelect.selectedIndex = i;
+                        selectedFirmware = detectFW;
+                        consoleBox.innerHTML += `\n> [Detected] Device: ${detectedDevice} (FW: ${selectedFirmware})`;
+                        return;
+                    }
+                }
+                consoleBox.innerHTML += `\n> [Detected] Device: ${detectedDevice} (Custom FW: ${detectFW})`;
+                return;
+            }
+
+            if (ua.indexOf("Windows") !== -1) {
+                detectedDevice = "Windows PC";
+            } else if (ua.indexOf("Android") !== -1) {
+                detectedDevice = "Android Phone/Tablet";
+            } else if (ua.indexOf("iPhone") !== -1 || ua.indexOf("iPad") !== -1 || ua.indexOf("Macintosh") !== -1) {
+                detectedDevice = "Apple Device (iOS/macOS)";
+            }
+
+            consoleBox.innerHTML += `\n> [Detected] Device: ${detectedDevice}`;
+            consoleBox.innerHTML += `\n> Environment: Non-PS4, defaulting target to ${selectedFirmware}.`;
+        }
+
         function updateSelectedFirmware() {
             selectedFirmware = fwSelect.value;
             consoleBox.innerHTML += `\n> Target firmware switched to: ${selectedFirmware}`;
             consoleBox.scrollTop = consoleBox.scrollHeight;
         }
+
         function updateProgressDisplay(percent, textStatus) {
             window.location.hash = `loading-${percent}%`;
             const lines = consoleBox.innerHTML.split('\n');
@@ -295,10 +329,12 @@
             }
             consoleBox.scrollTop = consoleBox.scrollHeight;
         }
+
         const pngImages = [
             { id: 'clickBirdBtn', src: 'images/click_bird.png' },
             { id: 'wris', src: 'images/wris.png' }
         ];
+
         updateProgressDisplay(0, "Loading background");
         const bgImage = new Image();
         bgImage.src = 'bgs.jpg';
@@ -311,6 +347,7 @@
             updateProgressDisplay(40, "Background error. Moving to assets");
             loadPngAssets();
         };
+
         function loadPngAssets() {
             let loadedCount = 0;
             const totalPngs = pngImages.length;
@@ -332,16 +369,21 @@
                 };
             });
         }
+
         function showPage() {
             window.location.hash = "ready"; 
-            consoleBox.innerHTML += `\n\n> All assets loaded successfully.\nSTATUS: Ready (FW: ${selectedFirmware})`;
+            consoleBox.innerHTML += `\n\n> All assets loaded successfully.`;
+            detectUserEnvironment();
+            consoleBox.innerHTML += `\nSTATUS: Ready (Target FW: ${selectedFirmware})`;
             consoleBox.scrollTop = consoleBox.scrollHeight;
             document.body.style.opacity = "1"; 
         }
+
         function disableBird() {
             birdBtn.style.pointerEvents = "none";
             birdBtn.style.opacity = "0.3";
         }
+
         function startJailbreak() {
             disableBird();
             window.location.hash = "executing-exploit";
@@ -351,3 +393,4 @@
     </script>
 </body>
 </html>
+
