@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PHOENIX GAME - CACHING</title>
+    
     <style>
         html, body {
             margin: 0;
@@ -11,97 +12,185 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background-color: #0b0c10;
+            background-color: #000000;
         }
+
         body {
+            background-image: url('bg.jpg'); 
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            color: #ffffff;
+            justify-content: flex-start;
+            padding-top: 30px;
+            font-family: Arial, sans-serif;
         }
-        .loading-container {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+
         h1 {
-            font-size: 2.2rem;
-            margin: 0 0 10px 0;
+            color: #ffffff;
+            font-size: 32px;
+            margin: 0;
             text-transform: uppercase;
-            letter-spacing: 4px;
-            text-shadow: 0 0 15px rgba(0, 210, 255, 0.8);
-            color: #00d2ff;
+            text-shadow: 0 0 15px rgba(255, 140, 0, 0.8);
+            z-index: 10;
         }
+
         .subtitle {
-            color: #00ffcc;
-            font-size: 1.1rem;
+            color: #aaaaaa;
+            font-size: 16px;
+            margin-bottom: 15px;
             letter-spacing: 2px;
-            font-weight: bold;
-            text-shadow: 0 0 8px rgba(0, 255, 204, 0.4);
+            z-index: 10;
         }
+
+        #jailbreak-btn {
+            background-color: rgba(128, 128, 128, 0.15); 
+            color: #888888;
+            width: 80px; 
+            height: 80px;
+            border: 3px solid #888888; 
+            border-radius: 50%; 
+            font-size: 22px;   
+            font-weight: bold;
+            cursor: not-allowed;
+            z-index: 10;
+            box-shadow: none;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            outline: none;
+            opacity: 0.5;
+        }
+
+        .phoenix-container {
+            width: 380px; 
+            height: 380px;
+            z-index: 1;
+            mix-blend-mode: screen; 
+            animation: pulse-glow-only 2.5s infinite ease-in-out;
+            margin-top: 15px;
+        }
+
+        .phoenix-layer {
+            width: 100%;
+            height: 100%;
+            background-image: url('icon0.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        @keyframes pulse-glow-only {
+            0% { filter: drop-shadow(0 0 15px rgba(255, 69, 0, 0.6)); }
+            50% { filter: drop-shadow(0 0 45px rgba(255, 69, 0, 0.9)); }
+            100% { filter: drop-shadow(0 0 15px rgba(255, 69, 0, 0.6)); }
+        }
+
+        .side-wrapper {
+            position: fixed;
+            top: 40%; 
+            display: flex;
+            gap: 40px;
+            z-index: 10;
+        }
+        .left-side { left: 5%; }
+        .right-side { right: 5%; }
+
+        .ps-icon-side {
+            width: 64px;
+            height: 64px;
+        }
+
+        .tri { filter: drop-shadow(0 0 15px #4caf50); } 
+        .squ { filter: drop-shadow(0 0 15px #e91e63); } 
+        .cir { filter: drop-shadow(0 0 15px #ff5722); } 
+        .cro { filter: drop-shadow(0 0 15px #2196f3); } 
+
+        .writing-layer {
+            margin-top: -10px; 
+            width: 380px;
+            height: auto;
+            object-fit: contain;
+            z-index: 10;
+            filter: drop-shadow(0 0 15px #ffd700) drop-shadow(0 0 25px #ff8c00);
+        }
+
         #console-box {
-            background-color: rgba(0, 0, 0, 0.75);
-            border: 2px solid #ffffff;
-            width: 80%;
-            max-width: 500px;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            width: 96%;
             height: 140px;
             padding: 15px;
-            font-family: 'Courier New', monospace;
+            font-family: monospace;
             font-size: 14px;
-            color: #00ffcc;
+            color: #ffd700;
+            z-index: 10;
             border-radius: 12px;
+            margin-top: 25px; 
             overflow-y: auto;
             box-sizing: border-box;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-            animation: whiteGlowPulse 3s infinite ease-in-out;
-        }
-        @keyframes whiteGlowPulse {
-            0%, 100% { box-shadow: 0 0 5px #ffffff; }
-            50% { box-shadow: 0 0 18px #ffffff; }
         }
     </style>
 </head>
 <body>
-    <div class="loading-container">
-        <h1>PHOENIX HOST</h1>
-        <div class="subtitle">INSTALLING OFFLINE CACHE</div>
+
+    <h1>PHOENIX HOST</h1>
+    <div class="subtitle">Installing Offline Cache...</div>
+
+    <button id="jailbreak-btn" disabled>PS</button>
+
+    <div class="phoenix-container">
+        <div class="phoenix-layer"></div>
     </div>
 
+    <div class="side-wrapper left-side">
+        <img src="tri.png" class="ps-icon-side tri">
+        <img src="squ.png" class="ps-icon-side squ">
+    </div>
+    <div class="side-wrapper right-side">
+        <img src="cir.png" class="ps-icon-side cir">
+        <img src="cro.png" class="ps-icon-side cro">
+    </div>
+
+    <img src="wri.png" class="writing-layer">
+
     <div id="console-box">
-        <div id="messages">> Initializing AppCache installation... [0%]</div>
+        <div id="messages">Initializing AppCache installation...</div>
     </div>
 
     <script>
         const outputConsole = document.getElementById("messages");
-        const consoleContainer = document.getElementById("console-box");
         
-        function updateCacheProgress(percent, textStatus) {
-            window.location.hash = `caching-${percent}%`;
-            outputConsole.innerHTML = `<div>> ${textStatus} [${percent}%]</div>`;
-            consoleContainer.scrollTop = consoleContainer.scrollHeight;
-        }
+        window.log = (msg) => { 
+            outputConsole.innerHTML += "<div>[SYSTEM] " + msg + "</div>";
+            var box = document.getElementById("console-box");
+            box.scrollTop = box.scrollHeight;
+        };
 
         function DLProgress(e) {
             if (e.loaded && e.total) {
                 const percent = (Math.round((e.loaded / e.total) * 100));
-                updateCacheProgress(percent, "Downloading system files");
+                outputConsole.innerHTML = "<div>[CACHE] Downloading files: " + percent + "% complete...</div>";
             } else {
-                outputConsole.innerHTML = "<div>> Storing files in progress...</div>";
+                outputConsole.innerHTML = "<div>[CACHE] Storing files in progress...</div>";
             }
         }
 
         function DisplayCacheProgress() {
-            window.location.hash = "cache-success";
-            outputConsole.innerHTML = "<div>> Offline Cache installed successfully.</div><div style='color:#00d2ff'>> Redirecting to Home Page...</div>";
+            window.log("Offline Cache installed successfully.");
+            window.log("Redirecting to Home Page in 2 seconds...");
             setTimeout(function() { 
                 location.replace("index.html"); 
             }, 2000);
         }
 
         function DisplayCacheError(e) {
-            window.location.hash = "cache-error";
-            outputConsole.innerHTML = "<div style='color:#ff3333'>> Cache Error: Manifest file missing or invalid.</div>";
+            window.log("Cache Error: Manifest file missing or invalid.", "red");
         }
 
         if (window.applicationCache) {
@@ -111,6 +200,10 @@
             window.applicationCache.addEventListener("noupdate", DisplayCacheProgress, false);
             window.applicationCache.addEventListener("error", DisplayCacheError, false);
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            window.log("Please wait, preparing local files for storage.");
+        });
     </script>
 </body>
 </html>
