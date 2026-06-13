@@ -20,11 +20,11 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
+            background-image: url('bg.jpg') !important;
             background-size: cover !important;
             background-position: center center !important;
             background-repeat: no-repeat !important;
             background-attachment: fixed !important;
-            background-color: transparent !important;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #fff;
             height: 100vh;
@@ -53,7 +53,7 @@
             width: 100%;
             height: 85%;
             background-color: rgba(0, 0, 0, 0.4) !important;
-            background-image: url('images/frame.png'); 
+            background-image: url('frame.png'); 
             background-size: 100% 100%;
             background-position: center;
             background-repeat: no-repeat;
@@ -189,7 +189,7 @@
         #jailbreak-btn {
             width: 77px; 
             height: 77px; 
-            background-image: url('images/bird.png');
+            background-image: url('click_bird.png');
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
@@ -216,6 +216,27 @@
             margin-top: auto;
             margin-bottom: 5px;
         }
+        .main-title-img {
+            max-width: 60%; 
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        .side-wrapper {
+            position: fixed;
+            top: 45%; 
+            display: flex;
+            gap: 25px;
+            z-index: 2;
+            opacity: 0.6;
+        }
+        .left-side { left: 2%; }
+        .right-side { right: 2%; }
+        .ps-icon-side { width: 48px; height: 48px; }
+        .tri { filter: drop-shadow(0 0 10px #4caf50); } 
+        .squ { filter: drop-shadow(0 0 10px #e91e63); } 
+        .cir { filter: drop-shadow(0 0 10px #ff5722); } 
+        .cro { filter: drop-shadow(0 0 10px #2196f3); } 
         @keyframes neonPulse {
             0%, 100% { opacity: 0.4; }
             50% { opacity: 1; }
@@ -250,8 +271,19 @@
                         <button id="jailbreak-btn" title="Click this Bird to Exploit"></button>
                     </div>
                 </div>
+                <div class="logo-container">
+                    <img src="icon0.png" alt="PHOENIX" class="main-title-img">
+                </div>
             </div>
         </div>
+    </div>
+    <div class="side-wrapper left-side">
+        <img src="tri.png" class="ps-icon-side tri" alt="triangle">
+        <img src="squ.png" class="ps-icon-side squ" alt="square">
+    </div>
+    <div class="side-wrapper right-side">
+        <img src="cir.png" class="ps-icon-side cir" alt="circle">
+        <img src="cro.png" class="ps-icon-side cro" alt="cross">
     </div>
 </body>
 </html>
