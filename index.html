@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PHOENIX GAME</title>
     <style>
-        html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #000000 !important; }
-        body { background-size: cover !important; background-position: center !important; background-repeat: no-repeat !important; background-attachment: fixed !important; font-family: 'Segoe UI', sans-serif; color: #fff; height: 100vh; opacity: 0; transition: opacity 0.4s ease-in-out; }
+        html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #000000 !important; }
+        body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: url('bgs.jpg') #252526; font-family: 'Segoe UI', sans-serif; color: #fff; height: 100vh; }
         .main-layout { display: flex; width: 100%; height: 100vh; position: relative; }
         .left-section { flex: 38.2; height: 100%; display: flex; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
         .frame-container { width: 100%; height: 85%; background: rgba(0,0,0,0.4) url('images/frame.png') no-repeat center/100% 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 55px; box-sizing: border-box; position: relative; border-radius: 16px; box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
@@ -35,7 +35,7 @@
         }
     </script>
 </head>
-<body class="notranslate">
+<body>
     <div class="main-layout">
         <div class="left-section">
             <div class="frame-container">
@@ -88,16 +88,7 @@
         const pngs = [{ id: 'clickBirdBtn', src: 'images/click_bird.png' }, { id: 'wris', src: 'images/wris.png' }];
 
         window.onload = function() {
-            const bgImage = new Image();
-            bgImage.src = 'bgs.jpg';
-            bgImage.onload = function() {
-                document.body.style.backgroundImage = "url('bgs.jpg')";
-                loadPngAssets(); 
-            };
-            bgImage.onerror = function() { loadPngAssets(); };
-        };
-
-        function loadPngAssets() {
+            detectUserEnvironment();
             let count = 0;
             pngs.forEach(imgData => {
                 const img = new Image();
@@ -105,21 +96,15 @@
                 img.onload = function() {
                     document.getElementById(imgData.id).src = imgData.src;
                     count++;
-                    if (count === pngs.length) showPage();
+                    if (count === pngs.length) {
+                        const s = document.createElement('script');
+                        s.src = "./bundle.js";
+                        document.head.appendChild(s);
+                    }
                 };
-                img.onerror = function() { count++; if (count === pngs.length) showPage(); };
+                img.onerror = function() { count++; if (count === pngs.length) { const s = document.createElement('script'); s.src = "./bundle.js"; document.head.appendChild(s); } };
             });
-        }
-
-        function showPage() {
-            window.location.hash = "ready";
-            detectUserEnvironment();
-            document.body.style.opacity = "1"; 
-            
-            const s = document.createElement('script');
-            s.src = "./bundle.js";
-            document.head.appendChild(s);
-        }
+        };
 
         function startJailbreak() {
             birdBtn.style.pointerEvents = "none"; birdBtn.style.opacity = "0.3";
