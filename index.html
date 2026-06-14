@@ -89,33 +89,33 @@
 
         window.onload = function() {
             detectUserEnvironment();
-            let count = 0;
             pngs.forEach(imgData => {
                 const img = new Image();
                 img.src = imgData.src;
                 img.onload = function() {
                     document.getElementById(imgData.id).src = imgData.src;
-                    count++;
-                    if (count === pngs.length) {
-                        const s = document.createElement('script');
-                        s.src = "./bundle.js";
-                        document.head.appendChild(s);
-                    }
                 };
-                img.onerror = function() { count++; if (count === pngs.length) { const s = document.createElement('script'); s.src = "./bundle.js"; document.head.appendChild(s); } };
             });
         };
 
         function startJailbreak() {
-            birdBtn.style.pointerEvents = "none"; birdBtn.style.opacity = "0.3";
+            birdBtn.style.pointerEvents = "none"; 
+            birdBtn.style.opacity = "0.3";
             window.location.hash = "executing-exploit";
             consoleBox.textContent = "";
             window.log(`Launching exploit code instantly for FW ${selectedFirmware}...`);
+            
             try {
-                if (typeof doJBwithPSFreeLapseExploit === "function") doJBwithPSFreeLapseExploit();
-                else window.log("Error: Exploit function missing in bundle.js", "red");
-            } catch (err) { window.log("Error: " + err, "err"); }
+                if (typeof doJBwithPSFreeLapseExploit === "function") {
+                    doJBwithPSFreeLapseExploit();
+                } else {
+                    window.log("Error: Exploit function missing in bundle.js", "red");
+                }
+            } catch (err) { 
+                window.log("An error occurred during exploit: " + err, "red"); 
+            }
         }
     </script>
+    <script src="./bundle.js"></script>
 </body>
 </html>
