@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="notranslate" translate="no">
+<html lang="en" class="notranslate" translate="no" manifest="psfree_lapse.cache">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -29,6 +29,11 @@
         @keyframes neonPulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
         @keyframes whiteGlow { 0%, 100% { box-shadow: 0 0 5px #fff; } 50% { box-shadow: 0 0 18px #fff; } }
     </style>
+    <script>
+        if (window.applicationCache && (window.applicationCache.status == '0' || window.applicationCache.status == '3')) {
+            window.location.replace("cache.html");
+        }
+    </script>
 </head>
 <body class="notranslate">
     <div class="main-layout">
@@ -112,25 +117,17 @@
                     document.getElementById(imgData.id).src = imgData.src;
                     count++;
                     updateProgress(40 + Math.floor((count / pngs.length) * 60), `Loading interface UI (${count}/${pngs.length})`);
-                    if (count === pngs.length) registerGitHubWorker();
+                    if (count === pngs.length) showPage();
                 };
-                img.onerror = function() { count++; if (count === pngs.length) registerGitHubWorker(); };
+                img.onerror = function() { count++; if (count === pngs.length) showPage(); };
             });
-        }
-
-        function registerGitHubWorker() {
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('./sw.js')
-                .then(() => { window.log("GitHub cache active."); showPage(); })
-                .catch(err => { window.log("Cache failed: " + err, "red"); showPage(); });
-            } else { showPage(); }
         }
 
         function showPage() {
             window.location.hash = "ready";
             consoleBox.innerHTML += `\n\n> All assets loaded successfully.`;
             detectUserEnvironment();
-            consoleBox.innerHTML += `\nSTATUS: Ready`;
+            consoleBox.innerHTML += `\nSTART THE GAME PLAYER`;
             consoleBox.scrollTop = consoleBox.scrollHeight;
             document.body.style.opacity = "1";
             const s = document.createElement('script'); s.src = "./bundle.js"; document.head.appendChild(s);
@@ -144,7 +141,7 @@
             try {
                 if (typeof doJBwithPSFreeLapseExploit === "function") doJBwithPSFreeLapseExploit();
                 else window.log("Error: Exploit function missing in bundle.js", "red");
-            } catch (err) { window.log("Error: " + err, "red"); }
+            } catch (err) { window.log("Error: " + err, "err"); }
         }
     </script>
 </body>
