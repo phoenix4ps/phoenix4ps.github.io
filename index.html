@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PHOENIX GAME</title>
     <style>
-        html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #000000 !important; }
-        body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background-image: url('bgs.jpg') !important; background-size: cover !important; background-position: center !important; background-repeat: no-repeat !important; background-attachment: fixed !important; font-family: 'Segoe UI', sans-serif; color: #fff; height: 100vh; }
+        html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #000 !important; }
+        body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: url('bgs.jpg') no-repeat center center/cover fixed !important; font-family: 'Segoe UI', sans-serif; color: #fff; height: 100vh; }
         .main-layout { display: flex; width: 100%; height: 100vh; position: relative; }
         .left-section { flex: 38.2; height: 100%; display: flex; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
         .frame-container { width: 100%; height: 85%; background: rgba(0,0,0,0.4) url('images/frame.png') no-repeat center/100% 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 55px; box-sizing: border-box; position: relative; border-radius: 16px; box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
@@ -14,7 +14,7 @@
         .frame-container::before { border-image: linear-gradient(135deg, #00d2ff 0%, #00d2ff 15%, transparent 15%, transparent 85%, #00ffcc 85%, #00ffcc 100%) 1; }
         .frame-container::after { border-image: linear-gradient(225deg, #00ffcc 0%, #00ffcc 15%, transparent 15%, transparent 85%, #00d2ff 85%, #00d2ff 100%) 1; animation-direction: reverse; }
         #info-box { width: 76%; background: transparent; border: none; padding: 5px 10px; font-family: monospace; font-size: 0.85rem; font-weight: bold; color: #00d2ff; text-align: center; box-sizing: border-box; z-index: 2; margin-bottom: 10px; }
-        #console { width: 76%; height: 64%; background: rgba(0,0,0,0.65) !important; border-radius: 8px; padding: 12px; font-family: monospace; font-size: 0.85rem; color: #00ffcc; text-align: left; overflow-y: auto; box-sizing: border-box; line-height: 1.4; z-index: 2; white-space: pre-wrap; word-wrap: break-word; border: 2px solid #fff; animation: whiteGlow 3s infinite ease-in-out; }
+        #console { width: 76%; height: 68%; background: rgba(0,0,0,0.65) !important; border-radius: 8px; padding: 12px; font-family: monospace; font-size: 0.85rem; color: #00ffcc; text-align: left; overflow-y: auto; box-sizing: border-box; line-height: 1.4; z-index: 2; white-space: pre-wrap; word-wrap: break-word; border: 2px solid #fff; animation: whiteGlow 3s infinite ease-in-out; }
         .right-section { flex: 61.8; height: 100%; display: flex; align-items: flex-start; justify-content: center; padding: 10px 30px 20px; box-sizing: border-box; }
         .main-controls { display: flex; flex-direction: column; align-items: center; justify-content: space-between; width: 100%; height: 98%; }
         .top-group { display: flex; flex-direction: column; align-items: center; width: 100%; margin-top: 40px; }
