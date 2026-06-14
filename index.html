@@ -1,235 +1,36 @@
 <!DOCTYPE html>
-<html lang="en" class="notranslate" translate="no" manifest="psfree_lapse.cache">
+<html lang="en" class="notranslate" translate="no">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PHOENIX GAME</title>
-    <script src="./bundle.js"></script>
     <style>
-        html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background: #000000 !important; 
-        }
-        body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-size: cover !important;
-            background-position: center center !important;
-            background-repeat: no-repeat !important;
-            background-attachment: fixed !important;
-            background-color: transparent !important;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #fff;
-            height: 100vh;
-            opacity: 0; 
-            transition: opacity 0.5s ease-in-out;
-        }
-        .main-layout {
-            display: flex;
-            width: 100%;
-            height: 100vh;
-            box-sizing: border-box;
-            background: transparent !important;
-            position: relative;
-        }
-        .left-section {
-            flex: 38.2;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            box-sizing: border-box;
-            background: transparent !important;
-        }
-        .frame-container {
-            width: 100%;
-            height: 85%;
-            background-color: rgba(0, 0, 0, 0.4) !important;
-            background-image: url('images/frame.png'); 
-            background-size: 100% 100%;
-            background-position: center;
-            background-repeat: no-repeat;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            padding-top: 55px;
-            box-sizing: border-box;
-            position: relative;
-            border-radius: 16px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-        }
-        .frame-container::before {
-            content: '';
-            position: absolute;
-            top: 2%;
-            left: 2%;
-            right: 2%;
-            bottom: 2%;
-            border: 4px solid transparent;
-            border-image: linear-gradient(135deg, #00d2ff 0%, #00d2ff 15%, transparent 15%, transparent 85%, #00ffcc 85%, #00ffcc 100%) 1;
-            pointer-events: none;
-            animation: neonPulse 3s infinite ease-in-out;
-        }
-        .frame-container::after {
-            content: '';
-            position: absolute;
-            top: 2%;
-            left: 2%;
-            right: 2%;
-            bottom: 2%;
-            border: 4px solid transparent;
-            border-image: linear-gradient(225deg, #00ffcc 0%, #00ffcc 15%, transparent 15%, transparent 85%, #00d2ff 85%, #00d2ff 100%) 1;
-            pointer-events: none;
-            animation: neonPulse 3s infinite ease-in-out reverse;
-        }
-        #info-box {
-            width: 76%;
-            background: transparent !important;
-            border: none !important;
-            padding: 5px 10px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.85rem;
-            font-weight: bold;
-            color: #00d2ff;
-            text-align: center;
-            box-sizing: border-box;
-            z-index: 2;
-            margin: 0 0 10px 0;
-            box-shadow: none !important;
-        }
-        #console {
-            width: 76%;  
-            height: 64%; 
-            background: rgba(0, 0, 0, 0.65) !important; 
-            border-radius: 8px;
-            padding: 12px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.85rem; 
-            color: #00ffcc; 
-            text-align: left;
-            overflow-y: auto; 
-            box-sizing: border-box;
-            line-height: 1.4;
-            z-index: 2;
-            margin: 0;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            border: 2px solid #ffffff;
-            animation: whiteGlowPulse 3s infinite ease-in-out;
-        }
-        #console::-webkit-scrollbar {
-            width: 5px;
-        }
-        #console::-webkit-scrollbar-thumb {
-            background: rgba(0, 255, 204, 0.3);
-            border-radius: 4px;
-        }
-        .right-section {
-            flex: 61.8;
-            height: 100%;
-            display: flex;
-            align-items: flex-start;
-            justify-content: center;
-            padding: 10px 30px 20px 30px;
-            box-sizing: border-box;
-            background: transparent !important;
-        }
-        .main-controls {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            height: 98%;
-            background: transparent !important;
-        }
-        .top-group {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            margin-top: 40px;
-            padding-top: 5px;
-        }
-        .header-container {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .main-title-text {
-            font-size: 1.6rem; 
-            font-weight: 900;
-            color: #ffffff;
-            letter-spacing: 4px;
-            margin: 0 0 2px 0;
-            text-shadow: 0 0 10px rgba(0, 210, 255, 0.8);
-        }
-        .subtitle {
-            font-size: 0.95rem; 
-            color: #00d2ff;
-            letter-spacing: 2px;
-            margin: 0;
-            font-weight: bold;
-            text-shadow: 0 0 5px rgba(0, 210, 255, 0.5);
-            font-family: monospace;
-        }
-        .action-container {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-        }
-        .btn-bird-trigger {
-            width: 77px; 
-            height: 77px; 
-            object-fit: contain;
-            cursor: pointer;
-            border-radius: 50%;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            box-shadow: 0 0 12px rgba(0, 255, 204, 0.4);
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .btn-bird-trigger:hover, .btn-bird-trigger:focus {
-            transform: scale(1.05) translate3d(0,0,0);
-            box-shadow: 0 0 20px #00d2ff, inset 0 0 10px #00ffcc;
-            outline: none;
-        }
-        .logo-container {
-            text-align: center;
-            margin-top: auto;
-            margin-bottom: 5px;
-        }
-        .main-title-img {
-            max-width: 60%; 
-            height: auto;
-            display: block;
-            margin: 0 auto;
-        }
-        @keyframes neonPulse {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 1; }
-        }
-        @keyframes whiteGlowPulse {
-            0%, 100% { box-shadow: 0 0 5px #ffffff, inset 0 0 2px rgba(255, 255, 255, 0.2); }
-            50% { box-shadow: 0 0 18px #ffffff, inset 0 0 8px rgba(255, 255, 255, 0.4); }
-        }
+        html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #000 !important; }
+        body { background-size: cover !important; background-position: center !important; background-repeat: no-repeat !important; background-attachment: fixed !important; font-family: 'Segoe UI', sans-serif; color: #fff; height: 100vh; opacity: 0; transition: opacity 0.5s; }
+        .main-layout { display: flex; width: 100%; height: 100vh; position: relative; }
+        .left-section { flex: 38.2; height: 100%; display: flex; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
+        .frame-container { width: 100%; height: 85%; background: rgba(0,0,0,0.4) url('images/frame.png') no-repeat center/100% 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 55px; box-sizing: border-box; position: relative; border-radius: 16px; box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
+        .frame-container::before, .frame-container::after { content: ''; position: absolute; top: 2%; left: 2%; right: 2%; bottom: 2%; border: 4px solid transparent; pointer-events: none; animation: neonPulse 3s infinite ease-in-out; }
+        .frame-container::before { border-image: linear-gradient(135deg, #00d2ff 0%, #00d2ff 15%, transparent 15%, transparent 85%, #00ffcc 85%, #00ffcc 100%) 1; }
+        .frame-container::after { border-image: linear-gradient(225deg, #00ffcc 0%, #00ffcc 15%, transparent 15%, transparent 85%, #00d2ff 85%, #00d2ff 100%) 1; animation-direction: reverse; }
+        #info-box { width: 76%; background: transparent; border: none; padding: 5px 10px; font-family: monospace; font-size: 0.85rem; font-weight: bold; color: #00d2ff; text-align: center; box-sizing: border-box; z-index: 2; margin-bottom: 10px; }
+        #console { width: 76%; height: 64%; background: rgba(0,0,0,0.65) !important; border-radius: 8px; padding: 12px; font-family: monospace; font-size: 0.85rem; color: #00ffcc; text-align: left; overflow-y: auto; box-sizing: border-box; line-height: 1.4; z-index: 2; white-space: pre-wrap; word-wrap: break-word; border: 2px solid #fff; animation: whiteGlow 3s infinite ease-in-out; }
+        .right-section { flex: 61.8; height: 100%; display: flex; align-items: flex-start; justify-content: center; padding: 10px 30px 20px; box-sizing: border-box; }
+        .main-controls { display: flex; flex-direction: column; align-items: center; justify-content: space-between; width: 100%; height: 98%; }
+        .top-group { display: flex; flex-direction: column; align-items: center; width: 100%; margin-top: 40px; }
+        .header-container { text-align: center; margin-bottom: 20px; }
+        .main-title-text { font-size: 1.6rem; font-weight: 900; color: #fff; letter-spacing: 4px; margin: 0; text-shadow: 0 0 10px #00d2ff; }
+        .subtitle { font-size: 0.95rem; color: #00d2ff; letter-spacing: 2px; margin: 0; font-weight: bold; text-shadow: 0 0 5px #00d2ff; font-family: monospace; }
+        .action-container { width: 100%; display: flex; justify-content: center; }
+        .btn-bird-trigger { width: 77px; height: 77px; object-fit: contain; cursor: pointer; border-radius: 50%; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 0 12px rgba(0,255,204,0.4); }
+        .btn-bird-trigger:hover, .btn-bird-trigger:focus { transform: scale(1.05); box-shadow: 0 0 20px #00d2ff, inset 0 0 10px #00ffcc; outline: none; }
+        .logo-container { text-align: center; margin-bottom: 5px; }
+        .main-title-img { max-width: 60%; height: auto; display: block; margin: 0 auto; }
+        @keyframes neonPulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+        @keyframes whiteGlow { 0%, 100% { box-shadow: 0 0 5px #fff; } 50% { box-shadow: 0 0 18px #fff; } }
     </style>
-    <script>
-        if (window.applicationCache && (window.applicationCache.status == '0' || window.applicationCache.status == '3')) {
-            window.location.replace("cache.html");
-        }
-    </script>
 </head>
-</body> 
-   <div class="notranslate">
+<body class="notranslate">
     <div class="main-layout">
         <div class="left-section">
             <div class="frame-container">
@@ -243,15 +44,13 @@
                 <div class="top-group">
                     <div class="header-container">
                         <h1 class="main-title-text">PHOENIX HOST</h1>
-                        <div class="subtitle" id="hostSubtitle">7.00 - 9.60</div>
+                        <div class="subtitle">7.00 - 9.60</div>
                     </div>
                     <div class="action-container">
                         <img id="clickBirdBtn" alt="CLICK BIRD" class="btn-bird-trigger" tabindex="0" onclick="startJailbreak();">
                     </div>
                 </div>
-                <div class="logo-container">
-                    <img id="wris" alt="wris" class="main-title-img">
-                </div>
+                <div class="logo-container"><img id="wris" alt="wris" class="main-title-img"></div>
             </div>
         </div>
     </div>
@@ -266,115 +65,86 @@
             consoleBox.scrollTop = consoleBox.scrollHeight;
         };
 
-        window.addEventListener('unhandledrejection', event => {
-            window.log("Unhandled rejection: " + event.reason, "red");
-        });
-
-        window.addEventListener('error', event => {
-            window.log("Unhandled error: " + event.error, "red");
-            return true;
-        });
+        window.addEventListener('unhandledrejection', e => window.log("Unhandled rejection: " + e.reason, "red"));
+        window.addEventListener('error', e => { window.log("Unhandled error: " + e.error, "red"); return true; });
 
         function detectUserEnvironment() {
             const ua = navigator.userAgent;
-
             if (ua.indexOf("PlayStation 4") !== -1) {
-                const softwareVersion = ua.substring(ua.indexOf("PlayStation 4/") + 14, ua.indexOf("PlayStation 4/") + 18);
-                selectedFirmware = softwareVersion.trim();
+                selectedFirmware = ua.substring(ua.indexOf("PlayStation 4/") + 14, ua.indexOf("PlayStation 4/") + 18).trim();
                 infoBox.innerText = `PS4 FIRMWARE: ${selectedFirmware}`;
                 return;
             }
-
-            if (ua.indexOf("Windows") !== -1) {
-                infoBox.innerText = "SYSTEM: Windows PC";
-            } else if (ua.indexOf("Android") !== -1) {
-                infoBox.innerText = "SYSTEM: Android Phone";
-            } else if (ua.indexOf("iPhone") !== -1 || ua.indexOf("iPad") !== -1 || ua.indexOf("Macintosh") !== -1) {
-                infoBox.innerText = "SYSTEM: Apple Device";
-            } else {
-                infoBox.innerText = "SYSTEM: Unknown Device";
-            }
+            if (ua.indexOf("Windows") !== -1) infoBox.innerText = "SYSTEM: Windows PC";
+            else if (ua.indexOf("Android") !== -1) infoBox.innerText = "SYSTEM: Android Phone";
+            else if (ua.indexOf("iPhone") !== -1 || ua.indexOf("Macintosh") !== -1) infoBox.innerText = "SYSTEM: Apple Device";
+            else infoBox.innerText = "SYSTEM: Unknown Device";
         }
 
-        function updateProgressDisplay(percent, textStatus) {
+        function updateProgress(percent, text) {
             window.location.hash = `loading-${percent}%`;
             const lines = consoleBox.innerHTML.split('\n');
             if (lines.length > 0) {
-                lines[lines.length - 1] = `> ${textStatus} [${percent}%]`;
+                lines[lines.length - 1] = `> ${text} [${percent}%]`;
                 consoleBox.innerHTML = lines.join('\n');
             }
             consoleBox.scrollTop = consoleBox.scrollHeight;
         }
 
-        const pngImages = [
-            { id: 'clickBirdBtn', src: 'images/click_bird.png' },
-            { id: 'wris', src: 'images/wris.png' }
-        ];
+        const pngs = [{ id: 'clickBirdBtn', src: 'images/click_bird.png' }, { id: 'wris', src: 'images/wris.png' }];
 
-        updateProgressDisplay(0, "Loading background");
+        updateProgress(0, "Loading background");
         const bgImage = new Image();
         bgImage.src = 'bgs.jpg';
         bgImage.onload = function() {
             document.body.style.backgroundImage = "url('bgs.jpg')";
-            updateProgressDisplay(40, "Background loaded. Initializing assets");
-            setTimeout(loadPngAssets, 200); 
-        };
-        bgImage.onerror = function() {
-            updateProgressDisplay(40, "Background error. Moving to assets");
+            updateProgress(40, "Background loaded. Initializing assets");
             loadPngAssets();
         };
+        bgImage.onerror = function() { updateProgress(40, "Background error"); loadPngAssets(); };
 
         function loadPngAssets() {
-            let loadedCount = 0;
-            const totalPngs = pngImages.length;
-            pngImages.forEach((imgData) => {
+            let count = 0;
+            pngs.forEach(imgData => {
                 const img = new Image();
                 img.src = imgData.src;
                 img.onload = function() {
                     document.getElementById(imgData.id).src = imgData.src;
-                    loadedCount++;
-                    let currentPercent = 40 + Math.floor((loadedCount / totalPngs) * 60);
-                    updateProgressDisplay(currentPercent, `Loading interface UI (${loadedCount}/${totalPngs})`);
-                    if (loadedCount === totalPngs) { setTimeout(showPage, 300); }
+                    count++;
+                    updateProgress(40 + Math.floor((count / pngs.length) * 60), `Loading interface UI (${count}/${pngs.length})`);
+                    if (count === pngs.length) registerGitHubWorker();
                 };
-                img.onerror = function() {
-                    loadedCount++;
-                    let currentPercent = 40 + Math.floor((loadedCount / totalPngs) * 60);
-                    updateProgressDisplay(currentPercent, "Asset skipped");
-                    if (loadedCount === totalPngs) { showPage(); }
-                };
+                img.onerror = function() { count++; if (count === pngs.length) registerGitHubWorker(); };
             });
         }
 
+        function registerGitHubWorker() {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('./sw.js')
+                .then(() => { window.log("GitHub cache active."); showPage(); })
+                .catch(err => { window.log("Cache failed: " + err, "red"); showPage(); });
+            } else { showPage(); }
+        }
+
         function showPage() {
-            window.location.hash = "ready"; 
+            window.location.hash = "ready";
             consoleBox.innerHTML += `\n\n> All assets loaded successfully.`;
             detectUserEnvironment();
             consoleBox.innerHTML += `\nSTATUS: Ready`;
             consoleBox.scrollTop = consoleBox.scrollHeight;
-            document.body.style.opacity = "1"; 
-        }
-
-        function disableBird() {
-            birdBtn.style.pointerEvents = "none";
-            birdBtn.style.opacity = "0.3";
+            document.body.style.opacity = "1";
+            const s = document.createElement('script'); s.src = "./bundle.js"; document.head.appendChild(s);
         }
 
         function startJailbreak() {
-            disableBird();
+            birdBtn.style.pointerEvents = "none"; birdBtn.style.opacity = "0.3";
             window.location.hash = "executing-exploit";
-            consoleBox.textContent = ""; 
+            consoleBox.textContent = "";
             window.log(`Launching exploit code instantly for FW ${selectedFirmware}...`);
-            
             try {
-                if (typeof doJBwithPSFreeLapseExploit === "function") {
-                    doJBwithPSFreeLapseExploit();
-                } else {
-                    window.log("Error: Exploit function missing in bundle.js", "red");
-                }
-            } catch (error) {
-                window.log("An error occurred during exploit: " + error, "red");
-            }
+                if (typeof doJBwithPSFreeLapseExploit === "function") doJBwithPSFreeLapseExploit();
+                else window.log("Error: Exploit function missing in bundle.js", "red");
+            } catch (err) { window.log("Error: " + err, "red"); }
         }
     </script>
 </body>
