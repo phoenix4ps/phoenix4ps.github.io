@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PHOENIX GAME</title>
+    <script src="./bundle.js"></script>
     <style>
         html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #000 !important; }
         body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: url('bgs.jpg') no-repeat center center/cover fixed !important; font-family: 'Segoe UI', sans-serif; color: #fff; height: 100vh; }
@@ -39,7 +40,7 @@
     <div class="main-layout">
         <div class="left-section">
             <div class="frame-container">
-                <div id="info-box">SYSTEM: Detecting environment...</div>
+                <div id="info-box">PHOENIX GAME HOST</div>
                 <pre id="console">START THE GAME PLAYER</pre>
             </div>
         </div>
@@ -51,7 +52,7 @@
                         <div class="subtitle">7.00 - 9.60</div>
                     </div>
                     <div class="action-container">
-                        <img id="clickBirdBtn" alt="CLICK BIRD" class="btn-bird-trigger" tabindex="0" onclick="startJailbreak();">
+                        <img id="clickBirdBtn" alt="CLICK BIRD" class="btn-bird-trigger" tabindex="0">
                     </div>
                 </div>
                 <div class="logo-container"><img id="wris" alt="wris" class="main-title-img"></div>
@@ -59,63 +60,41 @@
         </div>
     </div>
     <script>
-        const consoleBox = document.getElementById('console');
-        const infoBox = document.getElementById('info-box');
-        const birdBtn = document.getElementById('clickBirdBtn');
-        let selectedFirmware = "9.00"; 
+        const outputConsole = document.getElementById("console");
+        const birdBtn = document.getElementById("clickBirdBtn");
 
-        window.log = (msg, color="#00ffcc") => {
-            consoleBox.innerHTML += `<div style="color:${color}">> ${msg}</div>`;
-            consoleBox.scrollTop = consoleBox.scrollHeight;
+        window.log = (msg, color="#00ffcc") => { 
+            outputConsole.innerHTML += `<div style="color:${color}">> ${msg}</div>`; 
+            outputConsole.scrollTop = outputConsole.scrollHeight;
         };
 
-        window.addEventListener('unhandledrejection', e => window.log("Unhandled rejection: " + e.reason, "red"));
-        window.addEventListener('error', e => { window.log("Unhandled error: " + e.error, "red"); return true; });
+        addEventListener('unhandledrejection', event => {
+            const reason = event.reason;
+            alert('Unhandled rejection\n' + `${reason}\n` + `${reason.sourceURL}:${reason.line}:${reason.column}\n` + `${reason.stack}`);
+        });
 
-        function detectUserEnvironment() {
-            const ua = navigator.userAgent;
-            if (ua.indexOf("PlayStation 4") !== -1) {
-                selectedFirmware = ua.substring(ua.indexOf("PlayStation 4/") + 14, ua.indexOf("PlayStation 4/") + 18).trim();
-                infoBox.innerText = `PS4 FIRMWARE: ${selectedFirmware}`;
-                return;
-            }
-            if (ua.indexOf("Windows") !== -1) infoBox.innerText = "SYSTEM: Windows PC";
-            else if (ua.indexOf("Android") !== -1) infoBox.innerText = "SYSTEM: Android Phone";
-            else if (ua.indexOf("iPhone") !== -1 || ua.indexOf("Macintosh") !== -1) infoBox.innerText = "SYSTEM: Apple Device";
-            else infoBox.innerText = "SYSTEM: Unknown Device";
-        }
-
-        const pngs = [{ id: 'clickBirdBtn', src: 'images/click_bird.png' }, { id: 'wris', src: 'images/wris.png' }];
+        addEventListener('error', event => {
+            const reason = event.error;
+            alert('Unhandled error\n' + `${reason}\n` + `${reason.sourceURL}:${reason.line}:${reason.column}\n` + `${reason.stack}`);
+            return true;
+        });
 
         window.onload = function() {
-            detectUserEnvironment();
-            pngs.forEach(imgData => {
-                const img = new Image();
-                img.src = imgData.src;
-                img.onload = function() {
-                    document.getElementById(imgData.id).src = imgData.src;
-                };
-            });
+            document.getElementById('clickBirdBtn').src = 'images/click_bird.png';
+            document.getElementById('wris').src = 'images/wris.png';
         };
 
-        function startJailbreak() {
+        birdBtn.addEventListener("click", () => {
             birdBtn.style.pointerEvents = "none"; 
             birdBtn.style.opacity = "0.3";
-            window.location.hash = "executing-exploit";
-            consoleBox.textContent = "";
-            window.log(`Launching exploit code instantly for FW ${selectedFirmware}...`);
+            outputConsole.textContent = ""; 
             
             try {
-                if (typeof doJBwithPSFreeLapseExploit === "function") {
-                    doJBwithPSFreeLapseExploit();
-                } else {
-                    window.log("Error: Exploit function missing in bundle.js", "red");
-                }
-            } catch (err) { 
-                window.log("An error occurred during exploit: " + err, "red"); 
+                doJBwithPSFreeLapseExploit();
+            } catch (error) {
+                window.log("An error occured during exploit: " + error, "red");
             }
-        }
+        });
     </script>
-    <script src="./bundle.js"></script>
 </body>
 </html>
