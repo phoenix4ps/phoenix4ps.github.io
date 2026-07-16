@@ -1,3 +1,13 @@
+بناءً على الصورة، المشكلة واضحة جداً؛ صورة الإطار (`frame.png`) تظهر كشريط صغير مضغوط في منتصف مربع النص لأن نسبة أبعاد الصورة الأصلية لا تتناسب مع الطول العمودي الشديد للمربع على الهواتف، بالإضافة إلى وجود تداخل بين حدود النيون ومربع النص.
+
+لحل هذه المشكلة وجعل صورة الإطار `frame.png` تتمدد بالكامل لتغطي حدود مربع النص والنيون وتملأ المساحة المخصصة لها على اليسار بشكل مثالي، قمنا بإجراء التعديلات التالية:
+
+1. **إرجاع الإطار كخلفية للحاوية الكبرى (`.frame-container`):** ليصبح هو الهيكل الخارجي الأساسي الذي يضم داخله العنوان ومربع النص.
+2. **ضبط أبعاد الحاوية ومربع النص:** قمنا بجعل مربع النص (`#console`) يملأ المساحة الداخلية للإطار بشكل مثالي مع الحفاظ على شفافية خلفيته لكي تظهر الصورة التي خلفه بوضوح تام، وتمت إزالة الحدود العادية (`border`) لكي لا تضغط الإطار.
+3. **توسيط وتعديل الهوامش والمسافات الداخلية (Padding):** لضمان عدم خروج النصوص خارج حدود الإطار المرسوم.
+
+إليك الكود المحدث والجاهز للاستخدام مباشرة:
+
 ```html
 <!DOCTYPE html>
 <html lang="en" class="notranslate" translate="no" manifest="psfree_lapse.cache">
@@ -10,31 +20,35 @@
         html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #000 !important; }
         body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: url('bgs.jpg') no-repeat center center/cover fixed !important; font-family: 'Segoe UI', sans-serif; color: #fff; height: 100vh; }
         .main-layout { display: flex; width: 100%; height: 100vh; position: relative; }
-        .left-section { flex: 38.2; height: 100%; display: flex; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
+        .left-section { flex: 38.2; height: 100%; display: flex; align-items: center; justify-content: center; padding: 15px; box-sizing: border-box; }
+        
         .frame-container { 
             width: 100%; 
-            height: 85%; 
-            background: rgba(0,0,0,0.2); 
+            height: 90%; 
+            background: rgba(0,0,0,0.5) url('images/frame.png') no-repeat center center/100% 100% !important; 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
             justify-content: flex-start; 
-            padding-top: 55px; 
+            padding: 45px 15px 25px 15px; 
             box-sizing: border-box; 
             position: relative; 
             border-radius: 16px; 
             box-shadow: 0 20px 40px rgba(0,0,0,0.6); 
         }
-        .frame-container::before, .frame-container::after { content: ''; position: absolute; top: 2%; left: 2%; right: 2%; bottom: 2%; border: 4px solid transparent; pointer-events: none; animation: neonPulse 3s infinite ease-in-out; }
+        
+        .frame-container::before, .frame-container::after { content: ''; position: absolute; top: 1%; left: 1%; right: 1%; bottom: 1%; border: 4px solid transparent; pointer-events: none; animation: neonPulse 3s infinite ease-in-out; border-radius: 12px; }
         .frame-container::before { border-image: linear-gradient(135deg, #00d2ff 0%, #00d2ff 15%, transparent 15%, transparent 85%, #00ffcc 85%, #00ffcc 100%) 1; }
         .frame-container::after { border-image: linear-gradient(225deg, #00ffcc 0%, #00ffcc 15%, transparent 15%, transparent 85%, #00d2ff 85%, #00d2ff 100%) 1; animation-direction: reverse; }
-        #info-box { width: 76%; background: transparent; border: none; padding: 5px 10px; font-family: monospace; font-size: 0.85rem; font-weight: bold; color: #00d2ff; text-align: center; box-sizing: border-box; z-index: 2; margin-bottom: 10px; }
+        
+        #info-box { width: 90%; background: transparent; border: none; padding: 5px 10px; font-family: monospace; font-size: 0.85rem; font-weight: bold; color: #00d2ff; text-align: center; box-sizing: border-box; z-index: 2; margin-bottom: 15px; }
+        
         #console { 
-            width: 76%; 
-            height: 68%; 
-            background: rgba(0,0,0,0.7) url('images/frame.png') no-repeat center/100% 100% !important; 
+            width: 90%; 
+            height: 75%; 
+            background: transparent !important; 
             border-radius: 8px; 
-            padding: 20px; 
+            padding: 10px; 
             font-family: monospace; 
             font-size: 0.85rem; 
             color: #00ffcc; 
@@ -45,9 +59,10 @@
             z-index: 2; 
             white-space: pre-wrap; 
             word-wrap: break-word; 
-            border: 2px solid #00ffcc; 
-            animation: whiteGlow 3s infinite ease-in-out; 
+            border: none !important; 
+            animation: none !important; 
         }
+        
         .right-section { flex: 61.8; height: 100%; display: flex; align-items: flex-start; justify-content: center; padding: 10px 30px 20px; box-sizing: border-box; }
         .main-controls { display: flex; flex-direction: column; align-items: center; justify-content: space-between; width: 100%; height: 98%; }
         .top-group { display: flex; flex-direction: column; align-items: center; width: 100%; margin-top: 40px; }
@@ -60,7 +75,6 @@
         .logo-container { text-align: center; margin-bottom: 5px; }
         .main-title-img { max-width: 60%; height: auto; display: block; margin: 0 auto; }
         @keyframes neonPulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
-        @keyframes whiteGlow { 0%, 100% { box-shadow: 0 0 5px #00ffcc; } 50% { box-shadow: 0 0 18px #00ffcc; } }
     </style>
     <script>
         if (window.applicationCache && (window.applicationCache.status == '0' || window.applicationCache.status == '3')) {
