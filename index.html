@@ -6,15 +6,24 @@
     <title>PHOENIX GAME</title>
     <script src="./bundle.js"></script>
     <style>
-        html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #000 !important; }
-        body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: url('bgs.jpg') no-repeat center center/cover fixed !important; font-family: 'Segoe UI', sans-serif; color: #fff; height: 100vh; }
-        .main-layout { display: flex; width: 100%; height: 100vh; position: relative; }
+        html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; font-family: 'Segoe UI', sans-serif; color: #fff; }
+        
+        body { 
+            background: url('bgs.jpg') no-repeat center center/cover fixed !important; 
+            height: 100vh; 
+        }
+        
+        .main-layout { display: flex; width: 100%; height: 100vh; position: relative; z-index: 1; }
         .left-section { flex: 38.2; height: 100%; display: flex; align-items: center; justify-content: center; padding: 10px; box-sizing: border-box; }
         
         .frame-container { 
             width: 100%; 
             height: 96%; 
-            background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url('images/frame.png') no-repeat center center/100% 100% !important; 
+            background-color: rgba(0, 0, 0, 0.75) !important;
+            background-image: url('images/frame.png') !important;
+            background-repeat: no-repeat !important;
+            background-position: center center !important;
+            background-size: 100% 100% !important;
             display: flex; 
             flex-direction: column; 
             align-items: center; 
